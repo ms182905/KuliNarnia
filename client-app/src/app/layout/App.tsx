@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
-import { Header, List } from 'semantic-ui-react';
+import { Container, Header, List } from 'semantic-ui-react';
 import { Recipe } from '../models/recipe';
+import NavBar from './NavBar';
+import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -14,16 +16,12 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <Header as='h2' icon='users' content='KuliNarnia' />
-        <List>
-        {recipes.map(recipe => (
-          <List.Item key={recipe.id}>
-            {recipe.title}
-          </List.Item>
-        ))}
-        </List>
-    </div>
+    <>
+      <NavBar/>
+      <Container style={{marginTop: '7em'}}>
+        <RecipeDashboard recipes={recipes} />
+      </Container>
+    </>
   );
 }
 
