@@ -3,4 +3,5 @@ export interface Recipe {
     title: string
     date: string
     description: string
+    category: string
   }
