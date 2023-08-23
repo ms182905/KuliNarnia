@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import axios from 'axios';
 import { Header, List } from 'semantic-ui-react';
 
@@ -9,7 +8,6 @@ function App() {
   useEffect(() => {
     axios.get('http://localhost:5000/api/recipes')
       .then(response => {
-        console.log(response);
         setRecipes(response.data);
       })
   }, [])
