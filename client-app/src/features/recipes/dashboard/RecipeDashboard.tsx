@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, List } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import { Recipe } from '../../../app/models/recipe';
 import RecipeList from './RecipeList';
 import RecipeDetails from '../details/RecipeDetails';
@@ -10,9 +10,14 @@ interface Props {
     selectedRecipe: Recipe | undefined;
     selectRecipe: (id: string) => void;
     cancelSelectRecipe: () => void;
+    editMode: boolean;
+    openForm: (id: string | undefined) => void;
+    closeForm: () => void;
+    createOrEdit: (recipe: Recipe) => void;
 }
 
-export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, cancelSelectRecipe}: Props) {
+export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, cancelSelectRecipe,
+        editMode, openForm, closeForm, createOrEdit}: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
@@ -22,12 +27,18 @@ export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, 
                 />
             </Grid.Column>
             <Grid.Column width='6'>
-                {selectedRecipe && 
+                {selectedRecipe && !editMode &&
                 <RecipeDetails 
                     recipe={selectedRecipe}
                     cancelSelectRecipe={cancelSelectRecipe}
+                    openForm={openForm}
                 />}
-                <RecipeForm/>
+                {editMode &&
+                <RecipeForm
+                    recipe={selectedRecipe}
+                    closeForm={closeForm}
+                    createOrEdit={createOrEdit}
+                />}
             </Grid.Column>
         </Grid>
     );
