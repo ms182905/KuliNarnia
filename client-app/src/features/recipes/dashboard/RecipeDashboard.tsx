@@ -14,16 +14,18 @@ interface Props {
     openForm: (id: string | undefined) => void;
     closeForm: () => void;
     createOrEdit: (recipe: Recipe) => void;
+    deleteRecipe: (id: string) => void;
 }
 
 export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, cancelSelectRecipe,
-        editMode, openForm, closeForm, createOrEdit}: Props) {
+        editMode, openForm, closeForm, createOrEdit, deleteRecipe}: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
                 <RecipeList 
                     recipes={recipes}
                     selectRecipe={selectRecipe}
+                    deleteRecipe={deleteRecipe}
                 />
             </Grid.Column>
             <Grid.Column width='6'>

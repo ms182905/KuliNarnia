@@ -35,6 +35,10 @@ function App() {
     setEditMode(false);
   }
 
+  function deleteRecipe(id: string) {
+    setRecipes([...recipes.filter(x => x.id !== id)])
+  }
+
   function handleCreateOrEditRecipe(recipe: Recipe) {
     recipe.id 
       ? setRecipes([...recipes.filter(x => x.id !== recipe.id), recipe])
@@ -57,6 +61,7 @@ function App() {
           openForm={handleFormOpen}
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditRecipe}
+          deleteRecipe={deleteRecipe}
         />
       </Container>
     </>
