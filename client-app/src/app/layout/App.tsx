@@ -7,6 +7,7 @@ import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(undefined);
 
   useEffect(() => {
     axios.get<Recipe[]>('http://localhost:5000/api/recipes')
@@ -15,11 +16,24 @@ function App() {
       })
   }, [])
 
+  function handleSelectRecipe(id: string) {
+    setSelectedRecipe(recipes.find(x => x.id === id));
+  }
+
+  function handleCancelSelectRecipe() {
+    setSelectedRecipe(undefined);
+  }
+
   return (
     <>
       <NavBar/>
       <Container style={{marginTop: '7em'}}>
-        <RecipeDashboard recipes={recipes} />
+        <RecipeDashboard 
+          recipes={recipes}
+          selectedRecipe={selectedRecipe}
+          selectRecipe={handleSelectRecipe}
+          cancelSelectRecipe={handleCancelSelectRecipe}
+        />
       </Container>
     </>
   );

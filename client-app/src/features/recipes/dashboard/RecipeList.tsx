@@ -4,9 +4,10 @@ import { Button, Item, Label, Segment } from 'semantic-ui-react';
 
 interface Props {
     recipes: Recipe[];
+    selectRecipe: (id: string) => void;
 }
 
-export default function RecipeList({recipes}: Props) {
+export default function RecipeList({recipes, selectRecipe}: Props) {
     return (
         <Segment>
             <Item.Group divided>
@@ -19,7 +20,7 @@ export default function RecipeList({recipes}: Props) {
                                 <div>{recipe.description}</div>
                             </Item.Description>
                             <Item.Extra>
-                                <Button floated='right' content='View' color='blue'/>
+                                <Button onClick={()=>selectRecipe(recipe.id)} floated='right' content='View' color='blue'/>
                                 <Label basic content={recipe.category}/>
                             </Item.Extra>
                         </Item.Content>

@@ -4,9 +4,10 @@ import { Recipe } from '../../../app/models/recipe';
 
 interface Props {
     recipe: Recipe;
+    cancelSelectRecipe: () => void;
 }
 
-export default function RecipeDetails({recipe}: Props) {
+export default function RecipeDetails({recipe, cancelSelectRecipe}: Props) {
     return (
         <Card fluid>
         <Image src={`/assets/categoryImages/${recipe.category}.jpg`} />
@@ -22,7 +23,7 @@ export default function RecipeDetails({recipe}: Props) {
         <Card.Content extra>
           <Button.Group widths='2'>
             <Button basic color='blue' content='Edit' />
-            <Button basic color='grey' content='Cancel' />
+            <Button onClick={cancelSelectRecipe} basic color='grey' content='Cancel' />
           </Button.Group>
         </Card.Content>
       </Card>
