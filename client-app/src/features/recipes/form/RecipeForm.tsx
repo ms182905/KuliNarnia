@@ -35,7 +35,7 @@ export default function RecipeForm({recipe: selectedRecipe, closeForm, createOrE
                 <Form.Input placeholder='Title' value={recipe.title} name='title' onChange={handleInputChange}/>
                 <Form.TextArea placeholder='Description' value={recipe.description} name='description' onChange={handleInputChange}/>
                 <Form.Input placeholder='Category' value={recipe.category} name='category' onChange={handleInputChange}/>
-                <Form.Input placeholder='Date' value={recipe.date} name='date' onChange={handleInputChange}/>
+                <Form.Input type='date' placeholder='Date' value={recipe.date} name='date' onChange={handleInputChange}/>
                 <Button floated='right' positive type='submit' content='Submit' />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>

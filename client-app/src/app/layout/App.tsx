@@ -14,7 +14,12 @@ function App() {
   useEffect(() => {
     agent.Recipes.list()
       .then(response => {
-        setRecipes(response);
+        let recipes: Recipe[] = [];
+        response.forEach( recipe => {
+          recipe.date = recipe.date.split('T')[0];
+          recipes.push(recipe);
+        });
+        setRecipes(recipes);
       })
   }, [])
 
