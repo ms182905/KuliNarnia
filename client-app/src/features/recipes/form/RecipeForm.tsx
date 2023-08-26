@@ -6,9 +6,10 @@ interface Props{
     recipe: Recipe | undefined;
     closeForm: () => void;
     createOrEdit: (recipe: Recipe) => void;
+    submitting: boolean;
 }
 
-export default function RecipeForm({recipe: selectedRecipe, closeForm, createOrEdit}: Props) {
+export default function RecipeForm({recipe: selectedRecipe, closeForm, createOrEdit, submitting}: Props) {
     
     const initialState = selectedRecipe ?? {
         id: '',
@@ -36,7 +37,7 @@ export default function RecipeForm({recipe: selectedRecipe, closeForm, createOrE
                 <Form.TextArea placeholder='Description' value={recipe.description} name='description' onChange={handleInputChange}/>
                 <Form.Input placeholder='Category' value={recipe.category} name='category' onChange={handleInputChange}/>
                 <Form.Input type='date' placeholder='Date' value={recipe.date} name='date' onChange={handleInputChange}/>
-                <Button floated='right' positive type='submit' content='Submit' />
+                <Button loading={submitting} floated='right' positive type='submit' content='Submit' />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>

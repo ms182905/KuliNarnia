@@ -15,10 +15,11 @@ interface Props {
     closeForm: () => void;
     createOrEdit: (recipe: Recipe) => void;
     deleteRecipe: (id: string) => void;
+    submitting: boolean;
 }
 
 export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, cancelSelectRecipe,
-        editMode, openForm, closeForm, createOrEdit, deleteRecipe}: Props) {
+        editMode, openForm, closeForm, createOrEdit, deleteRecipe, submitting}: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
@@ -40,6 +41,7 @@ export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, 
                     recipe={selectedRecipe}
                     closeForm={closeForm}
                     createOrEdit={createOrEdit}
+                    submitting={submitting}
                 />}
             </Grid.Column>
         </Grid>

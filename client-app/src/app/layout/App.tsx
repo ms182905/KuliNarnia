@@ -12,6 +12,7 @@ function App() {
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     agent.Recipes.list()
@@ -48,12 +49,23 @@ function App() {
   }
 
   function handleCreateOrEditRecipe(recipe: Recipe) {
-    recipe.id 
-      ? setRecipes([...recipes.filter(x => x.id !== recipe.id), recipe])
-      : setRecipes([...recipes, {...recipe, id: uuid()}]);
-    
-    setEditMode(false);
-    setSelectedRecipe(recipe);
+    setSubmitting(true);
+    if (recipe.id) {
+      agent.Recipes.update(recipe).then(() => {
+        setRecipes([...recipes.filter(x => x.id !== recipe.id), recipe]);
+        setSelectedRecipe(recipe);
+        setEditMode(false)
+        setSubmitting(false);
+      });
+    } else {
+      recipe.id = uuid();
+      agent.Recipes.create(recipe).then(() => {
+        setRecipes([...recipes, recipe]);
+        setSelectedRecipe(recipe);
+        setEditMode(false)
+        setSubmitting(false);
+      })
+    }
   }
 
   if (loading) return <LoadingComponent content='Loading app'/>
@@ -72,6 +84,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEdit={handleCreateOrEditRecipe}
           deleteRecipe={deleteRecipe}
+          submitting={submitting}
         />
       </Container>
     </>

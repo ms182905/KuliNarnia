@@ -28,7 +28,12 @@ const requests = {
 }
 
 const Recipes = {
-    list: () => requests.get<Recipe[]>('/recipes')
+    list: () => requests.get<Recipe[]>('/recipes'),
+    details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
+    create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
+    update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),
+    delete: (id: string) => axios.delete<void>(`/recipes/${id}`)
+
 
 }
 
