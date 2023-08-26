@@ -27,6 +27,7 @@ export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, 
                     recipes={recipes}
                     selectRecipe={selectRecipe}
                     deleteRecipe={deleteRecipe}
+                    submitting={submitting}
                 />
             </Grid.Column>
             <Grid.Column width='6'>

@@ -45,7 +45,11 @@ function App() {
   }
 
   function deleteRecipe(id: string) {
-    setRecipes([...recipes.filter(x => x.id !== id)])
+    setSubmitting(true);
+    agent.Recipes.delete(id).then(() => {
+      setRecipes([...recipes.filter(x => x.id !== id)]);
+      setSubmitting(false);
+    });
   }
 
   function handleCreateOrEditRecipe(recipe: Recipe) {
