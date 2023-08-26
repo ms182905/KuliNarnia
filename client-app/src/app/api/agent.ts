@@ -1,7 +1,22 @@
 import axios, { AxiosResponse } from 'axios';
 import { Recipe } from '../models/recipe';
 
+const sleep = (delay: number) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, delay);
+    });
+}
+
 axios.defaults.baseURL = 'http://localhost:5000/api';
+
+axios.interceptors.response.use(async response => {
+    try {
+        await sleep(1000);
+        return response;
+    } catch (error) {
+        return await Promise.reject(error);
+    }
+})
 
 const responseBody = <T> (responce: AxiosResponse<T>) => responce.data;
 

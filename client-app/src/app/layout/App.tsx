@@ -5,11 +5,13 @@ import NavBar from './NavBar';
 import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     agent.Recipes.list()
@@ -20,6 +22,7 @@ function App() {
           recipes.push(recipe);
         });
         setRecipes(recipes);
+        setLoading(false);
       })
   }, [])
 
@@ -52,6 +55,8 @@ function App() {
     setEditMode(false);
     setSelectedRecipe(recipe);
   }
+
+  if (loading) return <LoadingComponent content='Loading app'/>
 
   return (
     <>
