@@ -1,10 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container } from 'semantic-ui-react'; 
 import { Recipe } from '../models/recipe';
 import NavBar from './NavBar';
 import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 import {v4 as uuid} from 'uuid';
+import agent from '../api/agent';
 
 function App() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -12,9 +12,9 @@ function App() {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    axios.get<Recipe[]>('http://localhost:5000/api/recipes')
+    agent.Recipes.list()
       .then(response => {
-        setRecipes(response.data);
+        setRecipes(response);
       })
   }, [])
 
