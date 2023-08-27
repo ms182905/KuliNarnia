@@ -6,43 +6,20 @@ import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponent';
+import { useStore } from '../stores/store';
+import { observer } from 'mobx-react-lite';
 
 function App() {
+  const {recipeStore} = useStore();
+
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | undefined>(undefined);
   const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    agent.Recipes.list()
-      .then(response => {
-        let recipes: Recipe[] = [];
-        response.forEach( recipe => {
-          recipe.date = recipe.date.split('T')[0];
-          recipes.push(recipe);
-        });
-        setRecipes(recipes);
-        setLoading(false);
-      })
-  }, [])
-
-  function handleSelectRecipe(id: string) {
-    setSelectedRecipe(recipes.find(x => x.id === id));
-  }
-
-  function handleCancelSelectRecipe() {
-    setSelectedRecipe(undefined);
-  }
-
-  function handleFormOpen(id?: string) {
-    id ? handleSelectRecipe(id) : handleCancelSelectRecipe();
-    setEditMode(true);
-  }
-
-  function handleFormClose() {
-    setEditMode(false);
-  }
+    recipeStore.loadRecipes();
+  }, [recipeStore])
 
   function deleteRecipe(id: string) {
     setSubmitting(true);
@@ -72,20 +49,14 @@ function App() {
     }
   }
 
-  if (loading) return <LoadingComponent content='Loading app'/>
+  if (recipeStore.loadingInitial) return <LoadingComponent content='Loading app'/>
 
   return (
     <>
-      <NavBar openForm={handleFormOpen}/>
+      <NavBar />
       <Container style={{marginTop: '7em'}}>
         <RecipeDashboard 
-          recipes={recipes}
-          selectedRecipe={selectedRecipe}
-          selectRecipe={handleSelectRecipe}
-          cancelSelectRecipe={handleCancelSelectRecipe}
-          editMode={editMode}
-          openForm={handleFormOpen}
-          closeForm={handleFormClose}
+          recipes={recipeStore.recipes}
           createOrEdit={handleCreateOrEditRecipe}
           deleteRecipe={deleteRecipe}
           submitting={submitting}
@@ -95,4 +66,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);

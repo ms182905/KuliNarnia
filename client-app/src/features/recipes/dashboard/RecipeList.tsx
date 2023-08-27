@@ -1,21 +1,23 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { Recipe } from '../../../app/models/recipe';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
+import { useStore } from '../../../app/stores/store';
 
 interface Props {
     recipes: Recipe[];
-    selectRecipe: (id: string) => void;
     deleteRecipe: (id: string) => void;
     submitting: boolean;
 }
 
-export default function RecipeList({ recipes, selectRecipe, deleteRecipe, submitting }: Props) {
+export default function RecipeList({ recipes, deleteRecipe, submitting }: Props) {
     const [target, setTarget] = useState('');
 
     function handleRecipeDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);
         deleteRecipe(id);
     }
+
+    const {recipeStore} = useStore();
 
     return (
         <Segment>
@@ -30,7 +32,7 @@ export default function RecipeList({ recipes, selectRecipe, deleteRecipe, submit
                             </Item.Description>
                             <Item.Extra>
                                 <Button
-                                    onClick={() => selectRecipe(recipe.id)}
+                                    onClick={() => recipeStore.selectRecipe(recipe.id)}
                                     floated="right"
                                     content="View"
                                     color="blue"

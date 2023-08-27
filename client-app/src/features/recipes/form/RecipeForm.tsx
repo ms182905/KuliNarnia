@@ -1,16 +1,18 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Button, Form, Segment } from "semantic-ui-react";
 import { Recipe } from '../../../app/models/recipe';
+import { useStore } from '../../../app/stores/store';
 
 interface Props{
-    recipe: Recipe | undefined;
-    closeForm: () => void;
     createOrEdit: (recipe: Recipe) => void;
     submitting: boolean;
 }
 
-export default function RecipeForm({recipe: selectedRecipe, closeForm, createOrEdit, submitting}: Props) {
+export default function RecipeForm({createOrEdit, submitting}: Props) {
     
+    const {recipeStore} = useStore();
+    const {selectedRecipe, closeForm} = recipeStore;
+
     const initialState = selectedRecipe ?? {
         id: '',
         title: '',

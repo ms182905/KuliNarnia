@@ -1,15 +1,17 @@
 import React from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { Recipe } from '../../../app/models/recipe';
+import { useStore } from '../../../app/stores/store';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-interface Props {
-    recipe: Recipe;
-    cancelSelectRecipe: () => void;
-    openForm: (id: string) => void;
-}
+export default function RecipeDetails() {
+  
+  const {recipeStore} = useStore();
+  const {selectedRecipe: recipe, openForm, cancelSelectRecipe} = recipeStore;
 
-export default function RecipeDetails({recipe, cancelSelectRecipe, openForm}: Props) {
-    return (
+  if (!recipe) return <LoadingComponent/>;
+  
+  return (
         <Card fluid>
         <Image src={`/assets/categoryImages/${recipe.category}.jpg`} />
         <Card.Content>

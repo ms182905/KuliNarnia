@@ -4,47 +4,39 @@ import { Recipe } from '../../../app/models/recipe';
 import RecipeList from './RecipeList';
 import RecipeDetails from '../details/RecipeDetails';
 import RecipeForm from '../form/RecipeForm';
+import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
     recipes: Recipe[];
-    selectedRecipe: Recipe | undefined;
-    selectRecipe: (id: string) => void;
-    cancelSelectRecipe: () => void;
-    editMode: boolean;
-    openForm: (id: string | undefined) => void;
-    closeForm: () => void;
     createOrEdit: (recipe: Recipe) => void;
     deleteRecipe: (id: string) => void;
     submitting: boolean;
 }
 
-export default function RecipeDashboard({recipes, selectedRecipe, selectRecipe, cancelSelectRecipe,
-        editMode, openForm, closeForm, createOrEdit, deleteRecipe, submitting}: Props) {
+export default observer(function RecipeDashboard({recipes, createOrEdit, deleteRecipe, submitting}: Props) {
+    
+    const {recipeStore} = useStore();
+    const {selectedRecipe, editMode} = recipeStore;
+    
     return (
         <Grid>
             <Grid.Column width='10'>
                 <RecipeList 
                     recipes={recipes}
-                    selectRecipe={selectRecipe}
                     deleteRecipe={deleteRecipe}
                     submitting={submitting}
                 />
             </Grid.Column>
             <Grid.Column width='6'>
                 {selectedRecipe && !editMode &&
-                <RecipeDetails 
-                    recipe={selectedRecipe}
-                    cancelSelectRecipe={cancelSelectRecipe}
-                    openForm={openForm}
-                />}
+                <RecipeDetails />}
                 {editMode &&
                 <RecipeForm
-                    recipe={selectedRecipe}
-                    closeForm={closeForm}
                     createOrEdit={createOrEdit}
                     submitting={submitting}
                 />}
             </Grid.Column>
         </Grid>
     );
-}
+})
