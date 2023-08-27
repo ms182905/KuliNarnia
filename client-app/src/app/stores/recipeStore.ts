@@ -1,6 +1,7 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { Recipe } from "../models/recipe";
 import agent from "../api/agent";
+import {v4 as uuid} from 'uuid';
 
 export default class RecipeStore {
     recipes: Recipe[] = [];
@@ -47,5 +48,47 @@ export default class RecipeStore {
 
     closeForm = () => {
         this.editMode = false;
+    }
+
+    createRecipe = async (recipe: Recipe) => {
+        this.loading = true;
+        recipe.id = uuid();
+
+        try {
+            await agent.Recipes.create(recipe);
+            runInAction(() => {
+                this.recipes.push(recipe);
+                this.selectedRecipe = recipe;
+                this.editMode = false;
+                this.loading = false;
+            });
+            this.loading = false;
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.editMode = false;
+                this.loading = false;
+            });
+        }
+    }
+
+    updateRecipe = async (recipe: Recipe) => {
+        this.loading = true;
+
+        try {
+            await agent.Recipes.update(recipe);
+            runInAction(() => {
+                this.recipes = [...this.recipes.filter(r => r.id !== recipe.id), recipe];
+                this.selectedRecipe = recipe;
+                this.editMode = false;
+            });
+            this.loading = false;
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.editMode = false;
+                this.loading = false;
+            });
+        }
     }
 }

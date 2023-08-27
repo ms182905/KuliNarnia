@@ -9,12 +9,11 @@ import { observer } from 'mobx-react-lite';
 
 interface Props {
     recipes: Recipe[];
-    createOrEdit: (recipe: Recipe) => void;
     deleteRecipe: (id: string) => void;
     submitting: boolean;
 }
 
-export default observer(function RecipeDashboard({recipes, createOrEdit, deleteRecipe, submitting}: Props) {
+export default observer(function RecipeDashboard({recipes, deleteRecipe, submitting}: Props) {
     
     const {recipeStore} = useStore();
     const {selectedRecipe, editMode} = recipeStore;
@@ -32,10 +31,7 @@ export default observer(function RecipeDashboard({recipes, createOrEdit, deleteR
                 {selectedRecipe && !editMode &&
                 <RecipeDetails />}
                 {editMode &&
-                <RecipeForm
-                    createOrEdit={createOrEdit}
-                    submitting={submitting}
-                />}
+                <RecipeForm />}
             </Grid.Column>
         </Grid>
     );
