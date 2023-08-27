@@ -8,7 +8,7 @@ export default class RecipeStore {
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
-    loadingInitial = false;
+    loadingInitial = true;
 
     constructor() {
         makeAutoObservable(this)
@@ -20,7 +20,6 @@ export default class RecipeStore {
     }
 
     loadRecipes = async () => {
-        this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list();
             recipes.forEach( recipe => {
