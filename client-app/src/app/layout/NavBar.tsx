@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, Container, Menu } from 'semantic-ui-react'
-import RecipeStore from '../stores/recipeStore'
 import { useStore } from '../stores/store'
 
 export default function NavBar() {

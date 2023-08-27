@@ -91,4 +91,21 @@ export default class RecipeStore {
             });
         }
     }
+
+    deleteRecipe = async (id: string) => {
+        this.loading = true;
+
+        try {
+            await agent.Recipes.delete(id);
+            runInAction(() => {
+                this.recipes = [...this.recipes.filter(r => r.id !== id)];
+                if (this.selectedRecipe?.id === id) this.cancelSelectRecipe();
+                this.loading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            if (this.selectedRecipe?.id === id) this.cancelSelectRecipe();
+            this.loading = false;
+        }
+    }
 }

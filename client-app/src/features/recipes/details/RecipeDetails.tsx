@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
-import { Recipe } from '../../../app/models/recipe';
 import { useStore } from '../../../app/stores/store';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 

@@ -1,23 +1,18 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Recipe } from '../../../app/models/recipe';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
 
-interface Props {
-    recipes: Recipe[];
-    deleteRecipe: (id: string) => void;
-    submitting: boolean;
-}
-
-export default function RecipeList({ recipes, deleteRecipe, submitting }: Props) {
+export default observer(function RecipeList() {
+    const {recipeStore} = useStore();
+    const {deleteRecipe, recipes, loading} = recipeStore;
+    
     const [target, setTarget] = useState('');
 
     function handleRecipeDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);
         deleteRecipe(id);
     }
-
-    const {recipeStore} = useStore();
 
     return (
         <Segment>
@@ -39,7 +34,7 @@ export default function RecipeList({ recipes, deleteRecipe, submitting }: Props)
                                 />
                                 <Button
                                     name={recipe.id}
-                                    loading={submitting && target === recipe.id}
+                                    loading={loading && target === recipe.id}
                                     onClick={(e) => handleRecipeDelete(e, recipe.id)}
                                     floated="right"
                                     content="Delete"
@@ -53,4 +48,4 @@ export default function RecipeList({ recipes, deleteRecipe, submitting }: Props)
             </Item.Group>
         </Segment>
     );
-}
+})
