@@ -4,7 +4,7 @@ import agent from "../api/agent";
 import {v4 as uuid} from 'uuid';
 
 export default class RecipeStore {
-    recipes: Recipe[] = [];
+    recipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
@@ -14,13 +14,18 @@ export default class RecipeStore {
         makeAutoObservable(this)
     }
 
+    get recipes() {
+        return Array.from(this.recipeRegistry.values()).sort((a, b) => 
+            Date.parse(a.date) - Date.parse(b.date));
+    }
+
     loadRecipes = async () => {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list();
             recipes.forEach( recipe => {
                 recipe.date = recipe.date.split('T')[0];
-                this.recipes.push(recipe);
+                this.recipeRegistry.set(recipe.id, recipe);
                 });
                 this.setLoadingInitial(false);
         } catch (error) {
@@ -34,7 +39,7 @@ export default class RecipeStore {
     }
 
     selectRecipe = (id: string) => {
-        this.selectedRecipe = this.recipes.find(r => r.id === id);
+        this.selectedRecipe = this.recipeRegistry.get(id);
     }
 
     cancelSelectRecipe = () => {
@@ -57,7 +62,7 @@ export default class RecipeStore {
         try {
             await agent.Recipes.create(recipe);
             runInAction(() => {
-                this.recipes.push(recipe);
+                this.recipeRegistry.set(recipe.id, recipe);
                 this.selectedRecipe = recipe;
                 this.editMode = false;
                 this.loading = false;
@@ -78,9 +83,10 @@ export default class RecipeStore {
         try {
             await agent.Recipes.update(recipe);
             runInAction(() => {
-                this.recipes = [...this.recipes.filter(r => r.id !== recipe.id), recipe];
+                this.recipeRegistry.set(recipe.id, recipe);
                 this.selectedRecipe = recipe;
                 this.editMode = false;
+                this.loading = false;
             });
             this.loading = false;
         } catch (error) {
@@ -98,7 +104,7 @@ export default class RecipeStore {
         try {
             await agent.Recipes.delete(id);
             runInAction(() => {
-                this.recipes = [...this.recipes.filter(r => r.id !== id)];
+                this.recipeRegistry.delete(id);
                 if (this.selectedRecipe?.id === id) this.cancelSelectRecipe();
                 this.loading = false;
             });
