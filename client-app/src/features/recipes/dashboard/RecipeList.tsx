@@ -2,6 +2,7 @@ import React, { SyntheticEvent, useState } from 'react';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 
 export default observer(function RecipeList() {
     const {recipeStore} = useStore();
@@ -27,7 +28,8 @@ export default observer(function RecipeList() {
                             </Item.Description>
                             <Item.Extra>
                                 <Button
-                                    onClick={() => recipeStore.selectRecipe(recipe.id)}
+                                    as={Link}
+                                    to={`/recipes/${recipe.id}`}
                                     floated="right"
                                     content="View"
                                     color="blue"

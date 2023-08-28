@@ -1,14 +1,13 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Recipe } from "../models/recipe";
 import agent from "../api/agent";
-import {v4 as uuid} from 'uuid';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
-    loadingInitial = true;
+    loadingInitial = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -20,11 +19,11 @@ export default class RecipeStore {
     }
 
     loadRecipes = async () => {
+        this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list();
             recipes.forEach( recipe => {
-                recipe.date = recipe.date.split('T')[0];
-                this.recipeRegistry.set(recipe.id, recipe);
+                this.setRecipe(recipe);
                 });
                 this.setLoadingInitial(false);
         } catch (error) {
@@ -33,30 +32,46 @@ export default class RecipeStore {
         }
     }
 
+    loadRecipe = async (id: string) => {
+        let recipe = this.getRecipe(id);
+        if (recipe) {
+            this.selectedRecipe = recipe;
+            return recipe;
+        }
+        else {
+            this.setLoadingInitial(true);
+            try {
+                recipe = await agent.Recipes.details(id);
+                this.setRecipe(recipe);
+                runInAction(() => this.selectedRecipe = recipe);
+                this.setLoadingInitial(false);
+                return recipe;
+            } catch (error) {
+                console.log(error);
+                this.setLoadingInitial(false);
+            }
+        }
+    }
+
+    private setRecipe = (recipe: Recipe) => {
+        recipe.date = recipe.date.split('T')[0];
+        this.recipeRegistry.set(recipe.id, recipe);
+    }
+
+    private getRecipe = (id: string) => {
+        return this.recipeRegistry.get(id);
+    }
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     }
 
-    selectRecipe = (id: string) => {
-        this.selectedRecipe = this.recipeRegistry.get(id);
-    }
-
-    cancelSelectRecipe = () => {
-        this.selectedRecipe = undefined;
-    }
-
-    openForm = (id?: string) => {
-        id ? this.selectRecipe(id) : this.cancelSelectRecipe();
-        this.editMode = true;
-    }
-
-    closeForm = () => {
-        this.editMode = false;
+    setLoading = (state: boolean) => {
+        this.loading = state;
     }
 
     createRecipe = async (recipe: Recipe) => {
-        this.loading = true;
-        recipe.id = uuid();
+        this.setLoading(true);
 
         try {
             await agent.Recipes.create(recipe);
@@ -77,7 +92,7 @@ export default class RecipeStore {
     }
 
     updateRecipe = async (recipe: Recipe) => {
-        this.loading = true;
+        this.setLoading(true);
 
         try {
             await agent.Recipes.update(recipe);
@@ -87,7 +102,6 @@ export default class RecipeStore {
                 this.editMode = false;
                 this.loading = false;
             });
-            this.loading = false;
         } catch (error) {
             console.log(error);
             runInAction(() => {
@@ -98,19 +112,19 @@ export default class RecipeStore {
     }
 
     deleteRecipe = async (id: string) => {
-        this.loading = true;
+        this.setLoading(true);
 
         try {
             await agent.Recipes.delete(id);
             runInAction(() => {
                 this.recipeRegistry.delete(id);
-                if (this.selectedRecipe?.id === id) this.cancelSelectRecipe();
                 this.loading = false;
             });
         } catch (error) {
             console.log(error);
-            if (this.selectedRecipe?.id === id) this.cancelSelectRecipe();
-            this.loading = false;
+            runInAction(() => {
+                this.loading = false;
+            });
         }
     }
 }

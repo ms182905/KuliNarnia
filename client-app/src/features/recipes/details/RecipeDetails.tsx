@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Card, Image } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { observer } from 'mobx-react-lite';
+import { Link, useParams } from 'react-router-dom';
 
-export default function RecipeDetails() {
+export default observer (function RecipeDetails() {
   
   const {recipeStore} = useStore();
-  const {selectedRecipe: recipe, openForm, cancelSelectRecipe} = recipeStore;
+  const {selectedRecipe: recipe, loadRecipe, loadingInitial} = recipeStore;
+  const {id} = useParams();
 
-  if (!recipe) return <LoadingComponent/>;
+  useEffect(() => {
+    if (id) loadRecipe(id);
+  }, [id, loadRecipe])
+
+  if (loadingInitial || !recipe) return <LoadingComponent/>;
   
   return (
         <Card fluid>
@@ -24,10 +31,10 @@ export default function RecipeDetails() {
         </Card.Content>
         <Card.Content extra>
           <Button.Group widths='2'>
-            <Button onClick={() => openForm(recipe.id)} basic color='blue' content='Edit' />
-            <Button onClick={cancelSelectRecipe} basic color='grey' content='Cancel' />
+            <Button as={Link} to={`/manage/${recipe.id}`} basic color='blue' content='Edit' />
+            <Button as={Link} to='/recipes' basic color='grey' content='Cancel' />
           </Button.Group>
         </Card.Content>
       </Card>
     )
-}
+})

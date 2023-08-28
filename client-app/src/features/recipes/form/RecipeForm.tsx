@@ -1,31 +1,46 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Form, Segment } from "semantic-ui-react";
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Recipe } from '../../../app/models/recipe';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import {v4 as uuid} from 'uuid';
 
 export default observer(function RecipeForm() {
     
     const {recipeStore} = useStore();
-    const {selectedRecipe, closeForm, createRecipe, updateRecipe, loading} = recipeStore;
+    const {createRecipe, updateRecipe, loading, loadRecipe, loadingInitial} = recipeStore;
+    const {id} = useParams();
+    const navigate = useNavigate();
 
-    const initialState = selectedRecipe ?? {
+    const [recipe, setRecipe] = useState<Recipe>({
         id: '',
         title: '',
         category: '',
         description: '',
         date: ''
-    }
+    });
 
-    const [recipe, setRecipe] = useState(initialState);
+    useEffect(() => {
+        if (id) loadRecipe(id).then(recipe => setRecipe(recipe!));
+    }, [id, loadRecipe]);
 
     function handleSubmit() {
-        recipe.id? updateRecipe(recipe) : createRecipe(recipe);
+        if (!recipe.id) {
+            recipe.id = uuid();
+            createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
+        } else {
+            updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
+        }
     }
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const {name, value} = event.target;
         setRecipe({...recipe, [name]: value})
     }
+
+    if (loadingInitial) return <LoadingComponent content='Loading recipe...'/>
 
     return (
         <Segment clearing>
@@ -35,7 +50,7 @@ export default observer(function RecipeForm() {
                 <Form.Input placeholder='Category' value={recipe.category} name='category' onChange={handleInputChange}/>
                 <Form.Input type='date' placeholder='Date' value={recipe.date} name='date' onChange={handleInputChange}/>
                 <Button loading={loading} floated='right' positive type='submit' content='Submit' />
-                <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
+                <Button as={Link} to='/recipes' floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     )
