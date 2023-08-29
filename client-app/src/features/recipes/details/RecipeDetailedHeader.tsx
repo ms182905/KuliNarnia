@@ -46,7 +46,7 @@ export default observer (function RecipeDetailedHeader({recipe}: Props) {
             <Segment clearing attached='bottom'>
                 <Button color='teal'>Add recipe to favourites</Button>
                 {/* <Button color='orange' floated='right'>
-                    Manage Event
+                    Manage Recipe
                 </Button> */}
             </Segment>
         </Segment.Group>

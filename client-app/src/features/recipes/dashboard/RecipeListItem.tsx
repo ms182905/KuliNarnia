@@ -45,12 +45,15 @@ export default observer(function ({ recipe }: Props) {
             </Segment> */}
             <Segment clearing>
                 {recipe.description}
-                <Button 
-                    as={Link} 
-                    to={`/recipes/${recipe.id}`}
-                    color='teal'
-                    floated='right'
-                    content='View'/>
+                <Button as={Link} to={`/recipes/${recipe.id}`} color="teal" floated="right" content="View" />
+                <Button
+                    name={recipe.id}
+                    loading={loading && target === recipe.id}
+                    onClick={(e) => handleRecipeDelete(e, recipe.id)}
+                    floated="right"
+                    content="Delete"
+                    color="red"
+                />
             </Segment>
         </Segment.Group>
     );
