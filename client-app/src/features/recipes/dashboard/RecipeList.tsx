@@ -1,19 +1,29 @@
-import { Item, Segment } from 'semantic-ui-react';
+import { Header, Item, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
-import { observer } from 'mobx-react-lite';
 import RecipeListItem from './RecipeListItem';
+import { Fragment } from 'react';
 
-export default observer(function RecipeList() {
+export default function RecipeList() {
     const { recipeStore } = useStore();
-    const { recipes } = recipeStore;
+    const { groupedRecipes } = recipeStore;
 
     return (
-        <Segment>
-            <Item.Group divided>
-                {recipes.map((recipe) => (
-                    <RecipeListItem key={recipe.id} recipe={recipe} />
-                ))}
-            </Item.Group>
-        </Segment>
-    );
-});
+        <>
+            {groupedRecipes.map(([group, recipes]) => (
+                <Fragment key={group}>
+                    <Header sub color="teal">
+                        {group}
+                    </Header>
+                    <Segment>
+                        <Item.Group divided>
+                            {recipes.map(recipe => (
+                                <RecipeListItem key={recipe.id} recipe={recipe} />
+                            ))}
+                        </Item.Group>
+                    </Segment>
+                    
+                </Fragment>
+            ))}
+        </>
+    )
+}

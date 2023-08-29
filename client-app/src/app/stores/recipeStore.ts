@@ -18,6 +18,16 @@ export default class RecipeStore {
             Date.parse(a.date) - Date.parse(b.date));
     }
 
+    get groupedRecipes() {
+        return Object.entries(
+            this.recipes.reduce((_recipes, recipe) => {
+                const date = recipe.date;
+                _recipes[date] = _recipes[date] ? [..._recipes[date], recipe] : [recipe];
+                return _recipes;
+            }, {} as {[key: string]: Recipe[]})
+        )
+    }
+
     loadRecipes = async () => {
         this.setLoadingInitial(true);
         try {
