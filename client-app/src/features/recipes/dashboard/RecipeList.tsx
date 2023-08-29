@@ -1,4 +1,4 @@
-import { Header, Item, Segment } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import RecipeListItem from './RecipeListItem';
 import { Fragment } from 'react';
@@ -14,16 +14,11 @@ export default function RecipeList() {
                     <Header sub color="teal">
                         {group}
                     </Header>
-                    <Segment>
-                        <Item.Group divided>
-                            {recipes.map(recipe => (
-                                <RecipeListItem key={recipe.id} recipe={recipe} />
-                            ))}
-                        </Item.Group>
-                    </Segment>
-                    
+                    {recipes.map((recipe) => (
+                        <RecipeListItem key={recipe.id} recipe={recipe} />
+                    ))}
                 </Fragment>
             ))}
         </>
-    )
+    );
 }
