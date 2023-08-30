@@ -31,13 +31,13 @@ namespace API.Controllers
         public async Task<IActionResult> EditRecipe(Guid id, Recipe recipe)
         {
             recipe.Id = id;
-            return Ok(await Mediator.Send(new Edit.Command{Recipe = recipe}));
+            return HandleResult(await Mediator.Send(new Edit.Command{Recipe = recipe}));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
-            return Ok(await Mediator.Send(new Delete.Command{Id = id}));
+            return HandleResult(await Mediator.Send(new Delete.Command{Id = id}));
         }
     }
 }
