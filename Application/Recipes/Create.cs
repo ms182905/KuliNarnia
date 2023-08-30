@@ -1,4 +1,6 @@
 using Domain;
+using FluentValidation;
+using FluentValidation.Validators;
 using MediatR;
 using Persistence;
 
@@ -9,6 +11,14 @@ namespace Application.Recipes
         public class Command : IRequest
         {
             public Recipe Recipe { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command> 
+        {
+            public CommandValidator()
+            {
+                RuleFor(x => x.Recipe).SetValidator(new RecipeValidator());
+            }
         }
 
         public class Handler : IRequestHandler<Command>
