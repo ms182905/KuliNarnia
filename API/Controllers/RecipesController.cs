@@ -10,21 +10,21 @@ namespace API.Controllers
     public class RecipesController : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<List<Recipe>>> GetRecipes()
+        public async Task<IActionResult> GetRecipes()
         {
-            return await Mediator.Send(new List.Querry());
+            return HandleResult(await Mediator.Send(new List.Querry()));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Recipe>> GetRecipe(Guid id)
+        public async Task<IActionResult> GetRecipe(Guid id)
         {
-            return await Mediator.Send(new Details.Querry{Id = id});
+            return HandleResult<Recipe>(await Mediator.Send(new Details.Querry{Id = id}));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(Recipe recipe)
         {
-            return Ok(await Mediator.Send(new Create.Command{Recipe = recipe}));
+            return HandleResult(await Mediator.Send(new Create.Command{Recipe = recipe}));
         }
 
         [HttpPut("{id}")]
