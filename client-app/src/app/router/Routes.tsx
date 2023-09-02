@@ -1,10 +1,11 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 import App from "../layout/App";
 import HomePage from "../../features/home/HomePage";
 import RecipeDashboard from "../../features/recipes/dashboard/RecipeDashboard";
 import RecipeForm from "../../features/recipes/form/RecipeForm";
 import RecipeDetails from "../../features/recipes/details/RecipeDetails";
 import TestErrors from "../../features/errors/TestErrors";
+import NotFound from "../../features/errors/NotFound";
 
 export const routes: RouteObject[] = [
     {
@@ -17,6 +18,8 @@ export const routes: RouteObject[] = [
             {path: 'createRecipe', element: <RecipeForm key='create' />},
             {path: 'manage/:id', element: <RecipeForm key='manage' />},
             {path: 'errors', element: <TestErrors/>},
+            {path: 'not-found', element: <NotFound/>},
+            {path: '*', element: <Navigate replace to='/not-found'/>},
         ]
     }
 ]
