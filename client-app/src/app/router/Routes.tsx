@@ -4,6 +4,7 @@ import HomePage from "../../features/home/HomePage";
 import RecipeDashboard from "../../features/recipes/dashboard/RecipeDashboard";
 import RecipeForm from "../../features/recipes/form/RecipeForm";
 import RecipeDetails from "../../features/recipes/details/RecipeDetails";
+import TestErrors from "../../features/errors/TestErrors";
 
 export const routes: RouteObject[] = [
     {
@@ -15,6 +16,7 @@ export const routes: RouteObject[] = [
             {path: 'recipes/:id', element: <RecipeDetails />},
             {path: 'createRecipe', element: <RecipeForm key='create' />},
             {path: 'manage/:id', element: <RecipeForm key='manage' />},
+            {path: 'errors', element: <TestErrors/>},
         ]
     }
 ]

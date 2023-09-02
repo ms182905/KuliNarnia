@@ -10,6 +10,7 @@ export default function NavBar() {
                     KuliNarnia
                 </Menu.Item>
                 <Menu.Item as={NavLink} to='/recipes' name='Recipes' />
+                <Menu.Item as={NavLink} to='/errors' name='Errors' />
                 <Menu.Item>
                     <Button as={NavLink} to='/createRecipe' positive content='Create Recipe'/>
                 </Menu.Item>
