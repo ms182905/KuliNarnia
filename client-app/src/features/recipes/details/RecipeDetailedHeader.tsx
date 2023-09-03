@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react'
-import {Button, Header, Item, Segment, Image} from 'semantic-ui-react'
-import {Recipe} from "../../../app/models/recipe";
+import React from 'react';
+import { Button, Header, Item, Segment, Image } from 'semantic-ui-react';
+import { Recipe } from '../../../app/models/recipe';
+import { Link } from 'react-router-dom';
 
 const recipeImageStyle = {
-    filter: 'brightness(30%)'
+    filter: 'brightness(30%)',
 };
 
 const recipeImageTextStyle = {
@@ -13,27 +14,23 @@ const recipeImageTextStyle = {
     left: '5%',
     width: '100%',
     height: 'auto',
-    color: 'white'
+    color: 'white',
 };
 
 interface Props {
-    recipe: Recipe
+    recipe: Recipe;
 }
 
-export default observer (function RecipeDetailedHeader({recipe}: Props) {
+export default observer(function RecipeDetailedHeader({ recipe }: Props) {
     return (
         <Segment.Group>
-            <Segment basic attached='top' style={{padding: '0'}}>
-                <Image src={`/assets/categoryImages/${recipe.category}.jpg`} fluid style={recipeImageStyle}/>
+            <Segment basic attached="top" style={{ padding: '0' }}>
+                <Image src={`/assets/categoryImages/${recipe.category}.jpg`} fluid style={recipeImageStyle} />
                 <Segment style={recipeImageTextStyle} basic>
                     <Item.Group>
                         <Item>
                             <Item.Content>
-                                <Header
-                                    size='huge'
-                                    content={recipe.title}
-                                    style={{color: 'white'}}
-                                />
+                                <Header size="huge" content={recipe.title} style={{ color: 'white' }} />
                                 <p>{recipe.date}</p>
                                 <p>
                                     Created by <strong>Adam</strong>
@@ -43,12 +40,12 @@ export default observer (function RecipeDetailedHeader({recipe}: Props) {
                     </Item.Group>
                 </Segment>
             </Segment>
-            <Segment clearing attached='bottom'>
-                <Button color='teal'>Add recipe to favourites</Button>
-                {/* <Button color='orange' floated='right'>
+            <Segment clearing attached="bottom">
+                <Button color="teal">Add recipe to favourites</Button>
+                <Button as={Link} to={`/manage/${recipe.id}`} color="orange" floated="right">
                     Manage Recipe
-                </Button> */}
+                </Button>
             </Segment>
         </Segment.Group>
-    )
-})
+    );
+});
