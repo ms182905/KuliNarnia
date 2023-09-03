@@ -84,6 +84,8 @@ export default class RecipeStore {
         this.setLoading(true);
 
         try {
+            const date = new Date();
+            recipe.date = date.toISOString().split('T')[0];
             await agent.Recipes.create(recipe);
             runInAction(() => {
                 this.recipeRegistry.set(recipe.id, recipe);

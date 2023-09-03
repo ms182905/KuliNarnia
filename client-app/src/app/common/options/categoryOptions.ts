@@ -1,5 +1,3 @@
-import { string } from "yup";
-
 export const categoryOptions = [
     {text: 'Appetizers', value: 'appetizers'},
     {text: 'Soups', value: 'soups'},
