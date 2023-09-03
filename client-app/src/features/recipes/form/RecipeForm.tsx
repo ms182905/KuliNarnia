@@ -10,6 +10,8 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
+import MySelectInput from '../../../app/common/form/MySelectInput';
+import { categoryOptions } from '../../../app/common/options/categoryOptions';
 
 export default observer(function RecipeForm() {
     const { recipeStore } = useStore();
@@ -64,7 +66,7 @@ export default observer(function RecipeForm() {
                     <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                         <MyTextInput placeholder="Title" name="title" />
                         <MyTextArea placeholder="Description" name="description" rows={3} />
-                        <MyTextInput placeholder="Category" name="category" />
+                        <MySelectInput placeholder="Category" name="category" options={categoryOptions} />
                         <MyTextInput placeholder="Date" name="date" />
                         <Button loading={loading} floated="right" positive type="submit" content="Submit" />
                         <Button as={Link} to="/recipes" floated="right" type="button" content="Cancel" />
