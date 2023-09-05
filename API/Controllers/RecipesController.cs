@@ -7,13 +7,14 @@ namespace API.Controllers
 {
     public class RecipesController : BaseApiController
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetRecipes()
         {
             return HandleResult(await Mediator.Send(new List.Querry()));
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRecipe(Guid id)
         {
