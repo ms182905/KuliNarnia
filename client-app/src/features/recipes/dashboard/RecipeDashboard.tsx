@@ -14,7 +14,7 @@ export default observer(function RecipeDashboard() {
       if (recipeRegistry.size <= 1) loadRecipes();
     }, [loadRecipes, recipeRegistry.size])
   
-    if (recipeStore.loadingInitial) return <LoadingComponent content='Loading app'/>
+    if (recipeStore.loadingInitial) return <LoadingComponent content='Loading recipes...'/>
   
     return (
         <Grid>
