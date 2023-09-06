@@ -3,6 +3,7 @@ import { Recipe } from '../models/recipe';
 import { toast } from 'react-toastify';
 import { router } from '../router/Routes';
 import { store } from '../stores/store';
+import { User, UserFormValues } from '../models/user';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -69,12 +70,17 @@ const Recipes = {
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
     update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),
     delete: (id: string) => axios.delete<void>(`/recipes/${id}`)
+}
 
-
+const Account = {
+    current: () => requests.get<User>('/account'),
+    login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+    register: (user: UserFormValues) => requests.post<User>('/account/register', user)
 }
 
 const agent = {
-    Recipes
+    Recipes,
+    Account
 }
 
 export default agent;
