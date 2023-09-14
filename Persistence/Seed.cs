@@ -56,7 +56,7 @@ namespace Persistence
                     Title = "Past Recipe 2",
                     Date = DateTime.UtcNow.AddMonths(-1),
                     Description = "Recipe 1 month ago",
-                    Category = categories[1]
+                    Category = categories[0]
                 },
                 new Recipe
                 {
@@ -70,7 +70,7 @@ namespace Persistence
                     Title = "Future Recipe 2",
                     Date = DateTime.UtcNow.AddMonths(2),
                     Description = "Recipe 2 months in future",
-                    Category = categories[2]
+                    Category = categories[0]
                 },
                 new Recipe
                 {
@@ -116,6 +116,7 @@ namespace Persistence
                 }
             };
 
+            await context.Categories.AddRangeAsync(categories);
             await context.Recipes.AddRangeAsync(recipes);
             await context.SaveChangesAsync();
         }
