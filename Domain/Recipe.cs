@@ -10,5 +10,7 @@ namespace Domain
         public AppUser Creator { get; set; }
         public string CreatorId { get; set; }
         public ICollection<FavouriteRecipe> FavouriteRecipes { get; set; }
+        public ICollection<Ingredient> Ingredients { get; set; }
+
     }
 }
