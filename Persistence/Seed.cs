@@ -22,6 +22,24 @@ namespace Persistence
                 }
             }
 
+            if (context.Categories.Any()) return;
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    Name = "Category1"
+                },
+                new Category
+                {
+                    Name = "Category2"
+                },
+                new Category
+                {
+                    Name = "Category3"
+                },
+            };
+
             if (context.Recipes.Any()) return;
             
             var recipes = new List<Recipe>
@@ -31,70 +49,70 @@ namespace Persistence
                     Title = "Past Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Recipe 2 months ago",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Past Recipe 2",
                     Date = DateTime.UtcNow.AddMonths(-1),
                     Description = "Recipe 1 month ago",
-                    Category = "Category1",
+                    Category = categories[1]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(1),
                     Description = "Recipe 1 month in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 2",
                     Date = DateTime.UtcNow.AddMonths(2),
                     Description = "Recipe 2 months in future",
-                    Category = "Category1",
+                    Category = categories[2]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 3",
                     Date = DateTime.UtcNow.AddMonths(3),
                     Description = "Recipe 3 months in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 4",
                     Date = DateTime.UtcNow.AddMonths(4),
                     Description = "Recipe 4 months in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 5",
                     Date = DateTime.UtcNow.AddMonths(5),
                     Description = "Recipe 5 months in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 6",
                     Date = DateTime.UtcNow.AddMonths(6),
                     Description = "Recipe 6 months in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 7",
                     Date = DateTime.UtcNow.AddMonths(7),
                     Description = "Recipe 2 months ago",
-                    Category = "Category1",
+                    Category = categories[0]
                 },
                 new Recipe
                 {
                     Title = "Future Recipe 8",
                     Date = DateTime.UtcNow.AddMonths(8),
                     Description = "Recipe 8 months in future",
-                    Category = "Category1",
+                    Category = categories[0]
                 }
             };
 
