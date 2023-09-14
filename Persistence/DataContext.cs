@@ -13,6 +13,7 @@ namespace Persistence
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<FavouriteRecipe> FavouriteRecipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Measurement> Measurements { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -40,6 +41,11 @@ namespace Persistence
                 .HasMany(u => u.Ingredients)
                 .WithOne(a => a.Recipe)
                 .HasForeignKey(aa => aa.RecipeId);
+
+            builder.Entity<Measurement>()
+                .HasMany(u => u.Ingredients)
+                .WithOne(a => a.Measurement)
+                .HasForeignKey(aa => aa.MeasurementId);
         }
     }
 }

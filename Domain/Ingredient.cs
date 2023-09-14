@@ -7,5 +7,7 @@ namespace Domain
         public double Amount { get; set; }
         public Guid RecipeId { get; set; }
         public Recipe Recipe { get; set; }
+        public Guid MeasurementId { get; set; }
+        public Measurement Measurement { get; set; }
     }
 }
