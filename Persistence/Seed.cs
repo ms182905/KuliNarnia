@@ -28,15 +28,23 @@ namespace Persistence
             {
                 new Category
                 {
-                    Name = "Category1"
+                    Name = "appetizers"
                 },
                 new Category
                 {
-                    Name = "Category2"
+                    Name = "soups"
                 },
                 new Category
                 {
-                    Name = "Category3"
+                    Name = "main"
+                },
+                new Category
+                {
+                    Name = "desserts"
+                },
+                new Category
+                {
+                    Name = "drinks"
                 },
             };
 
