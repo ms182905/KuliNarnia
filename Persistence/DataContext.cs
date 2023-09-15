@@ -15,6 +15,9 @@ namespace Persistence
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<Measurement> Measurements { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<RecipeTags> RecipeTags { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -52,6 +55,13 @@ namespace Persistence
                 .HasMany(u => u.Recipes)
                 .WithOne(a => a.Category)
                 .HasForeignKey(aa => aa.CategoryId);
+        
+            builder.Entity<RecipeTags>(x => x.HasKey(aa => new {aa.TagId, aa.RecipeId}));
+
+            builder.Entity<RecipeTags>()
+                .HasOne(u => u.Tag)
+                .WithMany(a => a.RecipeTags)
+                .HasForeignKey(aa => aa.TagId);
         }
     }
 }

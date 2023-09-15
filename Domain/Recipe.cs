@@ -13,6 +13,7 @@ namespace Domain
         public string CreatorId { get; set; }
         public ICollection<FavouriteRecipe> FavouriteRecipes { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
+        public ICollection<RecipeTags> RecipeTags { get; set; }
 
     }
 }
