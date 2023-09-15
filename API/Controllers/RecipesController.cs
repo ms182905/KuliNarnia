@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Recipes;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -22,9 +23,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe(Recipe recipe)
+        public async Task<IActionResult> CreateRecipe(RecipeDTO recipe)
         {
-            return HandleResult(await Mediator.Send(new Create.Command{Recipe = recipe}));
+            return HandleResult(await Mediator.Send(new Create.Command{RecipeDTO = recipe}));
         }
 
         [HttpPut("{id}")]
