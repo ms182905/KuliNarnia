@@ -18,6 +18,7 @@ namespace Persistence
         public DbSet<Tag> Tags { get; set; }
         public DbSet<RecipeTags> RecipeTags { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Instruction> Instructions { get; set; }
 
 
 
@@ -70,6 +71,11 @@ namespace Persistence
                 .HasOne(u => u.AppUser)
                 .WithMany(a => a.Comments)
                 .HasForeignKey(aa => aa.AppUserId);
+
+            builder.Entity<Instruction>()
+                .HasOne(u => u.Recipe)
+                .WithMany(a => a.Instructions)
+                .HasForeignKey(aa => aa.RecipeId);
         }
     }
 }
