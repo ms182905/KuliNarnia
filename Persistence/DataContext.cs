@@ -43,9 +43,9 @@ namespace Persistence
                 .WithOne(a => a.Creator)
                 .HasForeignKey(aa => aa.CreatorId);
 
-            builder.Entity<Recipe>()
-                .HasMany(u => u.Ingredients)
-                .WithOne(a => a.Recipe)
+            builder.Entity<Ingredient>()
+                .HasOne(u => u.Recipe)
+                .WithMany(a => a.Ingredients)
                 .HasForeignKey(aa => aa.RecipeId);
 
             builder.Entity<Measurement>()

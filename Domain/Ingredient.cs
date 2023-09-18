@@ -9,7 +9,5 @@ namespace Domain
         public Recipe Recipe { get; set; }
         public Guid MeasurementId { get; set; }
         public Measurement Measurement { get; set; }
-        public Guid CategoryId { get; set; }
-        public Category Category { get; set; }
     }
 }
