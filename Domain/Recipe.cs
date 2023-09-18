@@ -14,6 +14,7 @@ namespace Domain
         public ICollection<FavouriteRecipe> FavouriteRecipes { get; set; }
         public ICollection<Ingredient> Ingredients { get; set; }
         public ICollection<RecipeTags> RecipeTags { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
     }
 }

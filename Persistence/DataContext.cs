@@ -17,6 +17,7 @@ namespace Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<RecipeTags> RecipeTags { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
 
@@ -62,6 +63,13 @@ namespace Persistence
                 .HasOne(u => u.Tag)
                 .WithMany(a => a.RecipeTags)
                 .HasForeignKey(aa => aa.TagId);
+
+            builder.Entity<Comment>(x => x.HasKey(aa => new {aa.AppUserId, aa.RecipeId}));
+
+            builder.Entity<Comment>()
+                .HasOne(u => u.AppUser)
+                .WithMany(a => a.Comments)
+                .HasForeignKey(aa => aa.AppUserId);
         }
     }
 }
