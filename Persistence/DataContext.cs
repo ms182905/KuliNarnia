@@ -19,6 +19,7 @@ namespace Persistence
         public DbSet<RecipeTags> RecipeTags { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Instruction> Instructions { get; set; }
+        public DbSet<UserSelectionStastic> UserSelectionStastics { get; set; }
 
 
 
@@ -76,6 +77,13 @@ namespace Persistence
                 .HasOne(u => u.Recipe)
                 .WithMany(a => a.Instructions)
                 .HasForeignKey(aa => aa.RecipeId);
+
+            builder.Entity<UserSelectionStastic>(x => x.HasKey(aa => new {aa.CategoryId, aa.TagId, aa.UserId}));
+
+            builder.Entity<UserSelectionStastic>()
+                .HasOne(u => u.Category)
+                .WithMany(a => a.UserSelectionStastics)
+                .HasForeignKey(aa => aa.CategoryId);
         }
     }
 }

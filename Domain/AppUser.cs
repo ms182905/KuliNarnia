@@ -9,5 +9,6 @@ namespace Domain
         public ICollection<FavouriteRecipe> FavouriteRecipes { get; set; }
         public ICollection<Recipe> CreatedRecipes { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<UserSelectionStastic> UserSelectionStastics { get; set; }
     }
 }

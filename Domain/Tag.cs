@@ -5,5 +5,6 @@ namespace Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public ICollection<RecipeTags> RecipeTags { get; set; }
+        public ICollection<UserSelectionStastic> UserSelectionStastics { get; set; }
     }
 }
