@@ -1,29 +1,41 @@
 using Application.Core;
+using Application.DTOs;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Recipes
 {
     public class Details
     {
-        public class Querry : IRequest<Result<Recipe>>
+        public class Querry : IRequest<Result<RecipeDTO>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Querry, Result<Recipe>>
+        public class Handler : IRequestHandler<Querry, Result<RecipeDTO>>
         {
         private readonly DataContext _context;
-            public Handler(DataContext context)
+        private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<Result<Recipe>> Handle(Querry request, CancellationToken cancellationToken)
+            public async Task<Result<RecipeDTO>> Handle(Querry request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes.FindAsync(request.Id);
-                return Result<Recipe>.Success(recipe);
+                var instructions = await _context.Instructions.Where(i => i.RecipeId == request.Id)
+                    .ProjectTo<InstructionDTO>(_mapper.ConfigurationProvider).ToListAsync();
+                var recipe = await _context.Recipes.Where(r => r.Id == request.Id)
+                    .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider).FirstAsync();
+
+                recipe.Instructions = instructions;
+
+                return Result<RecipeDTO>.Success(recipe);
             }
         }
     }

@@ -1,3 +1,4 @@
+using Application.DTOs;
 using AutoMapper;
 using Domain;
 
@@ -7,7 +8,11 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<Recipe, Recipe>();
+            CreateMap<Recipe, RecipeDTO>()
+                .ForMember(x => x.Id, o => o.MapFrom(s => s.Id))
+                .ForMember(x => x.Category, o => o.MapFrom(s => s.Category.Name))
+                .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
+            CreateMap<Instruction, InstructionDTO>();
         }
     }
 }

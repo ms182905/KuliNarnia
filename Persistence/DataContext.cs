@@ -21,8 +21,6 @@ namespace Persistence
         public DbSet<Instruction> Instructions { get; set; }
         public DbSet<UserSelectionStastic> UserSelectionStastics { get; set; }
 
-
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

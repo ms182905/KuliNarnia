@@ -54,10 +54,21 @@ namespace Persistence
             {
                 new Recipe
                 {
-                    Title = "Past Recipe 1",
+                    Title = "Test Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Recipe 2 months ago",
-                    Category = categories[0]
+                    Category = categories[0],
+                    Instructions = new List<Instruction>{
+                        new() {
+                            Position = 0,
+                            Text = "Test Instruction Text, position 0"
+                        },
+                        new() {
+                            Position = 1,
+                            Text = "Test Instruction Text, position 1"
+                        },
+                    }
+                    
                 },
                 new Recipe
                 {

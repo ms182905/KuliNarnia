@@ -19,7 +19,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRecipe(Guid id)
         {
-            return HandleResult<Recipe>(await Mediator.Send(new Details.Querry{Id = id}));
+            return HandleResult(await Mediator.Send(new Details.Querry{Id = id}));
         }
 
         [HttpPost]
