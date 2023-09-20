@@ -13,6 +13,9 @@ namespace Application.Core
                 .ForMember(x => x.Category, o => o.MapFrom(s => s.Category.Name))
                 .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
             CreateMap<Instruction, InstructionDTO>();
+            CreateMap<Ingredient, IngredientDTO>()
+                .ForMember(x => x.MeasurementName, o => o.MapFrom(s => s.Measurement.Name))
+                .ForMember(x => x.MeasurementId, o => o.MapFrom(s => s.Measurement.Id));
         }
     }
 }
