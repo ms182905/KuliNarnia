@@ -10,7 +10,8 @@ namespace Application.Core
         {
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(x => x.Id, o => o.MapFrom(s => s.Id))
-                .ForMember(x => x.Category, o => o.MapFrom(s => s.Category.Name))
+                .ForMember(x => x.CategoryName, o => o.MapFrom(s => s.Category.Name))
+                .ForMember(x => x.CategoryId, o => o.MapFrom(s => s.Category.Id))
                 .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
             CreateMap<Instruction, InstructionDTO>();
             CreateMap<Ingredient, IngredientDTO>()

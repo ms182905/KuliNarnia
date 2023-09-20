@@ -48,12 +48,41 @@ namespace Persistence
                 },
             };
 
+            if (context.Measurements.Any()) return;
+
+            var measurements = new List<Measurement>
+            {
+                new Measurement
+                {
+                    Name = "Measurement 0"
+                },
+                new Measurement
+                {
+                    Name = "Measurement 1"
+                },
+                new Measurement
+                {
+                    Name = "Measurement 2"
+                },
+                new Measurement
+                {
+                    Name = "Measurement 3"
+                },
+                new Measurement
+                {
+                    Name = "Measurement 4"
+                },
+                new Measurement
+                {
+                    Name = "Measurement 5"
+                }
+            };
+
             if (context.Recipes.Any()) return;
-            
+
             var recipes = new List<Recipe>
             {
-                new Recipe
-                {
+                new() {
                     Title = "Test Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Recipe 2 months ago",
@@ -67,8 +96,39 @@ namespace Persistence
                             Position = 1,
                             Text = "Test Instruction Text, position 1"
                         },
+                        new() {
+                            Position = 2,
+                            Text = "Test Instruction Text, position 2"
+                        }
+                    },
+                    Ingredients = new List<Ingredient>{
+                        new() {
+                            Name = "Ingredient 0",
+                            Amount = 50,
+                            Measurement = measurements[0]
+                        },
+                        new() {
+                            Name = "Ingredient 1",
+                            Amount = 4,
+                            Measurement = measurements[1]
+                        },
+                        new() {
+                            Name = "Ingredient 2",
+                            Amount = 54,
+                            Measurement = measurements[2]
+                        },
+                        new() {
+                            Name = "Ingredient 3",
+                            Amount = 112,
+                            Measurement = measurements[3]
+                        },
+                        new() {
+                            Name = "Ingredient 4",
+                            Amount = 77,
+                            Measurement = measurements[4]
+                        }
                     }
-                    
+
                 },
                 new Recipe
                 {
@@ -136,6 +196,7 @@ namespace Persistence
             };
 
             await context.Categories.AddRangeAsync(categories);
+            await context.Measurements.AddRangeAsync(measurements);
             await context.Recipes.AddRangeAsync(recipes);
             await context.SaveChangesAsync();
         }
