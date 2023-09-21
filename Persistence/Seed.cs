@@ -7,123 +7,111 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
-            if (userManager.Users.Any()) return;
-            
+            if (userManager.Users.Any())
+                return;
+
             var users = new List<AppUser>
             {
-                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Bob", UserName="bob", Email="bob@test.com"},
-                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Tom", UserName="tom", Email="tom@test.com"},
-                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Jane", UserName="jane", Email="jane@test.com"}
+                new AppUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DisplayName = "Bob",
+                    UserName = "bob",
+                    Email = "bob@test.com"
+                },
+                new AppUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DisplayName = "Tom",
+                    UserName = "tom",
+                    Email = "tom@test.com"
+                },
+                new AppUser
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    DisplayName = "Jane",
+                    UserName = "jane",
+                    Email = "jane@test.com"
+                }
             };
 
             foreach (var user in users)
             {
                 await userManager.CreateAsync(user, "Pa$$w0rd");
             }
-            
-            if (context.Categories.Any()) return;
+
+            if (context.Categories.Any())
+                return;
 
             var categories = new List<Category>
             {
-                new Category
-                {
-                    Name = "appetizers"
-                },
-                new Category
-                {
-                    Name = "soups"
-                },
-                new Category
-                {
-                    Name = "main"
-                },
-                new Category
-                {
-                    Name = "desserts"
-                },
-                new Category
-                {
-                    Name = "drinks"
-                },
+                new Category { Name = "appetizers" },
+                new Category { Name = "soups" },
+                new Category { Name = "main" },
+                new Category { Name = "desserts" },
+                new Category { Name = "drinks" },
             };
 
-            if (context.Measurements.Any()) return;
+            if (context.Measurements.Any())
+                return;
 
             var measurements = new List<Measurement>
             {
-                new Measurement
-                {
-                    Name = "Measurement 0"
-                },
-                new Measurement
-                {
-                    Name = "Measurement 1"
-                },
-                new Measurement
-                {
-                    Name = "Measurement 2"
-                },
-                new Measurement
-                {
-                    Name = "Measurement 3"
-                },
-                new Measurement
-                {
-                    Name = "Measurement 4"
-                },
-                new Measurement
-                {
-                    Name = "Measurement 5"
-                }
+                new Measurement { Name = "Measurement 0" },
+                new Measurement { Name = "Measurement 1" },
+                new Measurement { Name = "Measurement 2" },
+                new Measurement { Name = "Measurement 3" },
+                new Measurement { Name = "Measurement 4" },
+                new Measurement { Name = "Measurement 5" }
             };
 
-            if (context.Recipes.Any()) return;
+            if (context.Recipes.Any())
+                return;
 
             var recipes = new List<Recipe>
             {
-                new() {
+                new()
+                {
                     Id = Guid.NewGuid(),
                     Title = "Test Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Recipe 2 months ago",
                     Category = categories[0],
                     Creator = users[0],
-                    Instructions = new List<Instruction>{
-                        new() {
-                            Position = 0,
-                            Text = "Test Instruction Text, position 0"
-                        },
-                        new() {
-                            Position = 1,
-                            Text = "Test Instruction Text, position 1"
-                        },
-                        new() {
-                            Position = 2,
-                            Text = "Test Instruction Text, position 2"
-                        }
+                    Instructions = new List<Instruction>
+                    {
+                        new() { Position = 0, Text = "Test Instruction Text, position 0" },
+                        new() { Position = 1, Text = "Test Instruction Text, position 1" },
+                        new() { Position = 2, Text = "Test Instruction Text, position 2" }
                     },
-                    Ingredients = new List<Ingredient>{
-                        new() {
+                    Ingredients = new List<Ingredient>
+                    {
+                        new()
+                        {
                             Name = "Ingredient 0",
                             Amount = 50,
                             Measurement = measurements[0]
                         },
-                        new() {
+                        new()
+                        {
                             Name = "Ingredient 1",
                             Amount = 4,
                             Measurement = measurements[1]
                         },
-                        new() {
+                        new()
+                        {
                             Name = "Ingredient 2",
                             Amount = 54,
                             Measurement = measurements[2]
                         },
-                        new() {
+                        new()
+                        {
                             Name = "Ingredient 3",
                             Amount = 112,
                             Measurement = measurements[3]
                         },
-                        new() {
+                        new()
+                        {
                             Name = "Ingredient 4",
                             Amount = 77,
                             Measurement = measurements[4]
@@ -195,27 +183,34 @@ namespace Persistence
                 }
             };
 
-            var comments = new List<Comment> 
+            if (context.Comments.Any())
+                return;
+
+            var comments = new List<Comment>
             {
-                new () {
+                new()
+                {
                     Text = "Comment 0",
                     Date = DateTime.UtcNow.AddDays(-2),
                     AppUserId = users[1].Id,
                     RecipeId = recipes[0].Id
                 },
-                new () {
+                new()
+                {
                     Text = "Comment 1",
                     Date = DateTime.UtcNow.AddDays(-4),
                     AppUserId = users[1].Id,
                     RecipeId = recipes[0].Id
                 },
-                new () {
+                new()
+                {
                     Text = "Comment 2",
                     Date = DateTime.UtcNow.AddDays(-12),
                     AppUserId = users[1].Id,
                     RecipeId = recipes[0].Id
                 },
-                new () {
+                new()
+                {
                     Text = "Comment 3",
                     Date = DateTime.UtcNow.AddDays(-1),
                     AppUserId = users[2].Id,
@@ -223,12 +218,38 @@ namespace Persistence
                 }
             };
 
+            if (context.Tags.Any())
+                return;
+
+            var tags = new List<Tag>
+            {
+                new Tag() { Id = Guid.NewGuid(), Name = "Tag 0" },
+                new Tag() { Id = Guid.NewGuid(), Name = "Tag 1" },
+                new Tag() { Id = Guid.NewGuid(), Name = "Tag 2" },
+                new Tag() { Id = Guid.NewGuid(), Name = "Tag 3" },
+                new Tag() { Id = Guid.NewGuid(), Name = "Tag 4" }
+            };
+
+            if (context.RecipeTags.Any())
+                return;
+
+            var recipeTags = new List<RecipeTags>
+            {
+                new RecipeTags() { TagId = tags[0].Id, RecipeId = recipes[0].Id },
+                new RecipeTags() { TagId = tags[1].Id, RecipeId = recipes[0].Id },
+                new RecipeTags() { TagId = tags[2].Id, RecipeId = recipes[0].Id },
+                new RecipeTags() { TagId = tags[3].Id, RecipeId = recipes[0].Id },
+                new RecipeTags() { TagId = tags[4].Id, RecipeId = recipes[0].Id },
+            };
+
             await context.Categories.AddRangeAsync(categories);
             await context.Measurements.AddRangeAsync(measurements);
             await context.Recipes.AddRangeAsync(recipes);
+            await context.Tags.AddRangeAsync(tags);
             await context.SaveChangesAsync();
 
             await context.Comments.AddRangeAsync(comments);
+            await context.RecipeTags.AddRangeAsync(recipeTags);
             await context.SaveChangesAsync();
         }
     }
