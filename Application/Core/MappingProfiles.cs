@@ -17,6 +17,8 @@ namespace Application.Core
             CreateMap<Ingredient, IngredientDTO>()
                 .ForMember(x => x.MeasurementName, o => o.MapFrom(s => s.Measurement.Name))
                 .ForMember(x => x.MeasurementId, o => o.MapFrom(s => s.Measurement.Id));
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(x => x.AppUserDisplayName, o => o.MapFrom(s => s.AppUser.DisplayName));
         }
     }
 }
