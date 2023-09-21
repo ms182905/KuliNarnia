@@ -64,12 +64,10 @@ namespace Persistence
                 .WithMany(a => a.RecipeTags)
                 .HasForeignKey(aa => aa.TagId);
 
-            builder.Entity<Comment>(x => x.HasKey(aa => new {aa.AppUserId, aa.RecipeId}));
-
             builder.Entity<Comment>()
-                .HasOne(u => u.AppUser)
+                .HasOne(u => u.Recipe)
                 .WithMany(a => a.Comments)
-                .HasForeignKey(aa => aa.AppUserId);
+                .HasForeignKey(aa => aa.RecipeId);
 
             builder.Entity<Instruction>()
                 .HasOne(u => u.Recipe)

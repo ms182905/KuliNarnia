@@ -7,21 +7,20 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
         {
-            if (!userManager.Users.Any())
+            if (userManager.Users.Any()) return;
+            
+            var users = new List<AppUser>
             {
-                var users = new List<AppUser>
-                {
-                    new AppUser{DisplayName="Bob", UserName="bob", Email="bob@test.com"},
-                    new AppUser{DisplayName="Tom", UserName="tom", Email="tom@test.com"},
-                    new AppUser{DisplayName="Jane", UserName="jane", Email="jane@test.com"}
-                };
+                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Bob", UserName="bob", Email="bob@test.com"},
+                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Tom", UserName="tom", Email="tom@test.com"},
+                new AppUser{Id = Guid.NewGuid().ToString(), DisplayName="Jane", UserName="jane", Email="jane@test.com"}
+            };
 
-                foreach (var user in users)
-                {
-                    await userManager.CreateAsync(user, "Pa$$w0rd");
-                }
+            foreach (var user in users)
+            {
+                await userManager.CreateAsync(user, "Pa$$w0rd");
             }
-
+            
             if (context.Categories.Any()) return;
 
             var categories = new List<Category>
@@ -83,10 +82,12 @@ namespace Persistence
             var recipes = new List<Recipe>
             {
                 new() {
+                    Id = Guid.NewGuid(),
                     Title = "Test Recipe 1",
                     Date = DateTime.UtcNow.AddMonths(-2),
                     Description = "Recipe 2 months ago",
                     Category = categories[0],
+                    Creator = users[0],
                     Instructions = new List<Instruction>{
                         new() {
                             Position = 0,
@@ -127,8 +128,7 @@ namespace Persistence
                             Amount = 77,
                             Measurement = measurements[4]
                         }
-                    }
-
+                    },
                 },
                 new Recipe
                 {
@@ -195,9 +195,40 @@ namespace Persistence
                 }
             };
 
+            var comments = new List<Comment> 
+            {
+                new () {
+                    Text = "Comment 0",
+                    Date = DateTime.UtcNow.AddDays(-2),
+                    AppUserId = users[1].Id,
+                    RecipeId = recipes[0].Id
+                },
+                new () {
+                    Text = "Comment 1",
+                    Date = DateTime.UtcNow.AddDays(-4),
+                    AppUserId = users[1].Id,
+                    RecipeId = recipes[0].Id
+                },
+                new () {
+                    Text = "Comment 2",
+                    Date = DateTime.UtcNow.AddDays(-12),
+                    AppUserId = users[1].Id,
+                    RecipeId = recipes[0].Id
+                },
+                new () {
+                    Text = "Comment 3",
+                    Date = DateTime.UtcNow.AddDays(-1),
+                    AppUserId = users[2].Id,
+                    RecipeId = recipes[0].Id
+                }
+            };
+
             await context.Categories.AddRangeAsync(categories);
             await context.Measurements.AddRangeAsync(measurements);
             await context.Recipes.AddRangeAsync(recipes);
+            await context.SaveChangesAsync();
+
+            await context.Comments.AddRangeAsync(comments);
             await context.SaveChangesAsync();
         }
     }

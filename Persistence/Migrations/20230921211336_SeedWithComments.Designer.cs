@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230918202318_Comments")]
-    partial class Comments
+    [Migration("20230921211336_SeedWithComments")]
+    partial class SeedWithComments
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,19 +112,25 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Comment", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("RecipeId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("RecipeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AppUserId", "RecipeId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("RecipeId");
 
@@ -268,6 +274,29 @@ namespace Persistence.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("Domain.UserSelectionStastic", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Counter")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoryId", "TagId", "UserId");
+
+                    b.HasIndex("TagId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserSelectionStastics");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -405,9 +434,7 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
                         .WithMany("Comments")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserId");
 
                     b.HasOne("Domain.Recipe", "Recipe")
                         .WithMany("Comments")
@@ -505,6 +532,33 @@ namespace Persistence.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("Domain.UserSelectionStastic", b =>
+                {
+                    b.HasOne("Domain.Category", "Category")
+                        .WithMany("UserSelectionStastics")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Tag", "Tag")
+                        .WithMany("UserSelectionStastics")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.AppUser", "User")
+                        .WithMany("UserSelectionStastics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Tag");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -563,11 +617,15 @@ namespace Persistence.Migrations
                     b.Navigation("CreatedRecipes");
 
                     b.Navigation("FavouriteRecipes");
+
+                    b.Navigation("UserSelectionStastics");
                 });
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
                     b.Navigation("Recipes");
+
+                    b.Navigation("UserSelectionStastics");
                 });
 
             modelBuilder.Entity("Domain.Measurement", b =>
@@ -591,6 +649,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag", b =>
                 {
                     b.Navigation("RecipeTags");
+
+                    b.Navigation("UserSelectionStastics");
                 });
 #pragma warning restore 612, 618
         }
