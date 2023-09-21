@@ -17,7 +17,7 @@ namespace Application.DTOs
         public string CreatorName { get; set; }
         public string CreatorId { get; set; }
         public ICollection<IngredientDTO> Ingredients { get; set; }
-        public ICollection<RecipeTags> RecipeTags { get; set; }
+        public ICollection<TagDTO> Tags { get; set; }
         public ICollection<CommentDTO> Comments { get; set; }
         public ICollection<InstructionDTO> Instructions { get; set; }
     }

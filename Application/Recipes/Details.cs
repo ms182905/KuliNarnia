@@ -52,9 +52,15 @@ namespace Application.Recipes
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .FirstAsync();
 
+                var tags = await _context.RecipeTags
+                    .Where(t => t.RecipeId == request.Id)
+                    .ProjectTo<TagDTO>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+
                 recipe.Instructions = instructions;
                 recipe.Ingredients = ingredients;
                 recipe.Comments = comments;
+                recipe.Tags = tags;
 
                 return Result<RecipeDTO>.Success(recipe);
             }
