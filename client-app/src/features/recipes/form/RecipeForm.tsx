@@ -22,9 +22,13 @@ export default observer(function RecipeForm() {
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
         title: '',
-        category: '',
+        categoryId: '',
         description: '',
         date: '',
+        creatorId: '',
+        ingredients: [],
+        instructions: [],
+        tags: []
     });
 
     const validationSchema = Yup.object({

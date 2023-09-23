@@ -25,7 +25,7 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
-                <Image src={`/assets/categoryImages/${recipe.category}.jpg`} fluid style={recipeImageStyle} />
+                <Image src={`/assets/categoryImages/${recipe.categoryName}.jpg`} fluid style={recipeImageStyle} />
                 <Segment style={recipeImageTextStyle} basic>
                     <Item.Group>
                         <Item>
