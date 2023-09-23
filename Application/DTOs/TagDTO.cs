@@ -7,7 +7,7 @@ namespace Application.DTOs
 {
     public class TagDTO
     {
-        public Guid TagId { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }
