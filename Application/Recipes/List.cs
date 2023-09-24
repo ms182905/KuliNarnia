@@ -1,4 +1,7 @@
 using Application.Core;
+using Application.DTOs;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,19 +11,29 @@ namespace Application.Recipes
 {
     public class List
     {
-        public class Querry : IRequest<Result<List<Recipe>>> {}
+        public class Querry : IRequest<Result<List<RecipeDTO>>> { }
 
-        public class Handler : IRequestHandler<Querry, Result<List<Recipe>>>
+        public class Handler : IRequestHandler<Querry, Result<List<RecipeDTO>>>
         {
-        private readonly DataContext _context;
-            public Handler(DataContext context)
+            private readonly DataContext _context;
+            private readonly IMapper _mapper;
+
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<Result<List<Recipe>>> Handle(Querry request, CancellationToken cancellationToken)
+            public async Task<Result<List<RecipeDTO>>> Handle(
+                Querry request,
+                CancellationToken cancellationToken
+            )
             {
-                return Result<List<Recipe>>.Success(await _context.Recipes.ToListAsync());
+                return Result<List<RecipeDTO>>.Success(
+                    await _context.Recipes
+                        .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
+                        .ToListAsync()
+                );
             }
         }
     }
