@@ -29,10 +29,10 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditRecipe(Guid id, Recipe recipe)
+        public async Task<IActionResult> EditRecipe(Guid id, RecipeDTO recipe)
         {
             recipe.Id = id;
-            return HandleResult(await Mediator.Send(new Edit.Command{Recipe = recipe}));
+            return HandleResult(await Mediator.Send(new Edit.Command{RecipeDTO = recipe}));
         }
 
         [HttpDelete("{id}")]

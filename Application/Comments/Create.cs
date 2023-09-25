@@ -20,7 +20,7 @@ namespace Application.Comments
         {
             public CommandValidator()
             {
-                //RuleFor(x => x.Recipe).SetValidator(new RecipeValidator());
+                RuleFor(x => x.CommentDTO).SetValidator(new CommentDTOValidator());
             }
         }
 
@@ -37,9 +37,6 @@ namespace Application.Comments
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
-
-                // @TODO
-                // Add automapper
 
                 var comment = new Comment
                 {

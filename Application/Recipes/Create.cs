@@ -20,7 +20,7 @@ namespace Application.Recipes
         {
             public CommandValidator()
             {
-                //RuleFor(x => x.Recipe).SetValidator(new RecipeValidator());
+                RuleFor(x => x.RecipeDTO).SetValidator(new RecipeDTOValidator());
             }
         }
 
@@ -38,9 +38,6 @@ namespace Application.Recipes
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
                 var category = await _context.Categories.FirstOrDefaultAsync(x => x.Name == request.RecipeDTO.CategoryName);
-
-                // @TODO
-                // Add automapper
 
                 var recipe = new Recipe
                 {

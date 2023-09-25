@@ -19,10 +19,13 @@ namespace Application.Recipes
     {
         public RecipeDTOValidator()
         {
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Title).NotEmpty();
             RuleFor(x => x.Description).NotEmpty();
             RuleFor(x => x.Date).NotEmpty();
-            RuleFor(x => x.CategoryName).NotEmpty();
+            RuleFor(x => x.CategoryId).NotEmpty();
+            RuleFor(x => x.Ingredients).NotEmpty();
+            RuleFor(x => x.Tags).NotEmpty();
         }
         
     }
