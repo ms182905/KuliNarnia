@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.DTOs;
 using FluentValidation;
 
 namespace Application.Comments
 {
-
-public class CommentDTOValidator : AbstractValidator<CommentDTO>
+    public class CommentDTOValidator : AbstractValidator<CommentDTO>
     {
         public CommentDTOValidator()
         {
@@ -18,5 +13,4 @@ public class CommentDTOValidator : AbstractValidator<CommentDTO>
             RuleFor(x => x.RecipeId).NotEmpty();
         }
     }
-    
 }
