@@ -1,5 +1,6 @@
 using Application.Core;
 using Application.DTOs;
+using Application.Interfaces;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -27,34 +28,107 @@ namespace Application.Recipes
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
-            private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
-                _mapper = mapper;
                 _context = context;
+                _userAccessor = userAccessor;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes.FindAsync(request.RecipeDTO.Id);
-
-                if (recipe == null)
+                var oldRecipe = await _context.Recipes.FindAsync(request.RecipeDTO.Id);
+                
+                if (oldRecipe == null) 
                 {
                     return null;
                 }
 
-                //_mapper.Map(request.RecipeDTO, recipe);
-                var category = await _context.Categories.FirstOrDefaultAsync(x => x.Name == request.RecipeDTO.CategoryName);
+                var user = await _context.Users.FirstOrDefaultAsync(
+                    x => x.UserName == _userAccessor.GetUsername()
+                );
 
-                recipe.Title = request.RecipeDTO.Title;
-                recipe.Description = request.RecipeDTO.Description;
-                recipe.Category = category;
+                if (user.Id != oldRecipe.CreatorId)
+                {
+                    return Result<Unit>.Failure("Unauthorized to edit");
+                }
 
+                _context.Recipes.Remove(oldRecipe);
                 var result = await _context.SaveChangesAsync() > 0;
-                
                 if (!result)
                 {
-                    return Result<Unit>.Failure("Failed to edit the recipe");
+                    return Result<Unit>.Failure("Failed to update recipe");
+                }
+
+                var category = await _context.Categories.FindAsync(request.RecipeDTO.CategoryId);
+
+                var recipe = new Recipe
+                {
+                    Id = request.RecipeDTO.Id,
+                    Title = request.RecipeDTO.Title,
+                    Description = request.RecipeDTO.Description,
+                    CreatorId = user.Id,
+                    CategoryId = category.Id,
+                };
+
+                // _context.Recipes.Add(recipe);
+                // var result = await _context.SaveChangesAsync() > 0;
+                // if (!result)
+                // {
+                //     return Result<Unit>.Failure("Failed to update recipe");
+                // }
+
+                var recipeTags = request.RecipeDTO.Tags
+                    .Select(
+                        tag => new RecipeTags { TagId = tag.Id, RecipeId = request.RecipeDTO.Id }
+                    )
+                    .ToList();
+                var instructions = request.RecipeDTO.Instructions
+                    .Select(
+                        instruction =>
+                            new Instruction
+                            {
+                                Id = instruction.Id,
+                                Text = instruction.Text,
+                                Position = instruction.Position,
+                                RecipeId = request.RecipeDTO.Id
+                            }
+                    )
+                    .ToList();
+                var ingredients = request.RecipeDTO.Ingredients
+                    .Select(
+                        ingredient =>
+                            new Ingredient
+                            {
+                                Id = ingredient.Id,
+                                Name = ingredient.Name,
+                                Amount = ingredient.Amount,
+                                RecipeId = request.RecipeDTO.Id,
+                                MeasurementId = ingredient.MeasurementId
+                            }
+                    )
+                    .ToList();
+
+                // await _context.RecipeTags.AddRangeAsync(recipeTags);
+                // await _context.Instructions.AddRangeAsync(instructions);
+                // await _context.Ingredients.AddRangeAsync(ingredients);
+
+                // result = await _context.SaveChangesAsync() > 0;
+                // if (!result)
+                // {
+                //     return Result<Unit>.Failure("Failed to update recipe");
+                // }
+
+                recipe.Ingredients = ingredients;
+                recipe.Instructions = instructions;
+                recipe.RecipeTags = recipeTags;
+
+                await _context.Recipes.AddAsync(recipe);
+
+                result = await _context.SaveChangesAsync() > 0;
+                if (!result)
+                {
+                    return Result<Unit>.Failure("Failed to update recipe");
                 }
 
                 return Result<Unit>.Success(Unit.Value);

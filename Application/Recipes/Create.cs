@@ -55,7 +55,11 @@ namespace Application.Recipes
                 };
 
                 _context.Recipes.Add(recipe);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync() > 0;
+                if (!result)
+                {
+                    return Result<Unit>.Failure("Failed to create recipe");
+                }
 
                 var recipeTags = request.RecipeDTO.Tags
                     .Select(
@@ -88,21 +92,17 @@ namespace Application.Recipes
                     )
                     .ToList();
 
-                //_context.Recipes.Add(recipe);
                 await _context.RecipeTags.AddRangeAsync(recipeTags);
                 await _context.Instructions.AddRangeAsync(instructions);
                 await _context.Ingredients.AddRangeAsync(ingredients);
 
-                var result = await _context.SaveChangesAsync() > 0;
-
+                result = await _context.SaveChangesAsync() > 0;
                 if (!result)
                 {
                     return Result<Unit>.Failure("Failed to create recipe");
                 }
-                else
-                {
-                    return Result<Unit>.Success(Unit.Value);
-                }
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
