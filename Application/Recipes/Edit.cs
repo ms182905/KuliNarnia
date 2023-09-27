@@ -44,14 +44,7 @@ namespace Application.Recipes
                     return null;
                 }
 
-                var user = await _context.Users.FirstOrDefaultAsync(
-                    x => x.UserName == _userAccessor.GetUsername()
-                );
-
-                if (user.Id != oldRecipe.CreatorId)
-                {
-                    return Result<Unit>.Failure("Unauthorized to edit");
-                }
+                var userId = oldRecipe.CreatorId;
 
                 _context.Recipes.Remove(oldRecipe);
                 var result = await _context.SaveChangesAsync() > 0;
@@ -67,7 +60,7 @@ namespace Application.Recipes
                     Id = request.RecipeDTO.Id,
                     Title = request.RecipeDTO.Title,
                     Description = request.RecipeDTO.Description,
-                    CreatorId = user.Id,
+                    CreatorId = userId,
                     CategoryId = category.Id,
                 };
 

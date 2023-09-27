@@ -28,6 +28,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Create.Command{RecipeDTO = recipe}));
         }
 
+        [Authorize(Policy = "IsCreator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditRecipe(Guid id, RecipeDTO recipe)
         {
@@ -35,6 +36,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command{RecipeDTO = recipe}));
         }
 
+        [Authorize(Policy = "IsCreator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {
