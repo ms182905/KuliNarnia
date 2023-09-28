@@ -29,29 +29,29 @@ namespace Application.Photos
 
             public async Task<Result<Photo>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var recipe = await _context.Recipes.Include(p => p.Photos)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);
-
+                var recipe = _context.Recipes.AsNoTracking().FirstOrDefault( x => x.Id == request.Id);
                 if (recipe == null)
-                {
-                    
+                {   
                     return null;
                 }
+
+                var photos = await _context.Photos.Where(x => x.RecipeId == request.Id).ToListAsync();
 
                 var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
                 var photo = new Photo
                 {
                     Url = photoUploadResult.Url,
-                    Id = photoUploadResult.PublicId
+                    Id = photoUploadResult.PublicId,
+                    RecipeId = request.Id
                 };
 
-                if (!recipe.Photos.Any(x => x.IsMain))
+                if (photos.Count() == 0)
                 {
                     photo.IsMain = true;
                 }
 
-                recipe.Photos.Add(photo);
+                await _context.Photos.AddAsync(photo);
 
                 var result = await _context.SaveChangesAsync() > 0;
                 if (result)

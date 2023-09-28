@@ -81,6 +81,11 @@ namespace Persistence
                 .HasOne(u => u.Category)
                 .WithMany(a => a.UserSelectionStastics)
                 .HasForeignKey(aa => aa.CategoryId);
+
+            builder.Entity<Photo>()
+                .HasOne(u => u.Recipe)
+                .WithMany(a => a.Photos)
+                .HasForeignKey(aa => aa.RecipeId);
         }
     }
 }
