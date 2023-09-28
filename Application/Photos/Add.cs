@@ -34,6 +34,7 @@ namespace Application.Photos
 
                 if (recipe == null)
                 {
+                    
                     return null;
                 }
 
@@ -45,9 +46,9 @@ namespace Application.Photos
                     Id = photoUploadResult.PublicId
                 };
 
-                if (!recipe.Photos.Any(x => x.isMain))
+                if (!recipe.Photos.Any(x => x.IsMain))
                 {
-                    photo.isMain = true;
+                    photo.IsMain = true;
                 }
 
                 recipe.Photos.Add(photo);

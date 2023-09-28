@@ -14,7 +14,7 @@ namespace Infrastructure.Photos
         {
             var account = new Account(
                 config.Value.CloudName,
-                config.Value.ApiSecret,
+                config.Value.ApiKey,
                 config.Value.ApiSecret
             );
 
