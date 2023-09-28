@@ -20,6 +20,7 @@ namespace Persistence
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Instruction> Instructions { get; set; }
         public DbSet<UserSelectionStastic> UserSelectionStastics { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

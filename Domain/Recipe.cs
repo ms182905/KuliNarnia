@@ -20,5 +20,6 @@ namespace Domain
         public ICollection<RecipeTags> RecipeTags { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Instruction> Instructions { get; set; }
+        public ICollection<Photo> Photos { get; set; }
     }
 }
