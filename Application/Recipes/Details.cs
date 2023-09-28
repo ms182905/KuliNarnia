@@ -10,12 +10,12 @@ namespace Application.Recipes
 {
     public class Details
     {
-        public class Querry : IRequest<Result<RecipeDTO>>
+        public class Querry : IRequest<Result<RecipeDetailsDTO>>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Querry, Result<RecipeDTO>>
+        public class Handler : IRequestHandler<Querry, Result<RecipeDetailsDTO>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -26,17 +26,17 @@ namespace Application.Recipes
                 _mapper = mapper;
             }
 
-            public async Task<Result<RecipeDTO>> Handle(
+            public async Task<Result<RecipeDetailsDTO>> Handle(
                 Querry request,
                 CancellationToken cancellationToken
             )
             {
                 var recipe = await _context.Recipes
                     .Where(r => r.Id == request.Id)
-                    .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
+                    .ProjectTo<RecipeDetailsDTO>(_mapper.ConfigurationProvider)
                     .FirstAsync();
 
-                return Result<RecipeDTO>.Success(recipe);
+                return Result<RecipeDetailsDTO>.Success(recipe);
             }
         }
     }

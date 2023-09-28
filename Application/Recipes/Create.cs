@@ -13,14 +13,14 @@ namespace Application.Recipes
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public RecipeDTO RecipeDTO { get; set; }
+            public RecipeDetailsDTO RecipeDetailsDTO { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(x => x.RecipeDTO).SetValidator(new RecipeDTOValidator());
+                RuleFor(x => x.RecipeDetailsDTO).SetValidator(new RecipeDetailsDTOValidator());
             }
         }
 
@@ -43,13 +43,13 @@ namespace Application.Recipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
-                var category = await _context.Categories.FindAsync(request.RecipeDTO.CategoryId);
+                var category = await _context.Categories.FindAsync(request.RecipeDetailsDTO.CategoryId);
 
                 var recipe = new Recipe
                 {
-                    Id = request.RecipeDTO.Id,
-                    Title = request.RecipeDTO.Title,
-                    Description = request.RecipeDTO.Description,
+                    Id = request.RecipeDetailsDTO.Id,
+                    Title = request.RecipeDetailsDTO.Title,
+                    Description = request.RecipeDetailsDTO.Description,
                     CreatorId = user.Id,
                     CategoryId = category.Id,
                 };
@@ -61,12 +61,12 @@ namespace Application.Recipes
                     return Result<Unit>.Failure("Failed to create recipe");
                 }
 
-                var recipeTags = request.RecipeDTO.Tags
+                var recipeTags = request.RecipeDetailsDTO.Tags
                     .Select(
-                        tag => new RecipeTags { TagId = tag.Id, RecipeId = request.RecipeDTO.Id }
+                        tag => new RecipeTags { TagId = tag.Id, RecipeId = request.RecipeDetailsDTO.Id }
                     )
                     .ToList();
-                var instructions = request.RecipeDTO.Instructions
+                var instructions = request.RecipeDetailsDTO.Instructions
                     .Select(
                         instruction =>
                             new Instruction
@@ -74,11 +74,11 @@ namespace Application.Recipes
                                 Id = instruction.Id,
                                 Text = instruction.Text,
                                 Position = instruction.Position,
-                                RecipeId = request.RecipeDTO.Id
+                                RecipeId = request.RecipeDetailsDTO.Id
                             }
                     )
                     .ToList();
-                var ingredients = request.RecipeDTO.Ingredients
+                var ingredients = request.RecipeDetailsDTO.Ingredients
                     .Select(
                         ingredient =>
                             new Ingredient
@@ -86,7 +86,7 @@ namespace Application.Recipes
                                 Id = ingredient.Id,
                                 Name = ingredient.Name,
                                 Amount = ingredient.Amount,
-                                RecipeId = request.RecipeDTO.Id,
+                                RecipeId = request.RecipeDetailsDTO.Id,
                                 MeasurementId = ingredient.MeasurementId
                             }
                     )

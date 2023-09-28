@@ -8,14 +8,17 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<Recipe, RecipeDTO>()
-                .ForMember(x => x.Id, o => o.MapFrom(s => s.Id))
+            CreateMap<Recipe, RecipeDetailsDTO>()
                 .ForMember(x => x.CategoryName, o => o.MapFrom(s => s.Category.Name))
                 .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName))
                 .ForMember(x => x.Tags, o => o.MapFrom(s => s.RecipeTags));
+            CreateMap<Recipe, RecipeDTO>()
+                .ForMember(x => x.CategoryName, o => o.MapFrom(s => s.Category.Name))
+                .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
             CreateMap<Instruction, InstructionDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<Tag, TagDTO>();
+            CreateMap<Photo, PhotoDTO>();
             CreateMap<Ingredient, IngredientDTO>()
                 .ForMember(x => x.MeasurementName, o => o.MapFrom(s => s.Measurement.Name));
             CreateMap<Comment, CommentDTO>()

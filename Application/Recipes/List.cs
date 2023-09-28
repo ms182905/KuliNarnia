@@ -28,11 +28,21 @@ namespace Application.Recipes
                 CancellationToken cancellationToken
             )
             {
-                return Result<List<RecipeDTO>>.Success(
-                    await _context.Recipes
+                var recipes = await _context.Recipes
                         .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
-                        .ToListAsync()
-                );
+                        .ToListAsync();
+
+                foreach (var recipe in recipes)
+                {
+                    var photo = await _context.Photos.FirstOrDefaultAsync(x => x.RecipeId == recipe.Id);
+                    if (photo == null)
+                    {
+                        continue;
+                    }
+                    recipe.Photo = new PhotoDTO{Id = photo.Id, IsMain = true, Url = photo.Url};
+                }
+
+                return Result<List<RecipeDTO>>.Success(recipes);
             }
         }
     }

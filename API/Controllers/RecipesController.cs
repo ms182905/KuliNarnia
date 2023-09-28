@@ -23,17 +23,17 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRecipe(RecipeDTO recipe)
+        public async Task<IActionResult> CreateRecipe(RecipeDetailsDTO recipe)
         {
-            return HandleResult(await Mediator.Send(new Create.Command{RecipeDTO = recipe}));
+            return HandleResult(await Mediator.Send(new Create.Command{RecipeDetailsDTO = recipe}));
         }
 
         [Authorize(Policy = "IsCreator")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditRecipe(Guid id, RecipeDTO recipe)
+        public async Task<IActionResult> EditRecipe(Guid id, RecipeDetailsDTO recipe)
         {
             //recipe.Id = id;
-            return HandleResult(await Mediator.Send(new Edit.Command{RecipeDTO = recipe}));
+            return HandleResult(await Mediator.Send(new Edit.Command{RecipeDetailsDTO = recipe}));
         }
 
         [Authorize(Policy = "IsCreator")]

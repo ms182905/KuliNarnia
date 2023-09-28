@@ -15,9 +15,9 @@ namespace Application.Recipes
         }
     }
 
-    public class RecipeDTOValidator : AbstractValidator<RecipeDTO>
+    public class RecipeDetailsDTOValidator : AbstractValidator<RecipeDetailsDTO>
     {
-        public RecipeDTOValidator()
+        public RecipeDetailsDTOValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Title).NotEmpty();

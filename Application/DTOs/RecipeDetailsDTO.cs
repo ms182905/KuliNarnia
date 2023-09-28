@@ -6,7 +6,7 @@ using Domain;
 
 namespace Application.DTOs
 {
-    public class RecipeDTO
+    public class RecipeDetailsDTO
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -16,6 +16,10 @@ namespace Application.DTOs
         public string Description { get; set; }
         public string CreatorName { get; set; }
         public string CreatorId { get; set; }
-        public PhotoDTO Photo { get; set;}
+        public ICollection<IngredientDTO> Ingredients { get; set; }
+        public ICollection<TagDTO> Tags { get; set; }
+        public ICollection<CommentDTO> Comments { get; set; }
+        public ICollection<InstructionDTO> Instructions { get; set; }
+        public ICollection<PhotoDTO> Photos { get; set; }
     }
 }
