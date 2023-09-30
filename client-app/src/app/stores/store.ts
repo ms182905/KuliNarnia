@@ -4,6 +4,7 @@ import CommonStore from "./commonStore";
 import UserStore from "./userStore";
 import ModalStore from "./modalStore";
 import CategoryStore from "./categoryStore";
+import TagStore from "./tagStore";
 
 interface Store {
     recipeStore: RecipeStore;
@@ -11,6 +12,7 @@ interface Store {
     userStore: UserStore;
     modalStore: ModalStore;
     categoryStore: CategoryStore;
+    tagStore: TagStore;
 }
 
 export const store: Store = {
@@ -18,7 +20,8 @@ export const store: Store = {
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),
-    categoryStore: new CategoryStore()
+    categoryStore: new CategoryStore(),
+    tagStore: new TagStore()
 }
 
 export const StoreContext = createContext(store);

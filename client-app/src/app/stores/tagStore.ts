@@ -1,25 +1,25 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Category } from "../models/category";
+import { Tag } from "../models/tag";
 
-export default class CategoryStore {
-    categoriesTable: Category[] = [];
+export default class TagStore {
+    tagsTable: Tag[] = [];
     loadingInitial = false;
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    get categories() {
-        return this.categoriesTable;
+    get tags() {
+        return this.tagsTable;
     }
 
-    loadCategories = async () => {
+    loadTags = async () => {
         this.setLoadingInitial(true);
         try {
-            const categories = await agent.Categories.list();
+            const tags = await agent.Tags.list();
             runInAction(() => {
-                this.categoriesTable = categories
+                this.tagsTable = tags
                 this.loadingInitial = false
             })
         } catch (error) {

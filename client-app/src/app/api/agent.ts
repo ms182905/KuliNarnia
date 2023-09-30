@@ -5,6 +5,7 @@ import { router } from '../router/Routes';
 import { store } from '../stores/store';
 import { User, UserFormValues } from '../models/user';
 import { Category } from '../models/category';
+import { Tag } from '../models/tag';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -89,10 +90,15 @@ const Categories = {
     list: () => requests.get<Category[]>('/categories'),
 }
 
+const Tags = {
+    list: () => requests.get<Tag[]>('/tags'),
+}
+
 const agent = {
     Recipes,
     Account,
-    Categories
+    Categories,
+    Tags
 }
 
 export default agent;
