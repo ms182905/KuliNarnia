@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { router } from '../router/Routes';
 import { store } from '../stores/store';
 import { User, UserFormValues } from '../models/user';
+import { Category } from '../models/category';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -84,9 +85,14 @@ const Account = {
     register: (user: UserFormValues) => requests.post<User>('/account/register', user)
 }
 
+const Categories = {
+    list: () => requests.get<Category[]>('/categories'),
+}
+
 const agent = {
     Recipes,
-    Account
+    Account,
+    Categories
 }
 
 export default agent;

@@ -11,13 +11,15 @@ import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
-import { categoryOptions } from '../../../app/common/options/categoryOptions';
 
 export default observer(function RecipeForm() {
-    const { recipeStore } = useStore();
-    const { createRecipe, updateRecipe, loading, loadRecipe, loadingInitial } = recipeStore;
+    const { recipeStore, categoryStore } = useStore();
+    const { createRecipe, updateRecipe, loading, loadRecipe } = recipeStore;
+    const { categoriesTable, loadCategories } = categoryStore;
     const { id } = useParams();
     const navigate = useNavigate();
+    const [categoriesList, setCategoriesList] = useState<{text: string, value: string}[]>([]);
+
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -31,15 +33,27 @@ export default observer(function RecipeForm() {
         tags: []
     });
 
+    useEffect( () => {
+        if (categoriesTable.length > 0) {
+            const tempCategories: {text: string, value: string}[] = [];
+            categoriesTable.forEach(s => tempCategories.push({text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id}));
+            tempCategories.sort((a, b) => a.text.localeCompare(b.text));
+            setCategoriesList(tempCategories);
+        }
+    }, [categoriesTable.length, categoriesTable]);
+
     const validationSchema = Yup.object({
         title: Yup.string().required('The recipe title is required'),
         description: Yup.string().required('The recipe description is required'),
-        category: Yup.string().required(),
+        categoryId: Yup.string().required(),
     });
 
     useEffect(() => {
         if (id) loadRecipe(id).then((recipe) => setRecipe(recipe!));
-    }, [id, loadRecipe]);
+        if (categoriesList.length === 0) {
+            loadCategories();
+        }
+    }, [id, loadRecipe, categoriesList, loadCategories]);
 
     function handleFormSubmit(recipe: Recipe) {
         if (!recipe.id) {
@@ -50,7 +64,8 @@ export default observer(function RecipeForm() {
         }
     }
 
-    if (loadingInitial) return <LoadingComponent content="Loading recipe..." />;
+    if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipe..." />;
+    if (categoryStore.loadingInitial) return <LoadingComponent content="Loading categories..." />;
 
     return (
         <Segment clearing>
@@ -65,7 +80,7 @@ export default observer(function RecipeForm() {
                     <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                         <MyTextInput placeholder="Title" name="title" />
                         <MyTextArea placeholder="Description" name="description" rows={3} />
-                        <MySelectInput placeholder="Category" name="category" options={categoryOptions} />
+                        <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
                         <Button 
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={loading}
