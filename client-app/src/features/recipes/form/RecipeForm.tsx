@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import MySelectInput from '../../../app/common/form/MySelectInput';
+import MyMultipleChoiceDropdownInput from '../../../app/common/form/MyMultipleChoiceDropdownInput';
 
 export default observer(function RecipeForm() {
     const { recipeStore, categoryStore, tagStore } = useStore();
@@ -20,7 +21,7 @@ export default observer(function RecipeForm() {
     const { id } = useParams();
     const navigate = useNavigate();
     const [categoriesList, setCategoriesList] = useState<{text: string, value: string}[]>([]);
-    const [tagsList, setTagList] = useState<{text: string, value: string}[]>([]);
+    const [tagsList, setTagList] = useState<{text: string, value: string, key: string}[]>([]);
 
 
     const [recipe, setRecipe] = useState<Recipe>({
@@ -32,7 +33,8 @@ export default observer(function RecipeForm() {
         creatorId: '',
         ingredients: [],
         instructions: [],
-        tags: []
+        tags: [], 
+        tagIds: []
     });
 
     useEffect( () => {
@@ -42,23 +44,29 @@ export default observer(function RecipeForm() {
             tempCategories.sort((a, b) => a.text.localeCompare(b.text));
             setCategoriesList(tempCategories);
         }
+    }, [categoriesTable]);
+
+    useEffect( () => {
         if (tagsTable.length > 0) {
-            const tempTags: {text: string, value: string}[] = [];
-            categoriesTable.forEach(s => tempTags.push({text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id}));
+            const tempTags: {text: string, value: string, key: string}[] = [];
+            tagsTable.forEach(s => tempTags.push({text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id, key: s.name}));
             tempTags.sort((a, b) => a.text.localeCompare(b.text));
             setTagList(tempTags);
         }
-    }, [categoriesTable, tagsTable]);
+    }, [tagsTable]);
 
     const validationSchema = Yup.object({
         title: Yup.string().required('The recipe title is required'),
         description: Yup.string().required('The recipe description is required'),
         categoryId: Yup.string().required(),
-        //tags: Yup.array().nonNullable()
+        tagIds: Yup.array().min(1)
     });
 
     useEffect(() => {
-        if (id) loadRecipe(id).then((recipe) => setRecipe(recipe!));
+        if (id) loadRecipe(id).then((recipe) => {
+            console.log(recipe)
+            setRecipe(recipe!)
+        });
         if (categoriesList.length === 0) {
             loadCategories();
         }
@@ -68,6 +76,7 @@ export default observer(function RecipeForm() {
     }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags]);
 
     function handleFormSubmit(recipe: Recipe) {
+        console.log(recipe);
         if (!recipe.id) {
             recipe.id = uuid();
             createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
@@ -94,7 +103,7 @@ export default observer(function RecipeForm() {
                         <MyTextInput placeholder="Title" name="title" />
                         <MyTextArea placeholder="Description" name="description" rows={3} />
                         <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
-                        <MySelectInput placeholder="Tags" name="tags" options={tagsList} />
+                        <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
                         <Button 
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={loading}

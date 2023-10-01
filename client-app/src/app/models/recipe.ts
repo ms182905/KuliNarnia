@@ -19,6 +19,7 @@ export interface Recipe {
     creatorId: string;
     ingredients: Ingredient[];
     tags: Tag[];
+    tagIds?: string[];
     comments?: Comment[];
     instructions: Instruction[];
 }

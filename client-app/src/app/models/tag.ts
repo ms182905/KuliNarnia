@@ -1,4 +1,6 @@
 export interface Tag {
-    tagId: string;
+    id: string;
     name: string;
+    key?: string;
+    value?: string;
 }

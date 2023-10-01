@@ -43,24 +43,37 @@ export default class RecipeStore {
     }
 
     loadRecipe = async (id: string) => {
-        let recipe = this.getRecipe(id);
-        if (recipe) {
-            this.selectedRecipe = recipe;
-            return recipe;
-        }
-        else {
+        // let recipe = this.getRecipe(id);
+        // if (recipe) {
+        //     this.selectedRecipe = recipe;
+        //     return recipe;
+        // }
+        // else {
             this.setLoadingInitial(true);
             try {
-                recipe = await agent.Recipes.details(id);
+                var recipe = await agent.Recipes.details(id);
+                const tagIds: string[] = [];
                 this.setRecipe(recipe);
-                runInAction(() => this.selectedRecipe = recipe);
+                runInAction(() => {
+                    
+                    if (recipe !== undefined)
+                    {
+                        recipe!.tags.forEach(tag => {
+                            tagIds.push(tag.id);
+                        });
+                    }
+                     
+                    recipe!.tagIds = tagIds;
+                    this.selectedRecipe = recipe;
+                });
+                console.log("------------" + recipe)
                 this.setLoadingInitial(false);
                 return recipe;
             } catch (error) {
                 console.log(error);
                 this.setLoadingInitial(false);
             }
-        }
+        // }
     }
 
     private setRecipe = (recipe: Recipe) => {
