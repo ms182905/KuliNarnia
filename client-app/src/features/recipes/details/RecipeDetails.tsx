@@ -15,9 +15,9 @@ export default observer (function RecipeDetails() {
   const {id} = useParams();
 
   useEffect(() => {
-    if (id) loadRecipe(id);
+    if (id) loadRecipe(id).then(x => console.log(x));
   }, [id, loadRecipe])
-
+  
   if (loadingInitial || !recipe) return <LoadingComponent/>;
   
   return (
@@ -25,7 +25,7 @@ export default observer (function RecipeDetails() {
       <Grid.Column width={16}>
         <RecipeDetailedHeader recipe={recipe}/>
         <RecipeDetailedInfo recipe={recipe}/>
-        <RecipeDetailedComments/>
+        <RecipeDetailedComments recipe={recipe}/>
       </Grid.Column>
     </Grid>
   )
