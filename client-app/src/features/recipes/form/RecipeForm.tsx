@@ -63,17 +63,22 @@ export default observer(function RecipeForm() {
     });
 
     useEffect(() => {
-        if (id) loadRecipe(id).then((recipe) => {
-            console.log(recipe)
-            setRecipe(recipe!)
-        });
+        if (id) {
+            if (recipeStore.selectedRecipe?.id === id) setRecipe(recipeStore.selectedRecipe);
+            else {
+                loadRecipe(id).then((recipe) => {
+                    console.log(recipe)
+                    setRecipe(recipe!)
+                });
+            }
+        } 
         if (categoriesList.length === 0) {
             loadCategories();
         }
         if (tagsList.length === 0) {
             loadTags();
         }
-    }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags]);
+    }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags, recipeStore.selectedRecipe]);
 
     function handleFormSubmit(recipe: Recipe) {
         console.log(recipe);
