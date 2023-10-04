@@ -12,19 +12,19 @@ interface Props {
     recipe: Recipe;
 }
 
-export default observer(function RecipeDetailedComs({ recipe : rec }: Props) {
+export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
     const { recipeStore, userStore } = useStore();
-    const { addRecipeComment, selectedRecipe } = recipeStore;
+    const { addRecipeComment, deleteRecipeComment } = recipeStore;
     const { user } = userStore;
 
-    const [recipe, setRecipe] = useState<Recipe>(rec);
+    const [recipe] = useState<Recipe>(rec);
 
     const [comment] = useState<RecipeComment>({
         id: '',
         text: '',
         date: '',
         appUserDisplayName: '',
-        recipeId: recipe.id
+        recipeId: recipe.id,
     });
 
     return (
@@ -44,25 +44,35 @@ export default observer(function RecipeDetailedComs({ recipe : rec }: Props) {
                                 <Com key={s.id}>
                                     <Com.Avatar src="/assets/user.png" />
                                     <Com.Content>
-                                        {s.appUserDisplayName === user?.displayName &&
-                                        <Com.Author as="a" style={{color: 'red'}}>{s.appUserDisplayName} (You)</Com.Author>}
-                                        {s.appUserDisplayName !== user?.displayName &&
-                                        <Com.Author as="a">{s.appUserDisplayName}</Com.Author>}
+                                        {s.appUserDisplayName === user?.displayName && (
+                                            <Com.Author as="a" style={{ color: 'red' }}>
+                                                {s.appUserDisplayName} (You)
+                                            </Com.Author>
+                                        )}
+                                        {s.appUserDisplayName !== user?.displayName && (
+                                            <Com.Author as="a">{s.appUserDisplayName}</Com.Author>
+                                        )}
 
                                         <Com.Metadata>
-                                            <div>{s.date.substring(0, 10)} at {s.date.substring(11, 16)}</div>
+                                            <div>
+                                                {s.date.substring(0, 10)} at {s.date.substring(11, 16)}
+                                            </div>
                                         </Com.Metadata>
                                         <Com.Text>{s.text}</Com.Text>
                                         {/* <Com.Actions>
                                     <Com.Action>Reply</Com.Action>
                                 </Com.Actions> */}
-                                    {s.appUserDisplayName === user?.displayName && 
-                                    <Com.Actions>
-                                        <Com.Action value={s.id} onClick={() => recipeStore.deleteRecipeComment(s.id)}>Delete</Com.Action>
-                                    </Com.Actions>}
+                                        {s.appUserDisplayName === user?.displayName && (
+                                            <Com.Actions>
+                                                <Com.Action
+                                                    value={s.id}
+                                                    onClick={() => deleteRecipeComment(s.id)}
+                                                >
+                                                    Delete
+                                                </Com.Action>
+                                            </Com.Actions>
+                                        )}
                                     </Com.Content>
-                                    
-
                                 </Com>
                             ))}
                     </Com.Group>
@@ -74,28 +84,34 @@ export default observer(function RecipeDetailedComs({ recipe : rec }: Props) {
                 )}
 
                 <Formik
-                validationSchema={undefined}
-                enableReinitialize
-                initialValues={comment}
-                onSubmit={(comment, {resetForm}) => {
-                    if (user) {
-                        comment.appUserDisplayName = user.displayName;
-                        comment.date = new Date().toISOString();
-                        comment.id = uuid();
-                        addRecipeComment(comment);
-                        resetForm();
-                    }
-                        
-                    else ;
-                }}
+                    validationSchema={undefined}
+                    enableReinitialize
+                    initialValues={comment}
+                    onSubmit={(comment, { resetForm }) => {
+                        if (user) {
+                            comment.appUserDisplayName = user.displayName;
+                            comment.date = new Date().toISOString();
+                            comment.id = uuid();
+                            addRecipeComment(comment);
+                            resetForm();
+                        } else;
+                    }}
                 >
-                {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-                    <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                        <MyTextArea placeholder="Type your comment here!" name="text" rows={2} />
-                        <Button disabled={!dirty} content="Add Comment" icon="edit" primary fluid positive type="submit"/>
-                    </Form>
-                )}
-            </Formik>
+                    {({ handleSubmit, dirty }) => (
+                        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                            <MyTextArea placeholder="Type your comment here!" name="text" rows={2} />
+                            <Button
+                                disabled={!dirty}
+                                content="Add Comment"
+                                icon="edit"
+                                primary
+                                fluid
+                                positive
+                                type="submit"
+                            />
+                        </Form>
+                    )}
+                </Formik>
             </Segment>
         </>
     );
