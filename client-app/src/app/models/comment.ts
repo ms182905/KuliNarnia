@@ -1,6 +1,7 @@
 export interface RecipeComment {
+    id: string;
     text: string;
     date: string;
-    appUserId: string;
     appUserDisplayName: string;
+    recipeId: string;
 }

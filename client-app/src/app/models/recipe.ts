@@ -21,6 +21,6 @@ export interface Recipe {
     ingredients: Ingredient[];
     tags: Tag[];
     tagIds?: string[];
-    comments?: RecipeComment[];
+    comments: RecipeComment[];
     instructions: Instruction[];
 }

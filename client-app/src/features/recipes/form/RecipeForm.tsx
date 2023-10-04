@@ -34,7 +34,8 @@ export default observer(function RecipeForm() {
         ingredients: [],
         instructions: [],
         tags: [], 
-        tagIds: []
+        tagIds: [],
+        comments: []
     });
 
     useEffect( () => {

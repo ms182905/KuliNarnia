@@ -1,6 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Recipe } from "../models/recipe";
 import agent from "../api/agent";
+import { RecipeComment } from "../models/comment";
+import { User } from "../models/user";
+import { date } from "yup";
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -74,6 +77,30 @@ export default class RecipeStore {
                 this.setLoadingInitial(false);
             }
         // }
+    }
+
+    addRecipeComment = async (recipeComment: RecipeComment) => {
+        try {
+            runInAction(() => {
+                this.selectedRecipe?.comments?.push(recipeComment);
+            });
+            await agent.Comments.create(recipeComment);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    deleteRecipeComment = async (recipeCommentId: string) => {
+        try {
+            runInAction(() => {
+                if (this.selectedRecipe?.comments === undefined) return;
+                var filteredComments = this.selectedRecipe?.comments?.filter(r => r.id !== recipeCommentId);
+                this.selectedRecipe.comments = filteredComments;
+            });
+            await agent.Comments.delete(recipeCommentId);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     private setRecipe = (recipe: Recipe) => {

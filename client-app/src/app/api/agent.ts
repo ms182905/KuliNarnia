@@ -6,6 +6,7 @@ import { store } from '../stores/store';
 import { User, UserFormValues } from '../models/user';
 import { Category } from '../models/category';
 import { Tag } from '../models/tag';
+import { RecipeComment } from '../models/comment';
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -93,12 +94,17 @@ const Categories = {
 const Tags = {
     list: () => requests.get<Tag[]>('/tags'),
 }
+const Comments = {
+    create: (comment: RecipeComment) => axios.post<void>('/comments', comment),
+    delete: (id: string) => axios.delete<void>(`/comments/${id}`)
+}
 
 const agent = {
     Recipes,
     Account,
     Categories,
-    Tags
+    Tags,
+    Comments
 }
 
 export default agent;
