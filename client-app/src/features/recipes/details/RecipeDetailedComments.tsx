@@ -7,14 +7,15 @@ import { useStore } from '../../../app/stores/store';
 import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid';
 import MyTextArea from '../../../app/common/form/MyTextArea';
+import DeleteRecipeComment from '../form/DeleteRecipeComment';
 
 interface Props {
     recipe: Recipe;
 }
 
 export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
-    const { recipeStore, userStore } = useStore();
-    const { addRecipeComment, deleteRecipeComment } = recipeStore;
+    const { recipeStore, userStore, modalStore } = useStore();
+    const { addRecipeComment } = recipeStore;
     const { user } = userStore;
 
     const [recipe] = useState<Recipe>(rec);
@@ -66,7 +67,11 @@ export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
                                             <Com.Actions>
                                                 <Com.Action
                                                     value={s.id}
-                                                    onClick={() => deleteRecipeComment(s.id)}
+                                                    onClick={() =>
+                                                        modalStore.openModal(
+                                                            <DeleteRecipeComment recipeCommentId={s.id} />
+                                                        )
+                                                    }
                                                 >
                                                     Delete
                                                 </Com.Action>
