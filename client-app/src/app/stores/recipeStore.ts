@@ -264,4 +264,11 @@ export default class RecipeStore {
             console.log(error);
         }
     };
+
+    reset = () => {
+        this.favouriteRecipeRegistry.clear();
+        this.userRecipeRegistry.clear();
+        this.favouriteRecipesLoaded = false;
+        this.userRecipesLoaded = false;
+    }
 }
