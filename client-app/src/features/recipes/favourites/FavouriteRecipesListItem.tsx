@@ -4,20 +4,24 @@ import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
+import RemoveRecipeFromFavourites from './RemoveRecipeFromFavourites';
 
 interface Props {
     recipe: Recipe;
 }
 
 export default observer(function FavouriteRecipesListItem ({ recipe }: Props) {
-    const { recipeStore } = useStore();
-    const { removeRecipeFromFavourites, loading } = recipeStore;
+    const { recipeStore, modalStore } = useStore();
+    const { loading } = recipeStore;
 
     const [target, setTarget] = useState('');
 
     function handleRecipeRemoveFromFavourites(e: SyntheticEvent<HTMLButtonElement>, id: string) {
         setTarget(e.currentTarget.name);
-        removeRecipeFromFavourites(id);
+        modalStore.openModal(
+            <RemoveRecipeFromFavourites recipeId={id} />
+        )
+        //removeRecipeFromFavourites(id);
     }
 
     return (

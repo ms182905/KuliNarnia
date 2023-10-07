@@ -197,7 +197,6 @@ export default class RecipeStore {
 
     removeRecipeFromFavourites = async (id: string) => {
         this.setLoading(true);
-
         try {
             runInAction(() => {
                 this.favouriteRecipeRegistry.delete(id);
