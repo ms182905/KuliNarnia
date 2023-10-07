@@ -19,11 +19,10 @@ export default observer(function NavBar() {
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/recipes" name="Recipes" />
                 <Menu.Item as={NavLink} to="/errors" name="Errors" />
-                {user && 
-                    <Menu.Item as={NavLink} to="/favouriteRecipes" name="Favourites" /> &&
-                    <Menu.Item>
-                        <Button as={NavLink} to="/createRecipe" positive content="Create Recipe" />
-                    </Menu.Item>}
+                <Menu.Item as={NavLink} to="/favouriteRecipes" name="Favourites" /> 
+                <Menu.Item>
+                    <Button as={NavLink} to="/createRecipe" positive content="Create Recipe" />
+                </Menu.Item>
                 <Menu.Item position="right">
                     <Image src={user?.image || '/assets/user.png'} avatar spaced="right" />
                     <Dropdown pointing="top left" text={user?.displayName}>

@@ -6,23 +6,23 @@ import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function FavouriteRecipesDashboard() {
-    const {recipeStore} = useStore();
-    const {loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded} = recipeStore;
-    
+    const { recipeStore } = useStore();
+    const { loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded } = recipeStore;
+
     useEffect(() => {
-        if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded){
-            console.log(favouriteRecipeRegistry.size)
+        if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
+            console.log(favouriteRecipeRegistry.size);
             loadFavouriteRecipes();
-        } 
-    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded])
-  
-    if (!favouriteRecipesLoaded) return <LoadingComponent content='Loading favourite recipes...'/>
-  
+        }
+    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded]);
+
+    if (!favouriteRecipesLoaded) return <LoadingComponent content="Loading favourite recipes..." />;
+
     return (
         <Grid>
-            <Grid.Column width='13'>
+            <Grid.Column width="13">
                 <FavouriteRecipesList />
             </Grid.Column>
         </Grid>
     );
-})
+});

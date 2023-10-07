@@ -75,6 +75,7 @@ const requests = {
 
 const Recipes = {
     list: () => requests.get<Recipe[]>('/recipes'),
+    listByUser: () => requests.get<Recipe[]>('/recipes/byUser'),
     details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
     update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),

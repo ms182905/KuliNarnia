@@ -8,10 +8,10 @@ export default function FavouriteRecipesList() {
 
     if (favouriteRecipes.length < 1) {
         return (
-        <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
-                        No favourite recipes yet!
-                    </Header>
-        )
+            <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
+                No favourite recipes yet!
+            </Header>
+        );
     }
 
     return (

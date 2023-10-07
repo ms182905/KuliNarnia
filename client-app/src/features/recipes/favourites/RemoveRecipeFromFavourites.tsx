@@ -9,7 +9,7 @@ export default function RemoveRecipeFromFavourites ({recipeId}: Props) {
     const { modalStore, recipeStore } = useStore();
     const { removeRecipeFromFavourites } = recipeStore;
 
-    function deleteCommentAndClose() {
+    function removeRecipeFromFavouritesAndClose() {
         modalStore.closeModal();
         removeRecipeFromFavourites(recipeId);
     }
@@ -21,7 +21,7 @@ export default function RemoveRecipeFromFavourites ({recipeId}: Props) {
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign='center' width={6}>
-                            <Button fluid className='ui positive button' onClick={() => deleteCommentAndClose()}>Yes</Button>     
+                            <Button fluid className='ui positive button' onClick={() => removeRecipeFromFavouritesAndClose()}>Yes</Button>     
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign='center' width={6}>

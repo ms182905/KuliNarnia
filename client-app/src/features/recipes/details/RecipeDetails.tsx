@@ -12,7 +12,10 @@ export default observer (function RecipeDetails() {
   
   const {recipeStore} = useStore();
   const {selectedRecipe: recipe, loadRecipe, loadingInitial, favouriteRecipeRegistry, loadFavouriteRecipes, favouriteRecipesLoaded} = recipeStore;
-  const {id} = useParams();
+  const {id, byUser} = useParams();
+
+  console.log("+++++++++++++++++++++++" + byUser);
+  //TODO: Deleting recipe if byUser === true
 
   useEffect(() => {
     if (id) loadRecipe(id);

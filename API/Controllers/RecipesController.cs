@@ -22,6 +22,13 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Querry{Id = id}));
         }
 
+        [AllowAnonymous]
+        [HttpGet("byUser")]
+        public async Task<IActionResult> GetRecipesByUser()
+        {
+            return HandleResult(await Mediator.Send(new ListByUser.Querry()));
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateRecipe(RecipeDetailsDTO recipe)
         {

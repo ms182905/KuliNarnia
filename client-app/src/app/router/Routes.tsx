@@ -9,6 +9,7 @@ import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
 import FavouriteRecipesDashboard from '../../features/recipes/favourites/FavouriteRecipesDashboard';
+import UserRecipesDashboard from '../../features/users/createdRecipes/UserRecipesDashboard';
 
 export const routes: RouteObject[] = [
     {
@@ -17,8 +18,9 @@ export const routes: RouteObject[] = [
         children: [
             { path: '', element: <HomePage /> },
             { path: 'recipes', element: <RecipeDashboard /> },
-            { path: 'recipes/:id', element: <RecipeDetails /> },
+            { path: 'recipes/:id/:byUser?', element: <RecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
+            { path: 'userRecipes', element: <UserRecipesDashboard /> },
             { path: 'createRecipe', element: <RecipeForm key="create" /> },
             { path: 'manage/:id', element: <RecipeForm key="manage" /> },
             { path: 'login', element: <LoginForm key="manage" /> },
