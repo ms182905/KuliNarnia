@@ -10,6 +10,7 @@ export default class RecipeStore {
     editMode = false;
     loading = false;
     loadingInitial = false;
+    favouriteRecipesLoaded = false;
 
     constructor() {
         makeAutoObservable(this)
@@ -34,6 +35,10 @@ export default class RecipeStore {
         )
     }
 
+    isInFavourites = (recipeId: string) => {
+        return this.favouriteRecipeRegistry.has(recipeId);
+    }
+
     loadRecipes = async () => {
         this.setLoadingInitial(true);
         try {
@@ -49,15 +54,18 @@ export default class RecipeStore {
     }
 
     loadFavouriteRecipes = async () => {
+        this.setFavouriteRecipesLoaded(false);
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.FavouriteRecipes.list();
             recipes.forEach( recipe => {
                 this.setFavouriteRecipe(recipe);
                 });
-                this.setLoadingInitial(false);
+            this.setFavouriteRecipesLoaded(true);
+            this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
+            this.setFavouriteRecipesLoaded(true);
             this.setLoadingInitial(false);
         }
     }
@@ -135,6 +143,10 @@ export default class RecipeStore {
         this.loading = state;
     }
 
+    setFavouriteRecipesLoaded = (state: boolean) => {
+        this.favouriteRecipesLoaded = state;
+    }
+
     createRecipe = async (recipe: Recipe) => {
         this.setLoading(true);
 
@@ -208,6 +220,19 @@ export default class RecipeStore {
             runInAction(() => {
                 this.loading = false;
             });
+        }
+    }
+
+    addRecipeToFavourites = async (id: string) => {
+        var recipe = this.recipeRegistry.get(id);
+        try {
+            runInAction(() => {
+                this.favouriteRecipeRegistry.set(id, recipe!);
+                this.loading = false;
+            });
+            await agent.FavouriteRecipes.addToFavourites(id);
+        } catch (error) {
+            console.log(error);
         }
     }
 }

@@ -83,7 +83,8 @@ const Recipes = {
 
 const FavouriteRecipes = {
     list: () => requests.get<Recipe[]>(`/favouriteRecipes`),
-    removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`)
+    removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`),
+    addToFavourites: (id: string) => requests.put<void>(`/favouriteRecipes/${id}`, {})
 }
 
 const Account = {

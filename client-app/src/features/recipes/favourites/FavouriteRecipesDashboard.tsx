@@ -7,13 +7,16 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function FavouriteRecipesDashboard() {
     const {recipeStore} = useStore();
-    const {loadFavouriteRecipes, favouriteRecipeRegistry} = recipeStore;
+    const {loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded} = recipeStore;
     
     useEffect(() => {
-        if (favouriteRecipeRegistry.size <= 1) loadFavouriteRecipes();
-    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size])
+        if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded){
+            console.log(favouriteRecipeRegistry.size)
+            loadFavouriteRecipes();
+        } 
+    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded])
   
-    if (recipeStore.loadingInitial) return <LoadingComponent content='Loading favourite recipes...'/>
+    if (!favouriteRecipesLoaded) return <LoadingComponent content='Loading favourite recipes...'/>
   
     return (
         <Grid>

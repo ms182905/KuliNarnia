@@ -3,6 +3,8 @@ import React from 'react';
 import { Button, Header, Item, Segment, Image } from 'semantic-ui-react';
 import { Recipe } from '../../../app/models/recipe';
 import { Link } from 'react-router-dom';
+import { useStore } from '../../../app/stores/store';
+import RemoveRecipeFromFavourites from '../favourites/RemoveRecipeFromFavourites';
 
 const recipeImageStyle = {
     filter: 'brightness(30%)',
@@ -22,6 +24,16 @@ interface Props {
 }
 
 export default observer(function RecipeDetailedHeader({ recipe }: Props) {
+    const { recipeStore, modalStore } = useStore();
+    const { isInFavourites } = recipeStore;
+
+    // useEffect(() => {
+    //     if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded){
+    //         console.log(favouriteRecipeRegistry.size)
+    //         loadFavouriteRecipes();
+    //     } 
+    // }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded])
+
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
@@ -41,7 +53,20 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                 </Segment>
             </Segment>
             <Segment clearing attached="bottom">
-                <Button color="teal">Add recipe to favourites</Button>
+                {isInFavourites(recipe.id) ? (
+                    <Button
+                        content="Remove from favourites"
+                        color="red"
+                        onClick={() => modalStore.openModal(<RemoveRecipeFromFavourites recipeId={recipe.id} />)}
+                    />
+                ) : (
+                    <Button
+                        color="green"
+                        content="Add to favourites"
+                        onClick={() => recipeStore.addRecipeToFavourites(recipe.id)}
+                    />
+                )}
+                {/* <Button color="green" content="Add to favourites" onClick={() => recipeStore.addRecipeToFavourites(recipe.id)} /> */}
                 <Button as={Link} to={`/manage/${recipe.id}`} color="orange" floated="right">
                     Manage Recipe
                 </Button>

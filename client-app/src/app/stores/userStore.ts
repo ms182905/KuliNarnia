@@ -21,6 +21,7 @@ export default class UserStore {
             store.commonStore.setToken(user.token);
             runInAction(() => this.user = user);
             router.navigate('/recipes');
+            store.recipeStore.loadFavouriteRecipes();
             store.modalStore.closeModal();
         } catch (error) {
             throw error;

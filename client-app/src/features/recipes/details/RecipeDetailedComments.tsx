@@ -34,7 +34,7 @@ export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
                 <Header>Comment this recipe</Header>
             </Segment>
             <Segment attached>
-                {recipe.comments !== undefined && recipe.comments.length !== 0 && (
+                {(recipe.comments !== undefined && recipe.comments.length !== 0) ? (
                     <Com.Group size="large">
                         {recipe.comments
                             .slice()
@@ -81,8 +81,7 @@ export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
                                 </Com>
                             ))}
                     </Com.Group>
-                )}
-                {(recipe.comments === undefined || recipe.comments.length === 0) && (
+                ) : (
                     <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
                         No comments yet!
                     </Header>

@@ -11,14 +11,20 @@ import RecipeDetailedComments from './RecipeDetailedComments';
 export default observer (function RecipeDetails() {
   
   const {recipeStore} = useStore();
-  const {selectedRecipe: recipe, loadRecipe, loadingInitial} = recipeStore;
+  const {selectedRecipe: recipe, loadRecipe, loadingInitial, favouriteRecipeRegistry, loadFavouriteRecipes, favouriteRecipesLoaded} = recipeStore;
   const {id} = useParams();
 
   useEffect(() => {
-    if (id) loadRecipe(id).then(x => console.log(x));
+    if (id) loadRecipe(id);
   }, [id, loadRecipe])
+
+  useEffect(() => {
+    if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded){
+        loadFavouriteRecipes();
+    } 
+}, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded])
   
-  if (loadingInitial || !recipe) return <LoadingComponent/>;
+  if (loadingInitial || !recipe) return <LoadingComponent content="Loading recipe..."/>;
   
   return (
     <Grid>
