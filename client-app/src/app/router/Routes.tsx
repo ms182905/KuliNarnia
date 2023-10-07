@@ -8,6 +8,7 @@ import TestErrors from '../../features/errors/TestErrors';
 import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
+import FavouriteRecipesDashboard from '../../features/recipes/favourites/FavouriteRecipesDashboard';
 
 export const routes: RouteObject[] = [
     {
@@ -17,6 +18,7 @@ export const routes: RouteObject[] = [
             { path: '', element: <HomePage /> },
             { path: 'recipes', element: <RecipeDashboard /> },
             { path: 'recipes/:id', element: <RecipeDetails /> },
+            { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
             { path: 'createRecipe', element: <RecipeForm key="create" /> },
             { path: 'manage/:id', element: <RecipeForm key="manage" /> },
             { path: 'login', element: <LoginForm key="manage" /> },

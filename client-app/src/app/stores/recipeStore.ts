@@ -2,11 +2,10 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Recipe } from "../models/recipe";
 import agent from "../api/agent";
 import { RecipeComment } from "../models/comment";
-import { User } from "../models/user";
-import { date } from "yup";
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
+    favouriteRecipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
@@ -19,6 +18,10 @@ export default class RecipeStore {
     get recipes() {
         return Array.from(this.recipeRegistry.values()).sort((a, b) => 
             Date.parse(a.date) - Date.parse(b.date));
+    }
+
+    get favouriteRecipes() {
+        return Array.from(this.favouriteRecipeRegistry.values());
     }
 
     get groupedRecipes() {
@@ -45,38 +48,45 @@ export default class RecipeStore {
         }
     }
 
-    loadRecipe = async (id: string) => {
-        // let recipe = this.getRecipe(id);
-        // if (recipe) {
-        //     this.selectedRecipe = recipe;
-        //     return recipe;
-        // }
-        // else {
-            this.setLoadingInitial(true);
-            try {
-                var recipe = await agent.Recipes.details(id);
-                const tagIds: string[] = [];
-                this.setRecipe(recipe);
-                runInAction(() => {
-                    
-                    if (recipe !== undefined)
-                    {
-                        recipe!.tags.forEach(tag => {
-                            tagIds.push(tag.id);
-                        });
-                    }
-                     
-                    recipe!.tagIds = tagIds;
-                    this.selectedRecipe = recipe;
+    loadFavouriteRecipes = async () => {
+        this.setLoadingInitial(true);
+        try {
+            const recipes = await agent.FavouriteRecipes.list();
+            recipes.forEach( recipe => {
+                this.setFavouriteRecipe(recipe);
                 });
-                console.log("------------" + recipe)
                 this.setLoadingInitial(false);
-                return recipe;
-            } catch (error) {
-                console.log(error);
-                this.setLoadingInitial(false);
-            }
-        // }
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
+    }
+
+    loadRecipe = async (id: string) => {
+        this.setLoadingInitial(true);
+        try {
+            var recipe = await agent.Recipes.details(id);
+            const tagIds: string[] = [];
+            this.setRecipe(recipe);
+            runInAction(() => {
+                
+                if (recipe !== undefined)
+                {
+                    recipe!.tags.forEach(tag => {
+                        tagIds.push(tag.id);
+                    });
+                }
+                    
+                recipe!.tagIds = tagIds;
+                this.selectedRecipe = recipe;
+            });
+            console.log("------------" + recipe)
+            this.setLoadingInitial(false);
+            return recipe;
+        } catch (error) {
+            console.log(error);
+            this.setLoadingInitial(false);
+        }
     }
 
     addRecipeComment = async (recipeComment: RecipeComment) => {
@@ -106,6 +116,11 @@ export default class RecipeStore {
     private setRecipe = (recipe: Recipe) => {
         recipe.date = recipe.date.split('T')[0];
         this.recipeRegistry.set(recipe.id, recipe);
+    }
+
+    private setFavouriteRecipe = (recipe: Recipe) => {
+        recipe.date = recipe.date.split('T')[0];
+        this.favouriteRecipeRegistry.set(recipe.id, recipe);
     }
 
     private getRecipe = (id: string) => {
@@ -172,6 +187,23 @@ export default class RecipeStore {
                 this.recipeRegistry.delete(id);
                 this.loading = false;
             });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    }
+
+    removeRecipeFromFavourites = async (id: string) => {
+        this.setLoading(true);
+
+        try {
+            runInAction(() => {
+                this.favouriteRecipeRegistry.delete(id);
+                this.loading = false;
+            });
+            await agent.FavouriteRecipes.removeFromFavourites(id);
         } catch (error) {
             console.log(error);
             runInAction(() => {

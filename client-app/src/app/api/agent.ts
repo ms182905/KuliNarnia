@@ -81,6 +81,11 @@ const Recipes = {
     delete: (id: string) => axios.delete<void>(`/recipes/${id}`)
 }
 
+const FavouriteRecipes = {
+    list: () => requests.get<Recipe[]>(`/favouriteRecipes`),
+    removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`)
+}
+
 const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
@@ -101,6 +106,7 @@ const Comments = {
 
 const agent = {
     Recipes,
+    FavouriteRecipes,
     Account,
     Categories,
     Tags,

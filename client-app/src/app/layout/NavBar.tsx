@@ -2,6 +2,7 @@ import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
+import UserStore from '../stores/userStore';
 
 export default observer(function NavBar() {
     const {
@@ -16,6 +17,7 @@ export default observer(function NavBar() {
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/recipes" name="Recipes" />
                 <Menu.Item as={NavLink} to="/errors" name="Errors" />
+                <Menu.Item as={NavLink} to="/favouriteRecipes" name="Favourites" />
                 <Menu.Item>
                     <Button as={NavLink} to="/createRecipe" positive content="Create Recipe" />
                 </Menu.Item>
