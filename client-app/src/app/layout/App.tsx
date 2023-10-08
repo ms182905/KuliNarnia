@@ -11,22 +11,33 @@ import ModalContainer from '../common/modals/ModalContainer';
 
 function App() {
     const location = useLocation();
-    const {commonStore, userStore} = useStore();
+    const { commonStore, userStore } = useStore();
 
     useEffect(() => {
         if (commonStore.token) {
-            userStore.getUser().finally(() => commonStore.setAppLoaded())
+            userStore.getUser().finally(() => commonStore.setAppLoaded());
         } else {
-            commonStore.setAppLoaded()
+            commonStore.setAppLoaded();
         }
-    }, [commonStore, userStore])
-    
-    if (!commonStore.appLoaded) return <LoadingComponent content='Loading app...'/>
+    }, [commonStore, userStore]);
+
+    if (!commonStore.appLoaded) return <LoadingComponent content="Loading app..." />;
 
     return (
         <>
             <ModalContainer />
-            <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             {location.pathname === '/' ? (
                 <HomePage />
             ) : (

@@ -18,7 +18,6 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
                             <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
                                 {recipe.title}
                             </Item.Header>
-                            <Item.Description>Created by Adam</Item.Description>
                         </Item.Content>
                     </Item>
                 </Item.Group>

@@ -4,6 +4,7 @@ import { Button, Header, Item, Segment, Image } from 'semantic-ui-react';
 import { Recipe } from '../../../app/models/recipe';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../app/stores/store';
+import { toast } from 'react-toastify';
 import RemoveRecipeFromFavourites from '../favourites/RemoveRecipeFromFavourites';
 
 const recipeImageStyle = {
@@ -27,13 +28,6 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
     const { recipeStore, modalStore } = useStore();
     const { isInFavourites } = recipeStore;
 
-    // useEffect(() => {
-    //     if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded){
-    //         console.log(favouriteRecipeRegistry.size)
-    //         loadFavouriteRecipes();
-    //     } 
-    // }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded])
-
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
@@ -45,7 +39,7 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                                 <Header size="huge" content={recipe.title} style={{ color: 'white' }} />
                                 <p>{recipe.date}</p>
                                 <p>
-                                    Created by <strong>Adam</strong>
+                                    Created by <strong>{recipe.creatorName}</strong>
                                 </p>
                             </Item.Content>
                         </Item>
@@ -63,7 +57,10 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                     <Button
                         color="green"
                         content="Add to favourites"
-                        onClick={() => recipeStore.addRecipeToFavourites(recipe.id)}
+                        onClick={() => {
+                            recipeStore.addRecipeToFavourites(recipe.id);
+                            toast.success('Recipe added to favourites!');
+                        }}
                     />
                 )}
                 {/* <Button color="green" content="Add to favourites" onClick={() => recipeStore.addRecipeToFavourites(recipe.id)} /> */}
