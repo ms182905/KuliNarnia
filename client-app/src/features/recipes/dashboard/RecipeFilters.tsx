@@ -4,7 +4,7 @@ import { Header, Menu } from "semantic-ui-react";
 export default function RecipeFilters() {
     return (
         <>
-            <Menu vertical size='large' style={{width: '100%', marginTop: 25}}>
+            <Menu vertical size='large' style={{width: '100%', marginTop: 12}}>
                 <Header icon='filter' attached color='teal' content='Filters' />
                 <Menu.Item content='All recipes' />
                 <Menu.Item content="Category 1" />

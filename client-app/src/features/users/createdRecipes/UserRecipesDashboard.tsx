@@ -7,7 +7,7 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function UserRecipesDashboard() {
     const { recipeStore } = useStore();
-    const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded } = recipeStore;
+    const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber } = recipeStore;
 
     useEffect(() => {
         if (userRecipeRegistry.size < 1 && !userRecipesLoaded) {
@@ -21,21 +21,25 @@ export default observer(function UserRecipesDashboard() {
     return (
         <>
             <Grid>
-                <Grid.Column width="13">
+                <Grid.Column width="16">
                     <UserRecipesList />
                 </Grid.Column>
             </Grid>
-            <Pagination
-                defaultActivePage={1}
-                pointing
-                secondary
-                totalPages={20}
-                size="big"
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            />
+            {userRecipesNumber > 0 && (
+                <Pagination
+                    defaultActivePage={1}
+                    pointing
+                    secondary
+                    totalPages={Math.ceil(userRecipesNumber / 8)}
+                    size="huge"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '2em',
+                        paddingBottom: '1em',
+                    }}
+                />
+            )}
         </>
     );
 });

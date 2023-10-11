@@ -263,6 +263,7 @@ export default class RecipeStore {
                 this.favouriteRecipeRegistry.delete(id);
                 this.loading = false;
             });
+            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
             await agent.FavouriteRecipes.removeFromFavourites(id);
         } catch (error) {
             console.log(error);
@@ -279,6 +280,7 @@ export default class RecipeStore {
                 this.favouriteRecipeRegistry.set(id, recipe!);
                 this.loading = false;
             });
+            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber + 1);
             await agent.FavouriteRecipes.addToFavourites(id);
         } catch (error) {
             console.log(error);

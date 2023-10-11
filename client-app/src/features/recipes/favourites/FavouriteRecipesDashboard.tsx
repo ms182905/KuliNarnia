@@ -7,7 +7,8 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function FavouriteRecipesDashboard() {
     const { recipeStore } = useStore();
-    const { loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded } = recipeStore;
+    const { loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded, favouriteRecipesNumber } =
+        recipeStore;
 
     useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
@@ -26,17 +27,21 @@ export default observer(function FavouriteRecipesDashboard() {
                 </Grid.Column>
             </Grid>
 
-            <Pagination
-                defaultActivePage={1}
-                pointing
-                secondary
-                totalPages={20}
-                size="big"
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                }}
-            />
+            {favouriteRecipesNumber > 0 && (
+                <Pagination
+                    defaultActivePage={1}
+                    pointing
+                    secondary
+                    totalPages={Math.ceil(favouriteRecipesNumber / 8)}
+                    size="huge"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '2em',
+                        paddingBottom: '1em',
+                    }}
+                />
+            )}
         </>
     );
 });

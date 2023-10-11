@@ -38,15 +38,15 @@ function App() {
                 pauseOnHover
                 theme="light"
             />
-            {location.pathname === '/' ? (
-                <HomePage />
-            ) : (
+            {location.pathname !== '/' ? (
                 <>
                     <NavBar />
-                    <Container style={{ marginTop: '4em' }}>
+                    <Container style={{ marginTop: '5em' }}>
                         <Outlet />
                     </Container>
                 </>
+            ) : (
+                <HomePage />
             )}
         </>
     );
