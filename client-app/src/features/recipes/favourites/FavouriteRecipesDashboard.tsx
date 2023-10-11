@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Pagination } from 'semantic-ui-react';
 import FavouriteRecipesList from './FavouriteRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
@@ -19,10 +19,24 @@ export default observer(function FavouriteRecipesDashboard() {
     if (!favouriteRecipesLoaded) return <LoadingComponent content="Loading favourite recipes..." />;
 
     return (
-        <Grid>
-            <Grid.Column width="13">
-                <FavouriteRecipesList />
-            </Grid.Column>
-        </Grid>
+        <>
+            <Grid>
+                <Grid.Column width="16">
+                    <FavouriteRecipesList />
+                </Grid.Column>
+            </Grid>
+
+            <Pagination
+                defaultActivePage={1}
+                pointing
+                secondary
+                totalPages={20}
+                size="big"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            />
+        </>
     );
 });

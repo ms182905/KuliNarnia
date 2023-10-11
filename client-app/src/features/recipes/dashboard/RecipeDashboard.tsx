@@ -18,11 +18,11 @@ export default observer(function RecipeDashboard() {
   
     return (
         <Grid>
-            <Grid.Column width='10'>
-                <RecipeList />
-            </Grid.Column>
-            <Grid.Column width='6'>
-                <RecipeFilters />
+            <Grid.Column width='16'>
+            {/* </Grid.Column>
+            <Grid.Column width='6'> */}
+            <RecipeFilters />
+            <RecipeList />
             </Grid.Column>
         </Grid>
     );

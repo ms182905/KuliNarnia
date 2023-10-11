@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Pagination } from 'semantic-ui-react';
 import UserRecipesList from './UserRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
@@ -19,10 +19,23 @@ export default observer(function UserRecipesDashboard() {
     if (!userRecipesLoaded) return <LoadingComponent content="Loading user recipes..." />;
 
     return (
-        <Grid>
-            <Grid.Column width="13">
-                <UserRecipesList />
-            </Grid.Column>
-        </Grid>
+        <>
+            <Grid>
+                <Grid.Column width="13">
+                    <UserRecipesList />
+                </Grid.Column>
+            </Grid>
+            <Pagination
+                defaultActivePage={1}
+                pointing
+                secondary
+                totalPages={20}
+                size="big"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            />
+        </>
     );
 });

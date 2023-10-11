@@ -43,7 +43,7 @@ function App() {
             ) : (
                 <>
                     <NavBar />
-                    <Container style={{ marginTop: '7em' }}>
+                    <Container style={{ marginTop: '4em' }}>
                         <Outlet />
                     </Container>
                 </>
