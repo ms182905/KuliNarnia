@@ -13,6 +13,9 @@ export default class RecipeStore {
     loadingInitial = false;
     favouriteRecipesLoaded = false;
     userRecipesLoaded = false;
+    recipesNumber = 0;
+    favouriteRecipesNumber = 0;
+    userRecipesNumber = 0;
 
     constructor() {
         makeAutoObservable(this);
@@ -51,6 +54,7 @@ export default class RecipeStore {
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
             });
+            this.setRecipesNumber(recipes.count);
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
@@ -68,6 +72,7 @@ export default class RecipeStore {
                 this.setUserRecipe(recipe);
                 console.log("2222222");
             });
+            this.setUserRecipesNumber(recipes.count);
             console.log("33333333");
             this.setUserRecipesLoaded(true);
             this.setLoadingInitial(false);
@@ -86,6 +91,7 @@ export default class RecipeStore {
             recipes.recipes.forEach((recipe) => {
                 this.setFavouriteRecipe(recipe);
             });
+            this.setFavouriteRecipesNumber(recipes.count);
             this.setFavouriteRecipesLoaded(true);
             this.setLoadingInitial(false);
         } catch (error) {
@@ -179,6 +185,18 @@ export default class RecipeStore {
         this.userRecipesLoaded = state;
     };
 
+    setRecipesNumber = (recipesNumber: number) => {
+        this.recipesNumber = recipesNumber;
+    };
+
+    setFavouriteRecipesNumber = (recipesNumber: number) => {
+        this.favouriteRecipesNumber = recipesNumber;
+    };
+
+    setUserRecipesNumber = (recipesNumber: number) => {
+        this.userRecipesNumber = recipesNumber;
+    };
+
     createRecipe = async (recipe: Recipe) => {
         this.setLoading(true);
         try {
@@ -191,6 +209,7 @@ export default class RecipeStore {
                 this.editMode = false;
                 this.loading = false;
             });
+            this.setRecipesNumber(this.recipesNumber + 1);
             this.loading = false;
         } catch (error) {
             console.log(error);
@@ -228,6 +247,7 @@ export default class RecipeStore {
                 this.recipeRegistry.delete(id);
                 this.loading = false;
             });
+            this.setRecipesNumber(this.recipesNumber - 1);
         } catch (error) {
             console.log(error);
             runInAction(() => {
