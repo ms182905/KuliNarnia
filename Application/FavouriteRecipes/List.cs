@@ -11,9 +11,9 @@ namespace Application.FavouriteRecipes
 {
     public class List
     {
-        public class Querry : IRequest<Result<List<RecipeDTO>>> { }
+        public class Querry : IRequest<Result<RecipesDTO>> { }
 
-        public class Handler : IRequestHandler<Querry, Result<List<RecipeDTO>>>
+        public class Handler : IRequestHandler<Querry, Result<RecipesDTO>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace Application.FavouriteRecipes
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<List<RecipeDTO>>> Handle(
+            public async Task<Result<RecipesDTO>> Handle(
                 Querry request,
                 CancellationToken cancellationToken
             )
@@ -40,7 +40,16 @@ namespace Application.FavouriteRecipes
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return Result<List<RecipeDTO>>.Success(favouriteRecipes);
+                var recipesNumber = await _context.Recipes
+                    .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id)).CountAsync();
+
+                var recipesDTO = new RecipesDTO
+                {
+                    Recipes = favouriteRecipes, 
+                    Count = recipesNumber
+                };
+
+                return Result<RecipesDTO>.Success(recipesDTO);
             }
         }
     }

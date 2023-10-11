@@ -11,9 +11,9 @@ namespace Application.Recipes
 {
     public class ListByUser
     {
-        public class Querry : IRequest<Result<List<RecipeDTO>>> { }
+        public class Querry : IRequest<Result<RecipesDTO>> { }
 
-        public class Handler : IRequestHandler<Querry, Result<List<RecipeDTO>>>
+        public class Handler : IRequestHandler<Querry, Result<RecipesDTO>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace Application.Recipes
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<List<RecipeDTO>>> Handle(
+            public async Task<Result<RecipesDTO>> Handle(
                 Querry request,
                 CancellationToken cancellationToken
             )
@@ -49,7 +49,15 @@ namespace Application.Recipes
                     recipe.Photo = new PhotoDTO{Id = photo.Id, IsMain = true, Url = photo.Url};
                 }
 
-                return Result<List<RecipeDTO>>.Success(recipes);
+                var recipesNumber = await _context.Recipes.Where(x =>x.CreatorId == user.Id).CountAsync();
+
+                var recipesDTO = new RecipesDTO
+                {
+                    Recipes = recipes, 
+                    Count = recipesNumber
+                };
+
+                return Result<RecipesDTO>.Success(recipesDTO);
             }
         }
     }

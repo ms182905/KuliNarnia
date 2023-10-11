@@ -4,12 +4,6 @@ import { Instruction } from './instruction';
 import { Tag } from './tag';
 
 export interface Recipe {
-    // id: string;
-    // title: string;
-    // date: string;
-    // description: string;
-    // category: string;
-
     id: string;
     title: string;
     date: string;

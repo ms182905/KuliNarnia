@@ -48,7 +48,7 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list();
-            recipes.forEach((recipe) => {
+            recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
             });
             this.setLoadingInitial(false);
@@ -64,7 +64,7 @@ export default class RecipeStore {
         console.log("11111111");
         try {
             const recipes = await agent.Recipes.listByUser();
-            recipes.forEach((recipe) => {
+            recipes.recipes.forEach((recipe) => {
                 this.setUserRecipe(recipe);
                 console.log("2222222");
             });
@@ -83,7 +83,7 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.FavouriteRecipes.list();
-            recipes.forEach((recipe) => {
+            recipes.recipes.forEach((recipe) => {
                 this.setFavouriteRecipe(recipe);
             });
             this.setFavouriteRecipesLoaded(true);

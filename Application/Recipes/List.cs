@@ -10,9 +10,9 @@ namespace Application.Recipes
 {
     public class List
     {
-        public class Querry : IRequest<Result<List<RecipeDTO>>> { }
+        public class Querry : IRequest<Result<RecipesDTO>> { }
 
-        public class Handler : IRequestHandler<Querry, Result<List<RecipeDTO>>>
+        public class Handler : IRequestHandler<Querry, Result<RecipesDTO>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ namespace Application.Recipes
                 _mapper = mapper;
             }
 
-            public async Task<Result<List<RecipeDTO>>> Handle(
+            public async Task<Result<RecipesDTO>> Handle(
                 Querry request,
                 CancellationToken cancellationToken
             )
@@ -31,6 +31,7 @@ namespace Application.Recipes
                 var recipes = await _context.Recipes
                         .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                         .ToListAsync();
+                var recipesNumber = await _context.Recipes.CountAsync();
 
                 foreach (var recipe in recipes)
                 {
@@ -39,10 +40,21 @@ namespace Application.Recipes
                     {
                         continue;
                     }
-                    recipe.Photo = new PhotoDTO{Id = photo.Id, IsMain = true, Url = photo.Url};
+                    recipe.Photo = new PhotoDTO
+                    {
+                        Id = photo.Id, 
+                        IsMain = true, 
+                        Url = photo.Url
+                    };
                 }
 
-                return Result<List<RecipeDTO>>.Success(recipes);
+                var recipesDTO = new RecipesDTO
+                {
+                    Recipes = recipes, 
+                    Count = recipesNumber
+                };
+
+                return Result<RecipesDTO>.Success(recipesDTO);
             }
         }
     }

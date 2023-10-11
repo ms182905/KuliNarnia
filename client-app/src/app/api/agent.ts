@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Recipe } from '../models/recipe';
+import { Recipes as RecipesWithCounter } from '../models/recipes';
 import { toast } from 'react-toastify';
 import { router } from '../router/Routes';
 import { store } from '../stores/store';
@@ -74,8 +75,8 @@ const requests = {
 }
 
 const Recipes = {
-    list: () => requests.get<Recipe[]>('/recipes'),
-    listByUser: () => requests.get<Recipe[]>('/recipes/byUser'),
+    list: () => requests.get<RecipesWithCounter>('/recipes'),
+    listByUser: () => requests.get<RecipesWithCounter>('/recipes/byUser'),
     details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
     update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),
@@ -83,7 +84,7 @@ const Recipes = {
 }
 
 const FavouriteRecipes = {
-    list: () => requests.get<Recipe[]>(`/favouriteRecipes`),
+    list: () => requests.get<RecipesWithCounter>(`/favouriteRecipes`),
     removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`),
     addToFavourites: (id: string) => requests.put<void>(`/favouriteRecipes/${id}`, {})
 }
