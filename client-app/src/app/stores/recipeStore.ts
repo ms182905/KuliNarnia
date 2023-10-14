@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
+import { Dashboard } from '../common/options/dashboards';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -16,8 +17,10 @@ export default class RecipeStore {
     recipesNumber = 0;
     favouriteRecipesNumber = 0;
     userRecipesNumber = 0;
-    pageNumber = 0;
     pageCapacity = 8;
+    recipeDashboardPageNumber = 0;
+
+    //TODO: separate logic for favouriteRecipesStore, userRecipesStore
 
     constructor() {
         makeAutoObservable(this);
@@ -49,12 +52,12 @@ export default class RecipeStore {
         return this.favouriteRecipeRegistry.has(recipeId);
     };
 
-    loadRecipes = async () => {
+    loadRecipes = async (pageNumber: number) => {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list(
-                this.pageNumber * this.pageCapacity, 
-                this.pageNumber * this.pageCapacity + this.pageCapacity - 1);
+                pageNumber * this.pageCapacity, 
+                pageNumber * this.pageCapacity + this.pageCapacity - 1);
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
             });
@@ -69,15 +72,12 @@ export default class RecipeStore {
     loadUserRecipes = async () => {
         this.setUserRecipesLoaded(false);
         this.setLoadingInitial(true);
-        console.log("11111111");
         try {
             const recipes = await agent.Recipes.listByUser();
             recipes.recipes.forEach((recipe) => {
                 this.setUserRecipe(recipe);
-                console.log("2222222");
             });
             this.setUserRecipesNumber(recipes.count);
-            console.log("33333333");
             this.setUserRecipesLoaded(true);
             this.setLoadingInitial(false);
         } catch (error) {
@@ -105,12 +105,24 @@ export default class RecipeStore {
         }
     };
 
-    handlePageChange = async (pageNumber?: number | string) => {
-        if (!pageNumber || typeof pageNumber === "string") {
-            return;
+    handlePageChange = async (dashboardType: Dashboard, pageNumber: number) => {
+        switch (dashboardType) {
+            case Dashboard.RecipeDashboard: {
+                this.recipeRegistry.clear();
+                this.recipeDashboardPageNumber = pageNumber;
+                break;
+            }
+            case Dashboard.FavouriteRecipesDashboard: {
+                this.favouriteRecipeRegistry.clear();
+                this.setFavouriteRecipesLoaded(false);
+                break;
+            }
+            case Dashboard.UserRecipesDashboard: {
+                this.userRecipeRegistry.clear();
+                this.setUserRecipesLoaded(false);
+                break;
+            }
         }
-        this.setPageNumber(pageNumber - 1);
-        this.recipeRegistry.clear();
     }
 
     loadRecipe = async (id: string) => {
@@ -209,10 +221,6 @@ export default class RecipeStore {
         this.userRecipesNumber = recipesNumber;
     };
 
-    setPageNumber = (pageNumber: number) => {
-        this.pageNumber = pageNumber;
-    };
-
     createRecipe = async (recipe: Recipe) => {
         this.setLoading(true);
         try {
@@ -275,12 +283,12 @@ export default class RecipeStore {
     removeRecipeFromFavourites = async (id: string) => {
         this.setLoading(true);
         try {
+            await agent.FavouriteRecipes.removeFromFavourites(id);
             runInAction(() => {
-                this.favouriteRecipeRegistry.delete(id);
+                this.selectedRecipe!.inFavourites = false;
                 this.loading = false;
             });
-            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
-            await agent.FavouriteRecipes.removeFromFavourites(id);
+            this.resetFavouriteRecipesRegistry();
         } catch (error) {
             console.log(error);
             runInAction(() => {
@@ -290,23 +298,43 @@ export default class RecipeStore {
     };
 
     addRecipeToFavourites = async (id: string) => {
-        var recipe = this.recipeRegistry.get(id);
+        this.setLoading(true);
         try {
-            runInAction(() => {
-                this.favouriteRecipeRegistry.set(id, recipe!);
-                this.loading = false;
-            });
-            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber + 1);
             await agent.FavouriteRecipes.addToFavourites(id);
+            runInAction(() => {
+                this.selectedRecipe!.inFavourites = true;
+                this.setLoading(false);
+            });
+            this.resetFavouriteRecipesRegistry();
         } catch (error) {
             console.log(error);
+            this.setLoading(false);
         }
     };
 
     reset = () => {
+        this.recipeRegistry.clear();
         this.favouriteRecipeRegistry.clear();
         this.userRecipeRegistry.clear();
         this.favouriteRecipesLoaded = false;
         this.userRecipesLoaded = false;
     }
+
+    resetFavouritesAndUserRecipesRegistry = () => {
+        this.favouriteRecipeRegistry.clear();
+        this.userRecipeRegistry.clear();
+        this.setFavouriteRecipesLoaded(false);
+        this.setUserRecipesLoaded(false);
+    }
+
+    resetUserRecipesRegistry = () => {
+        this.userRecipeRegistry.clear();
+        this.setUserRecipesLoaded(false);
+    }
+
+    resetFavouriteRecipesRegistry = () => {
+        this.favouriteRecipeRegistry.clear();
+        this.setFavouriteRecipesLoaded(false);
+    }
+
 }

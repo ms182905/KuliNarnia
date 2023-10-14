@@ -17,4 +17,5 @@ export interface Recipe {
     tagIds?: string[];
     comments: RecipeComment[];
     instructions: Instruction[];
+    inFavourites?: boolean;
 }

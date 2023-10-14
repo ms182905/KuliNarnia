@@ -9,6 +9,10 @@ export default observer(function UserRecipesDashboard() {
     const { recipeStore } = useStore();
     const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber } = recipeStore;
 
+    if (recipeStore.favouriteRecipeRegistry.size > 0) {
+        recipeStore.resetFavouriteRecipesRegistry();
+        }
+
     useEffect(() => {
         if (userRecipeRegistry.size < 1 && !userRecipesLoaded) {
             loadUserRecipes();

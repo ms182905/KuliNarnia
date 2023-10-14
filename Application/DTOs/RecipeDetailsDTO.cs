@@ -16,6 +16,7 @@ namespace Application.DTOs
         public string Description { get; set; }
         public string CreatorName { get; set; }
         public string CreatorId { get; set; }
+        public bool InFavourites { get; set; }
         public ICollection<IngredientDTO> Ingredients { get; set; }
         public ICollection<TagDTO> Tags { get; set; }
         public ICollection<CommentDTO> Comments { get; set; }

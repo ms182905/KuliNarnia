@@ -5,16 +5,22 @@ import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeFilters from './RecipeFilters';
+import { Dashboard } from '../../../app/common/options/dashboards';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
     const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange } = recipeStore;
 
-    useEffect(() => {
-        if (recipeRegistry.size < 1) loadRecipes();
-    }, [loadRecipes, recipeRegistry.size]);
+    if (recipeStore.favouriteRecipeRegistry.size > 0 || recipeStore.userRecipeRegistry.size > 0) {
+        recipeStore.resetFavouritesAndUserRecipesRegistry();
+    }
 
-    const [pageNumber, setPageNumber] = useState(1);
+    const [pageNumber, setPageNumber] = useState(recipeStore.recipeDashboardPageNumber + 1);
+
+    useEffect(() => {
+        if (recipeRegistry.size < 1) loadRecipes(pageNumber - 1);
+    }, [loadRecipes, recipeRegistry.size, pageNumber]);
+
 
     if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipes..." />;
 
@@ -29,7 +35,7 @@ export default observer(function RecipeDashboard() {
                 </Grid.Column>
             </Grid>
             <Pagination
-                defaultActivePage={recipeStore.pageNumber + 1}
+                defaultActivePage={pageNumber}
                 pointing
                 secondary
                 totalPages={Math.ceil(recipesNumber / 8)}
@@ -40,7 +46,7 @@ export default observer(function RecipeDashboard() {
                     marginTop: '2em',
                     paddingBottom: '1em'
                 }}
-                onPageChange={(event, data) => {handlePageChange(data.activePage); window.scrollTo(0, 0);}}
+                onPageChange={(event, data) => {handlePageChange(Dashboard.RecipeDashboard, Number(data.activePage) - 1); setPageNumber(Number(data.activePage)); window.scrollTo(0, 0);}}
             />
         </>
     );

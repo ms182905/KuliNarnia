@@ -1,14 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Pagination } from 'semantic-ui-react';
 import FavouriteRecipesList from './FavouriteRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { Dashboard } from '../../../app/common/options/dashboards';
 
 export default observer(function FavouriteRecipesDashboard() {
     const { recipeStore } = useStore();
-    const { loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded, favouriteRecipesNumber } =
+    const { loadFavouriteRecipes, favouriteRecipeRegistry, favouriteRecipesLoaded, favouriteRecipesNumber, handlePageChange } =
         recipeStore;
+
+    if (recipeStore.userRecipeRegistry.size > 0) {
+        recipeStore.resetUserRecipesRegistry();
+        }
+
+    const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
@@ -16,6 +23,7 @@ export default observer(function FavouriteRecipesDashboard() {
             loadFavouriteRecipes();
         }
     }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded]);
+
 
     if (!favouriteRecipesLoaded) return <LoadingComponent content="Loading favourite recipes..." />;
 
@@ -29,18 +37,19 @@ export default observer(function FavouriteRecipesDashboard() {
 
             {favouriteRecipesNumber > 0 && (
                 <Pagination
-                    defaultActivePage={1}
-                    pointing
-                    secondary
-                    totalPages={Math.ceil(favouriteRecipesNumber / 8)}
-                    size="huge"
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        marginTop: '2em',
-                        paddingBottom: '1em',
-                    }}
-                />
+                defaultActivePage={pageNumber}
+                pointing
+                secondary
+                totalPages={Math.ceil(favouriteRecipesNumber / 8)}
+                size="huge"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '2em',
+                    paddingBottom: '1em'
+                }}
+                onPageChange={(event, data) => {handlePageChange(Dashboard.FavouriteRecipesDashboard, Number(data.activePage) - 1); setPageNumber(Number(data.activePage)); window.scrollTo(0, 0);}}
+            />
             )}
         </>
     );
