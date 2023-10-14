@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Pagination } from 'semantic-ui-react';
 import RecipeList from './RecipeList';
 import { useStore } from '../../../app/stores/store';
@@ -8,11 +8,13 @@ import RecipeFilters from './RecipeFilters';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
-    const { loadRecipes, recipeRegistry, recipesNumber } = recipeStore;
+    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange } = recipeStore;
 
     useEffect(() => {
-        if (recipeRegistry.size <= 1) loadRecipes();
+        if (recipeRegistry.size < 1) loadRecipes();
     }, [loadRecipes, recipeRegistry.size]);
+
+    const [pageNumber, setPageNumber] = useState(1);
 
     if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipes..." />;
 
@@ -27,7 +29,7 @@ export default observer(function RecipeDashboard() {
                 </Grid.Column>
             </Grid>
             <Pagination
-                defaultActivePage={1}
+                defaultActivePage={recipeStore.pageNumber + 1}
                 pointing
                 secondary
                 totalPages={Math.ceil(recipesNumber / 8)}
@@ -38,6 +40,7 @@ export default observer(function RecipeDashboard() {
                     marginTop: '2em',
                     paddingBottom: '1em'
                 }}
+                onPageChange={(event, data) => {handlePageChange(data.activePage); window.scrollTo(0, 0);}}
             />
         </>
     );

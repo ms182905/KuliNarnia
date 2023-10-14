@@ -16,6 +16,8 @@ export default class RecipeStore {
     recipesNumber = 0;
     favouriteRecipesNumber = 0;
     userRecipesNumber = 0;
+    pageNumber = 0;
+    pageCapacity = 8;
 
     constructor() {
         makeAutoObservable(this);
@@ -50,7 +52,9 @@ export default class RecipeStore {
     loadRecipes = async () => {
         this.setLoadingInitial(true);
         try {
-            const recipes = await agent.Recipes.list();
+            const recipes = await agent.Recipes.list(
+                this.pageNumber * this.pageCapacity, 
+                this.pageNumber * this.pageCapacity + this.pageCapacity - 1);
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
             });
@@ -100,6 +104,14 @@ export default class RecipeStore {
             this.setLoadingInitial(false);
         }
     };
+
+    handlePageChange = async (pageNumber?: number | string) => {
+        if (!pageNumber || typeof pageNumber === "string") {
+            return;
+        }
+        this.setPageNumber(pageNumber - 1);
+        this.recipeRegistry.clear();
+    }
 
     loadRecipe = async (id: string) => {
         this.setLoadingInitial(true);
@@ -195,6 +207,10 @@ export default class RecipeStore {
 
     setUserRecipesNumber = (recipesNumber: number) => {
         this.userRecipesNumber = recipesNumber;
+    };
+
+    setPageNumber = (pageNumber: number) => {
+        this.pageNumber = pageNumber;
     };
 
     createRecipe = async (recipe: Recipe) => {

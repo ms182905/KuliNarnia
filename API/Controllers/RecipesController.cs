@@ -1,6 +1,5 @@
 using Application.DTOs;
 using Application.Recipes;
-using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +9,9 @@ namespace API.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetRecipes()
+        public async Task<IActionResult> GetRecipes(int from = 1, int to = 6)
         {
-            return HandleResult(await Mediator.Send(new List.Querry()));
+            return HandleResult(await Mediator.Send(new List.Querry{From = from, To = to}));
         }
 
         [AllowAnonymous]

@@ -75,7 +75,7 @@ const requests = {
 }
 
 const Recipes = {
-    list: () => requests.get<RecipesWithCounter>('/recipes'),
+    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/recipes?from=${from}&to=${to}`),
     listByUser: () => requests.get<RecipesWithCounter>('/recipes/byUser'),
     details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
