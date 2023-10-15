@@ -11,10 +11,6 @@ export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
     const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange } = recipeStore;
 
-    if (recipeStore.favouriteRecipeRegistry.size > 0 || recipeStore.userRecipeRegistry.size > 0) {
-        recipeStore.resetFavouritesAndUserRecipesRegistry();
-    }
-
     const [pageNumber, setPageNumber] = useState(recipeStore.recipeDashboardPageNumber + 1);
 
     useEffect(() => {

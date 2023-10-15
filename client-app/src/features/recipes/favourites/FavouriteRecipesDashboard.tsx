@@ -14,7 +14,6 @@ export default observer(function FavouriteRecipesDashboard() {
         favouriteRecipesLoaded,
         favouriteRecipesNumber,
         handlePageChange,
-        resetFavouriteRecipesRegistry
     } = recipeStore;
 
     if (recipeStore.userRecipeRegistry.size > 0) {
@@ -23,21 +22,14 @@ export default observer(function FavouriteRecipesDashboard() {
 
     const [pageNumber, setPageNumber] = useState(1);
 
-    //TODO: handling last favourite recipe from page deletion
-
-    // useEffect(() => {
-    //     if (favouriteRecipesNumber <= pageNumber * 7 && pageNumber > 1) {
-    //         setPageNumber(pageNumber - 1);
-    //         loadFavouriteRecipes(pageNumber - 1);
-    //     }
-    // }, [pageNumber, favouriteRecipesNumber]);
-
     useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
-            console.log(favouriteRecipeRegistry.size);
+            if (pageNumber > 1 && (pageNumber - 1) * 7 + 1 > favouriteRecipesNumber) {
+                setPageNumber(pageNumber - 1);
+            }
             loadFavouriteRecipes(pageNumber - 1);
         }
-    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded, pageNumber]);
+    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded, pageNumber, favouriteRecipesNumber]);
 
     if (!favouriteRecipesLoaded) {
         window.scrollTo(0, 0);

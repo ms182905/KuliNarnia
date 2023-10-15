@@ -274,6 +274,7 @@ export default class RecipeStore {
                 this.loading = false;
             });
             this.setRecipesNumber(this.recipesNumber - 1);
+            this.resetFavouriteRecipesRegistry();
         } catch (error) {
             console.log(error);
             runInAction(() => {
@@ -286,8 +287,8 @@ export default class RecipeStore {
         this.setLoading(true);
         try {
             await agent.FavouriteRecipes.removeFromFavourites(id);
+            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
             runInAction(() => {
-                this.selectedRecipe!.inFavourites = false;
                 this.loading = false;
             });
             this.resetFavouriteRecipesRegistry();
@@ -304,7 +305,6 @@ export default class RecipeStore {
         try {
             await agent.FavouriteRecipes.addToFavourites(id);
             runInAction(() => {
-                this.selectedRecipe!.inFavourites = true;
                 this.setLoading(false);
             });
             this.resetFavouriteRecipesRegistry();
@@ -323,19 +323,25 @@ export default class RecipeStore {
     }
 
     resetFavouritesAndUserRecipesRegistry = () => {
-        this.favouriteRecipeRegistry.clear();
-        this.userRecipeRegistry.clear();
+        runInAction(() => {
+            this.favouriteRecipeRegistry.clear();
+            this.userRecipeRegistry.clear();
+        });
         this.setFavouriteRecipesLoaded(false);
         this.setUserRecipesLoaded(false);
     }
 
     resetUserRecipesRegistry = () => {
-        this.userRecipeRegistry.clear();
+        runInAction(() => {
+            this.userRecipeRegistry.clear();
+        });
         this.setUserRecipesLoaded(false);
     }
 
     resetFavouriteRecipesRegistry = () => {
-        this.favouriteRecipeRegistry.clear();
+        runInAction(() => {
+            this.favouriteRecipeRegistry.clear();
+        });
         this.setFavouriteRecipesLoaded(false);
     }
 
