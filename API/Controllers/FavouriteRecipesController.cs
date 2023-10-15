@@ -11,9 +11,9 @@ namespace API.Controllers
     public class FavouriteRecipesController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetFavourites()
+        public async Task<IActionResult> GetFavourites(int from = 1, int to = 6)
         {
-            return HandleResult(await Mediator.Send(new List.Querry()));
+            return HandleResult(await Mediator.Send(new List.Querry{From = from, To = to}));
         }
 
         [HttpPut("{id}")]

@@ -84,7 +84,7 @@ const Recipes = {
 }
 
 const FavouriteRecipes = {
-    list: () => requests.get<RecipesWithCounter>(`/favouriteRecipes`),
+    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/favouriteRecipes?from=${from}&to=${to}`),
     removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`),
     addToFavourites: (id: string) => requests.put<void>(`/favouriteRecipes/${id}`, {})
 }

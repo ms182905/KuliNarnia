@@ -87,11 +87,13 @@ export default class RecipeStore {
         }
     };
 
-    loadFavouriteRecipes = async () => {
+    loadFavouriteRecipes = async (pageNumber: number) => {
         this.setFavouriteRecipesLoaded(false);
         this.setLoadingInitial(true);
         try {
-            const recipes = await agent.FavouriteRecipes.list();
+            const recipes = await agent.FavouriteRecipes.list(
+                pageNumber * this.pageCapacity, 
+                pageNumber * this.pageCapacity + this.pageCapacity - 1);
             recipes.recipes.forEach((recipe) => {
                 this.setFavouriteRecipe(recipe);
             });
