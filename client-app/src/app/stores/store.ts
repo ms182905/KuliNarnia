@@ -5,9 +5,11 @@ import UserStore from "./userStore";
 import ModalStore from "./modalStore";
 import CategoryStore from "./categoryStore";
 import TagStore from "./tagStore";
+import FavouriteRecipesStore from "./favouriteRecipesStore";
 
 interface Store {
     recipeStore: RecipeStore;
+    favouriteRecipesStore: FavouriteRecipesStore;
     commonStore: CommonStore;
     userStore: UserStore;
     modalStore: ModalStore;
@@ -17,6 +19,7 @@ interface Store {
 
 export const store: Store = {
     recipeStore: new RecipeStore(),
+    favouriteRecipesStore: new  FavouriteRecipesStore(),
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),

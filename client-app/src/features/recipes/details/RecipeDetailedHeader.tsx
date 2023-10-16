@@ -25,8 +25,8 @@ interface Props {
 }
 
 export default observer(function RecipeDetailedHeader({ recipe }: Props) {
-    const { recipeStore, modalStore } = useStore();
-    const { loading, addRecipeToFavourites } = recipeStore;
+    const { modalStore, favouriteRecipesStore } = useStore();
+    const { loading, addRecipeToFavourites } = favouriteRecipesStore;
 
     return (
         <Segment.Group>
@@ -52,7 +52,7 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                         content="Remove from favourites"
                         color="red"
                         loading={loading}
-                        onClick={() => modalStore.openModal(<RemoveRecipeFromFavourites recipeId={recipe.id} />)}
+                        onClick={() => modalStore.openModal(<RemoveRecipeFromFavourites recipe={recipe} />)}
                     />
                 ) : (
                     <Button
@@ -60,7 +60,7 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                         content="Add to favourites"
                         loading={loading}
                         onClick={() => {
-                            addRecipeToFavourites(recipe.id);
+                            addRecipeToFavourites(recipe);
                             toast.success('Recipe added to favourites!');
                         }}
                     />

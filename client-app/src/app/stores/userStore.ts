@@ -42,6 +42,7 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         store.recipeStore.reset();
+        store.favouriteRecipesStore.reset();
         this.user = null;
         router.navigate('/');
     }

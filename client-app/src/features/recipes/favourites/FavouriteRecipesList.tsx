@@ -4,10 +4,10 @@ import FavouriteRecipesListItem from './FavouriteRecipesListItem';
 import { useState } from 'react';
 
 export default function FavouriteRecipesList() {
-    const { recipeStore } = useStore();
-    const { favouriteRecipes } = recipeStore;
+    const { favouriteRecipesStore } = useStore();
+    const { favouriteRecipes, favouriteRecipeRegistry } = favouriteRecipesStore;
 
-    const [registrySize] = useState(recipeStore.favouriteRecipeRegistry.size);
+    const [registrySize] = useState(favouriteRecipeRegistry.size);
 
     if (registrySize < 1) {
         return (

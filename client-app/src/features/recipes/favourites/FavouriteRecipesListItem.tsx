@@ -11,8 +11,8 @@ interface Props {
 }
 
 export default observer(function FavouriteRecipesListItem({ recipe }: Props) {
-    const { recipeStore, modalStore } = useStore();
-    const { loading } = recipeStore;
+    const { favouriteRecipesStore, modalStore } = useStore();
+    const { loading } = favouriteRecipesStore;
 
     const [target, setTarget] = useState('');
 

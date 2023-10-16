@@ -4,17 +4,16 @@ import FavouriteRecipesList from './FavouriteRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { Dashboard } from '../../../app/common/options/dashboards';
 
 export default observer(function FavouriteRecipesDashboard() {
-    const { recipeStore } = useStore();
+    const { favouriteRecipesStore, recipeStore } = useStore();
     const {
         loadFavouriteRecipes,
         favouriteRecipeRegistry,
         favouriteRecipesLoaded,
         favouriteRecipesNumber,
         handlePageChange,
-    } = recipeStore;
+    } = favouriteRecipesStore;
 
     if (recipeStore.userRecipeRegistry.size > 0) {
         recipeStore.resetUserRecipesRegistry();
@@ -61,7 +60,7 @@ export default observer(function FavouriteRecipesDashboard() {
                         paddingBottom: '1em',
                     }}
                     onPageChange={(event, data) => {
-                        handlePageChange(Dashboard.FavouriteRecipesDashboard, Number(data.activePage) - 1);
+                        handlePageChange();
                         setPageNumber(Number(data.activePage));
                         window.scrollTo(0, 0);
                     }}

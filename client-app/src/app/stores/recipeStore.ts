@@ -3,19 +3,17 @@ import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
 import { Dashboard } from '../common/options/dashboards';
+import { store } from './store';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
-    favouriteRecipeRegistry = new Map<string, Recipe>();
     userRecipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
     loadingInitial = false;
-    favouriteRecipesLoaded = false;
     userRecipesLoaded = false;
     recipesNumber = 0;
-    favouriteRecipesNumber = 0;
     userRecipesNumber = 0;
     pageCapacity = 8;
     recipeDashboardPageNumber = 0;
@@ -28,10 +26,6 @@ export default class RecipeStore {
 
     get recipes() {
         return Array.from(this.recipeRegistry.values()).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-    }
-
-    get favouriteRecipes() {
-        return Array.from(this.favouriteRecipeRegistry.values());
     }
 
     get userRecipes() {
@@ -47,10 +41,6 @@ export default class RecipeStore {
             }, {} as { [key: string]: Recipe[] })
         );
     }
-
-    isInFavourites = (recipeId: string) => {
-        return this.favouriteRecipeRegistry.has(recipeId);
-    };
 
     loadRecipes = async (pageNumber: number) => {
         this.setLoadingInitial(true);
@@ -87,36 +77,11 @@ export default class RecipeStore {
         }
     };
 
-    loadFavouriteRecipes = async (pageNumber: number) => {
-        this.setFavouriteRecipesLoaded(false);
-        this.setLoadingInitial(true);
-        try {
-            const recipes = await agent.FavouriteRecipes.list(
-                pageNumber * this.pageCapacity, 
-                pageNumber * this.pageCapacity + this.pageCapacity - 1);
-            recipes.recipes.forEach((recipe) => {
-                this.setFavouriteRecipe(recipe);
-            });
-            this.setFavouriteRecipesNumber(recipes.count);
-            this.setFavouriteRecipesLoaded(true);
-            this.setLoadingInitial(false);
-        } catch (error) {
-            console.log(error);
-            this.setFavouriteRecipesLoaded(true);
-            this.setLoadingInitial(false);
-        }
-    };
-
     handlePageChange = async (dashboardType: Dashboard, pageNumber: number) => {
         switch (dashboardType) {
             case Dashboard.RecipeDashboard: {
                 this.recipeRegistry.clear();
                 this.recipeDashboardPageNumber = pageNumber;
-                break;
-            }
-            case Dashboard.FavouriteRecipesDashboard: {
-                this.favouriteRecipeRegistry.clear();
-                this.setFavouriteRecipesLoaded(false);
                 break;
             }
             case Dashboard.UserRecipesDashboard: {
@@ -181,11 +146,6 @@ export default class RecipeStore {
         this.recipeRegistry.set(recipe.id, recipe);
     };
 
-    private setFavouriteRecipe = (recipe: Recipe) => {
-        recipe.date = recipe.date.split('T')[0];
-        this.favouriteRecipeRegistry.set(recipe.id, recipe);
-    };
-
     private setUserRecipe = (recipe: Recipe) => {
         recipe.date = recipe.date.split('T')[0];
         this.userRecipeRegistry.set(recipe.id, recipe);
@@ -203,20 +163,12 @@ export default class RecipeStore {
         this.loading = state;
     };
 
-    setFavouriteRecipesLoaded = (state: boolean) => {
-        this.favouriteRecipesLoaded = state;
-    };
-
     setUserRecipesLoaded = (state: boolean) => {
         this.userRecipesLoaded = state;
     };
 
     setRecipesNumber = (recipesNumber: number) => {
         this.recipesNumber = recipesNumber;
-    };
-
-    setFavouriteRecipesNumber = (recipesNumber: number) => {
-        this.favouriteRecipesNumber = recipesNumber;
     };
 
     setUserRecipesNumber = (recipesNumber: number) => {
@@ -274,7 +226,7 @@ export default class RecipeStore {
                 this.loading = false;
             });
             this.setRecipesNumber(this.recipesNumber - 1);
-            this.resetFavouriteRecipesRegistry();
+            store.favouriteRecipesStore.reset();
         } catch (error) {
             console.log(error);
             runInAction(() => {
@@ -283,58 +235,14 @@ export default class RecipeStore {
         }
     };
 
-    removeRecipeFromFavourites = async (id: string) => {
-        this.setLoading(true);
-        this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
-        try {
-            await agent.FavouriteRecipes.removeFromFavourites(id);
-            runInAction(() => {
-                if (this.selectedRecipe)
-                {
-                    this.selectedRecipe.inFavourites = false;
-                }
-                this.loading = false;
-            });
-            this.resetFavouriteRecipesRegistry();
-        } catch (error) {
-            console.log(error);
-            runInAction(() => {
-                this.loading = false;
-            });
-        }
-    };
 
-    addRecipeToFavourites = async (id: string) => {
-        this.setLoading(true);
-        try {
-            await agent.FavouriteRecipes.addToFavourites(id);
-            runInAction(() => {
-                this.selectedRecipe!.inFavourites = true;
-                this.setLoading(false);
-            });
-            this.resetFavouriteRecipesRegistry();
-        } catch (error) {
-            console.log(error);
-            this.setLoading(false);
-        }
-    };
 
     reset = () => {
         this.recipeRegistry.clear();
-        this.favouriteRecipeRegistry.clear();
         this.userRecipeRegistry.clear();
-        this.favouriteRecipesLoaded = false;
         this.userRecipesLoaded = false;
     }
 
-    resetFavouritesAndUserRecipesRegistry = () => {
-        runInAction(() => {
-            this.favouriteRecipeRegistry.clear();
-            this.userRecipeRegistry.clear();
-        });
-        this.setFavouriteRecipesLoaded(false);
-        this.setUserRecipesLoaded(false);
-    }
 
     resetUserRecipesRegistry = () => {
         runInAction(() => {
@@ -343,11 +251,5 @@ export default class RecipeStore {
         this.setUserRecipesLoaded(false);
     }
 
-    resetFavouriteRecipesRegistry = () => {
-        runInAction(() => {
-            this.favouriteRecipeRegistry.clear();
-        });
-        this.setFavouriteRecipesLoaded(false);
-    }
 
 }

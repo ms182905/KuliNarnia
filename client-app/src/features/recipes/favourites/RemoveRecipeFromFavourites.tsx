@@ -1,18 +1,21 @@
 import { Button, Header, Table } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { toast } from 'react-toastify';
+import { Recipe } from '../../../app/models/recipe';
 
 interface Props {
-    recipeId: string;
+    recipe?: Recipe;
+    recipeId?: string;
 }
 
-export default function RemoveRecipeFromFavourites({ recipeId }: Props) {
-    const { modalStore, recipeStore } = useStore();
-    const { removeRecipeFromFavourites } = recipeStore;
+export default function RemoveRecipeFromFavourites({ recipe, recipeId }: Props) {
+    const { modalStore, favouriteRecipesStore } = useStore();
+    const { removeRecipeFromFavourites, removeRecipeFromFavouritesById } = favouriteRecipesStore;
 
     function removeRecipeFromFavouritesAndClose() {
         modalStore.closeModal();
-        removeRecipeFromFavourites(recipeId);
+        if (recipe) removeRecipeFromFavourites(recipe);
+        if (recipeId) removeRecipeFromFavouritesById(recipeId);
     }
 
     return (

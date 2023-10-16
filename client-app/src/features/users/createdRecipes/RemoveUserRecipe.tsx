@@ -7,11 +7,11 @@ interface Props {
 
 export default function RemoveUserRecipe({ recipeId }: Props) {
     const { modalStore, recipeStore } = useStore();
-    const { removeRecipeFromFavourites } = recipeStore;
+    const { deleteRecipe } = recipeStore;
 
     function deleteCommentAndClose() {
         modalStore.closeModal();
-        removeRecipeFromFavourites(recipeId);
+        deleteRecipe(recipeId);
     }
 
     return (
