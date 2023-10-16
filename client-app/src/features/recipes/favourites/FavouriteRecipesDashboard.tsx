@@ -24,8 +24,11 @@ export default observer(function FavouriteRecipesDashboard() {
 
     useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
+            console.log(favouriteRecipesNumber);
             if (pageNumber > 1 && (pageNumber - 1) * 7 + 1 > favouriteRecipesNumber) {
+                loadFavouriteRecipes(pageNumber - 2);
                 setPageNumber(pageNumber - 1);
+                return;
             }
             loadFavouriteRecipes(pageNumber - 1);
         }

@@ -6,12 +6,15 @@ import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeFilters from './RecipeFilters';
 import { Dashboard } from '../../../app/common/options/dashboards';
+import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
     const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange } = recipeStore;
 
     const [pageNumber, setPageNumber] = useState(recipeStore.recipeDashboardPageNumber + 1);
+
+    console.log(useLocation().pathname);
 
     useEffect(() => {
         if (recipeRegistry.size < 1) loadRecipes(pageNumber - 1);

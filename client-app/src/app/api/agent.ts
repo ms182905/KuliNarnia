@@ -9,16 +9,9 @@ import { Category } from '../models/category';
 import { Tag } from '../models/tag';
 import { RecipeComment } from '../models/comment';
 
-const sleep = (delay: number) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
-
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
 axios.interceptors.response.use(async response => {
-    await sleep(1000);
     return response;
 }, (error: AxiosError) => {
     const {data, status, config} = error.response as AxiosResponse;
@@ -42,7 +35,9 @@ axios.interceptors.response.use(async response => {
             }
             break;
         case 401:
-            toast.error('unauthorized')
+            if (window.location.pathname !== '/') {
+                toast.error('unauthorized')
+            }
             break;
         case 403:
             toast.error('forbidden')

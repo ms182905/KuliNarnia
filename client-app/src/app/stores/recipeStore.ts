@@ -285,10 +285,14 @@ export default class RecipeStore {
 
     removeRecipeFromFavourites = async (id: string) => {
         this.setLoading(true);
+        this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
         try {
             await agent.FavouriteRecipes.removeFromFavourites(id);
-            this.setFavouriteRecipesNumber(this.favouriteRecipesNumber - 1);
             runInAction(() => {
+                if (this.selectedRecipe)
+                {
+                    this.selectedRecipe.inFavourites = false;
+                }
                 this.loading = false;
             });
             this.resetFavouriteRecipesRegistry();
@@ -305,6 +309,7 @@ export default class RecipeStore {
         try {
             await agent.FavouriteRecipes.addToFavourites(id);
             runInAction(() => {
+                this.selectedRecipe!.inFavourites = true;
                 this.setLoading(false);
             });
             this.resetFavouriteRecipesRegistry();
