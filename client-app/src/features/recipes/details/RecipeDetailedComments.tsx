@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid';
 import MyTextArea from '../../../app/common/form/MyTextArea';
 import DeleteRecipeComment from '../form/DeleteRecipeComment';
+import LoginOrRegister from '../../../app/common/modals/LoginOrRegister';
 
 interface Props {
     recipe: Recipe;
@@ -16,6 +17,7 @@ interface Props {
 export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
     const { recipeStore, userStore, modalStore } = useStore();
     const { addRecipeComment } = recipeStore;
+    const { openModal } = modalStore;
     const { user } = userStore;
 
     const [recipe] = useState<Recipe>(rec);
@@ -98,7 +100,9 @@ export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
                             comment.id = uuid();
                             addRecipeComment(comment);
                             resetForm();
-                        } else;
+                        } else {
+                            openModal(<LoginOrRegister />)
+                        }
                     }}
                 >
                     {({ handleSubmit, dirty }) => (

@@ -20,12 +20,12 @@ export default observer(function HomePage() {
                 ) : (
                     <>
                         <Header as="h2">
-                            <Button Button onClick={() => modalStore.openModal(<LoginForm />)} size="huge" inverted>
+                            <Button onClick={() => modalStore.openModal(<LoginForm />)} size="huge" inverted>
                                 Login
                             </Button>
                         </Header>
                         <Header as="h2">
-                            <Button Button onClick={() => modalStore.openModal(<RegisterForm />)} size="huge" inverted>
+                            <Button onClick={() => modalStore.openModal(<RegisterForm />)} size="huge" inverted>
                                 Register
                             </Button>
                         </Header>
