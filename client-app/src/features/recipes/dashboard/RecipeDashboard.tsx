@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
-    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange } = recipeStore;
+    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity } = recipeStore;
 
     const [pageNumber, setPageNumber] = useState(recipeStore.recipeDashboardPageNumber + 1);
 
@@ -38,7 +38,7 @@ export default observer(function RecipeDashboard() {
                 defaultActivePage={pageNumber}
                 pointing
                 secondary
-                totalPages={Math.ceil(recipesNumber / 7)}
+                totalPages={Math.ceil(recipesNumber / pageCapacity)}
                 size="huge"
                 style={{
                     display: 'flex',

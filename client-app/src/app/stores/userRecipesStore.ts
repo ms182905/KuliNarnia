@@ -9,7 +9,7 @@ export default class UserRecipesStore {
     loadingInitial = false;
     userRecipesLoaded = false;
     userRecipesNumber = 0;
-    pageCapacity = 8;
+    pageCapacity = 7;
     recipeDashboardPageNumber = 0;
 
     constructor() {
@@ -26,7 +26,7 @@ export default class UserRecipesStore {
         try {
             const recipes = await agent.UserRecipes.list(
                 pageNumber * this.pageCapacity,
-                pageNumber * this.pageCapacity + this.pageCapacity - 1
+                pageNumber * this.pageCapacity + this.pageCapacity
             );
             recipes.recipes.forEach((recipe) => {
                 this.setUserRecipe(recipe);

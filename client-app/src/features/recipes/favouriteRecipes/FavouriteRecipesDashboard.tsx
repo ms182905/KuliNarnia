@@ -13,6 +13,7 @@ export default observer(function FavouriteRecipesDashboard() {
         favouriteRecipesLoaded,
         favouriteRecipesNumber,
         handlePageChange,
+        pageCapacity,
     } = favouriteRecipesStore;
     // const { resetUserRecipesRegistry, userRecipeRegistry } = userRecipesStore;
 
@@ -21,14 +22,14 @@ export default observer(function FavouriteRecipesDashboard() {
     useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
             console.log(favouriteRecipesNumber);
-            if (pageNumber > 1 && (pageNumber - 1) * 7 + 1 > favouriteRecipesNumber) {
+            if (pageNumber > 1 && (pageNumber - 1) * pageCapacity + 1 > favouriteRecipesNumber) {
                 loadFavouriteRecipes(pageNumber - 2);
                 setPageNumber(pageNumber - 1);
                 return;
             }
             loadFavouriteRecipes(pageNumber - 1);
         }
-    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded, pageNumber, favouriteRecipesNumber]);
+    }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded, pageNumber, favouriteRecipesNumber, pageCapacity]);
 
     if (!favouriteRecipesLoaded) {
         window.scrollTo(0, 0);
@@ -43,12 +44,12 @@ export default observer(function FavouriteRecipesDashboard() {
                 </Grid.Column>
             </Grid>
 
-            {favouriteRecipesNumber > 0 && (
+            {favouriteRecipesNumber > pageCapacity && (
                 <Pagination
                     defaultActivePage={pageNumber}
                     pointing
                     secondary
-                    totalPages={Math.ceil(favouriteRecipesNumber / 7)}
+                    totalPages={Math.ceil(favouriteRecipesNumber / pageCapacity)}
                     size="huge"
                     style={{
                         display: 'flex',
@@ -56,7 +57,7 @@ export default observer(function FavouriteRecipesDashboard() {
                         marginTop: '2em',
                         paddingBottom: '1em',
                     }}
-                    onPageChange={(event, data) => {
+                    onPageChange={(_, data) => {
                         handlePageChange();
                         setPageNumber(Number(data.activePage));
                         window.scrollTo(0, 0);

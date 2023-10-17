@@ -8,7 +8,7 @@ export default class FavouriteRecipesStore {
     loadingInitial = false;
     favouriteRecipesLoaded = false;
     favouriteRecipesNumber = 0;
-    pageCapacity = 8;
+    pageCapacity = 7;
 
     constructor() {
         makeAutoObservable(this);
@@ -24,7 +24,7 @@ export default class FavouriteRecipesStore {
         try {
             const recipes = await agent.FavouriteRecipes.list(
                 pageNumber * this.pageCapacity,
-                pageNumber * this.pageCapacity + this.pageCapacity - 1
+                pageNumber * this.pageCapacity + this.pageCapacity
             );
             recipes.recipes.forEach((recipe) => {
                 this.setFavouriteRecipe(recipe);
