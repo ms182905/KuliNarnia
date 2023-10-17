@@ -84,6 +84,10 @@ const FavouriteRecipes = {
     addToFavourites: (id: string) => requests.put<void>(`/favouriteRecipes/${id}`, {})
 }
 
+const UserRecipes = {
+    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/recipes/userRecipes?from=${from}&to=${to}`)
+}
+
 const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
@@ -105,6 +109,7 @@ const Comments = {
 const agent = {
     Recipes,
     FavouriteRecipes,
+    UserRecipes,
     Account,
     Categories,
     Tags,

@@ -19,7 +19,10 @@ export default observer(function RecipeDashboard() {
         if (recipeRegistry.size < 1) loadRecipes(pageNumber - 1);
     }, [loadRecipes, recipeRegistry.size, pageNumber]);
 
-    if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipes..." />;
+    if (recipeStore.loadingInitial){
+        window.scrollTo(0, 0);
+        return <LoadingComponent content="Loading recipes..." />;
+    } 
 
     return (
         <>

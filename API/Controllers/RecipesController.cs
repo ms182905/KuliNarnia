@@ -22,10 +22,10 @@ namespace API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("byUser")]
-        public async Task<IActionResult> GetRecipesByUser()
+        [HttpGet("userRecipes")]
+        public async Task<IActionResult> GetRecipesByUser(int from = 1, int to = 6)
         {
-            return HandleResult(await Mediator.Send(new ListByUser.Querry()));
+            return HandleResult(await Mediator.Send(new ListByUser.Querry{From = from, To = to}));
         }
 
         [HttpPost]

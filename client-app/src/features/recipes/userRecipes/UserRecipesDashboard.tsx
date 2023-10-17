@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, Pagination } from 'semantic-ui-react';
 import UserRecipesList from './UserRecipesList';
 import { useStore } from '../../../app/stores/store';
@@ -9,14 +9,24 @@ export default observer(function UserRecipesDashboard() {
     const { userRecipesStore } = useStore();
     const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber } = userRecipesStore;
 
+    const [pageNumber, setPageNumber] = useState(1);
+
     useEffect(() => {
         if (userRecipeRegistry.size < 1 && !userRecipesLoaded) {
-            loadUserRecipes();
-            console.log(userRecipeRegistry.size);
+            console.log(userRecipesNumber);
+            if (pageNumber > 1 && (pageNumber - 1) * 7 + 1 > userRecipesNumber) {
+                loadUserRecipes(pageNumber - 2);
+                setPageNumber(pageNumber - 1);
+                return;
+            }
+            loadUserRecipes(pageNumber - 1);
         }
-    }, [loadUserRecipes, userRecipeRegistry.size, userRecipesLoaded]);
+    }, [loadUserRecipes, userRecipeRegistry.size, userRecipesLoaded, pageNumber, userRecipesNumber]);
 
-    if (!userRecipesLoaded) return <LoadingComponent content="Loading user recipes..." />;
+    if (!userRecipesLoaded) {
+        window.scrollTo(0, 0);
+        return <LoadingComponent content="Loading user recipes..." />;
+    }
 
     return (
         <>

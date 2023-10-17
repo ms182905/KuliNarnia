@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
+import { store } from './store';
 
 export default class UserRecipesStore {
     userRecipeRegistry = new Map<string, Recipe>();
@@ -19,11 +20,14 @@ export default class UserRecipesStore {
         return Array.from(this.userRecipeRegistry.values());
     }
 
-    loadUserRecipes = async () => {
+    loadUserRecipes = async (pageNumber: number) => {
         this.setUserRecipesLoaded(false);
         this.setLoadingInitial(true);
         try {
-            const recipes = await agent.Recipes.listByUser();
+            const recipes = await agent.UserRecipes.list(
+                pageNumber * this.pageCapacity,
+                pageNumber * this.pageCapacity + this.pageCapacity - 1
+            );
             recipes.recipes.forEach((recipe) => {
                 this.setUserRecipe(recipe);
             });
@@ -69,6 +73,8 @@ export default class UserRecipesStore {
         try {
             await agent.Recipes.delete(id);
             this.resetUserRecipesRegistry();
+            store.favouriteRecipesStore.reset();
+            store.recipeStore.reset();
             this.setLoading(false);
         } catch (error) {
             console.log(error);

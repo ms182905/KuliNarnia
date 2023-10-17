@@ -8,8 +8,8 @@ import TestErrors from '../../features/errors/TestErrors';
 import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
-import FavouriteRecipesDashboard from '../../features/recipes/favourites/FavouriteRecipesDashboard';
-import UserRecipesDashboard from '../../features/users/createdRecipes/UserRecipesDashboard';
+import FavouriteRecipesDashboard from '../../features/recipes/favouriteRecipes/FavouriteRecipesDashboard';
+import UserRecipesDashboard from '../../features/recipes/userRecipes/UserRecipesDashboard';
 
 export const routes: RouteObject[] = [
     {

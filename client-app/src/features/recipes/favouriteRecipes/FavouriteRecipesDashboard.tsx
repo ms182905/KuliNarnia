@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function FavouriteRecipesDashboard() {
-    const { favouriteRecipesStore, userRecipesStore } = useStore();
+    const { favouriteRecipesStore } = useStore();
     const {
         loadFavouriteRecipes,
         favouriteRecipeRegistry,
@@ -14,11 +14,7 @@ export default observer(function FavouriteRecipesDashboard() {
         favouriteRecipesNumber,
         handlePageChange,
     } = favouriteRecipesStore;
-    const { resetUserRecipesRegistry, userRecipeRegistry } = userRecipesStore;
-
-    if (userRecipeRegistry.size > 0) {
-        resetUserRecipesRegistry();
-    }
+    // const { resetUserRecipesRegistry, userRecipeRegistry } = userRecipesStore;
 
     const [pageNumber, setPageNumber] = useState(1);
 

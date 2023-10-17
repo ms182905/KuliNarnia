@@ -5,7 +5,7 @@ import { Recipe } from '../../../app/models/recipe';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../app/stores/store';
 import { toast } from 'react-toastify';
-import RemoveRecipeFromFavourites from '../favourites/RemoveRecipeFromFavourites';
+import RemoveRecipeFromFavourites from '../favouriteRecipes/RemoveRecipeFromFavourites';
 
 const recipeImageStyle = {
     filter: 'brightness(30%)',

@@ -2,12 +2,24 @@ import { observer } from 'mobx-react-lite';
 import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
+import { SyntheticEvent, useState } from 'react';
+import RemoveUserRecipe from './RemoveUserRecipe';
+import { useStore } from '../../../app/stores/store';
 
 interface Props {
     recipe: Recipe;
 }
 
 export default observer(function UserRecipesListItem({ recipe }: Props) {
+    const { modalStore, userRecipesStore } = useStore();
+    const { loading } = userRecipesStore;
+    const [target, setTarget] = useState('');
+
+    function handleRecipeDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(e.currentTarget.name);
+        modalStore.openModal(<RemoveUserRecipe recipeId={id} />);
+    }
+
     return (
         <Segment.Group>
             <Segment>
@@ -33,6 +45,14 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
             <Segment clearing>
                 {recipe.description}
                 <Button as={Link} to={`/recipes/${recipe.id}/true`} color="teal" floated="right" content="View" />
+                <Button
+                    name={recipe.id}
+                    loading={loading && target === recipe.id}
+                    onClick={(e) => handleRecipeDelete(e, recipe.id)}
+                    floated="right"
+                    content="Remove from favourites"
+                    color="red"
+                />
             </Segment>
         </Segment.Group>
     );

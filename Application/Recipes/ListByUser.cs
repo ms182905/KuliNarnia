@@ -11,7 +11,11 @@ namespace Application.Recipes
 {
     public class ListByUser
     {
-        public class Querry : IRequest<Result<RecipesDTO>> { }
+        public class Querry : IRequest<Result<RecipesDTO>>
+        {
+            public int From { get; set; }
+            public int To { get; set; }
+        }
 
         public class Handler : IRequestHandler<Querry, Result<RecipesDTO>>
         {
@@ -35,27 +39,35 @@ namespace Application.Recipes
                     x => x.UserName == _userAccessor.GetUsername()
                 );
 
-                var recipes = await _context.Recipes.Where(x =>x.CreatorId == user.Id)
-                        .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
-                        .ToListAsync();
+                var recipes = await _context.Recipes
+                    .Where(x => x.CreatorId == user.Id)
+                    .Skip(request.From)
+                    .Take(request.To - request.From)
+                    .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
 
                 foreach (var recipe in recipes)
                 {
-                    var photo = await _context.Photos.FirstOrDefaultAsync(x => x.RecipeId == recipe.Id);
+                    var photo = await _context.Photos.FirstOrDefaultAsync(
+                        x => x.RecipeId == recipe.Id
+                    );
                     if (photo == null)
                     {
                         continue;
                     }
-                    recipe.Photo = new PhotoDTO{Id = photo.Id, IsMain = true, Url = photo.Url};
+                    recipe.Photo = new PhotoDTO
+                    {
+                        Id = photo.Id,
+                        IsMain = true,
+                        Url = photo.Url
+                    };
                 }
 
-                var recipesNumber = await _context.Recipes.Where(x =>x.CreatorId == user.Id).CountAsync();
+                var recipesNumber = await _context.Recipes
+                    .Where(x => x.CreatorId == user.Id)
+                    .CountAsync();
 
-                var recipesDTO = new RecipesDTO
-                {
-                    Recipes = recipes, 
-                    Count = recipesNumber
-                };
+                var recipesDTO = new RecipesDTO { Recipes = recipes, Count = recipesNumber };
 
                 return Result<RecipesDTO>.Success(recipesDTO);
             }
