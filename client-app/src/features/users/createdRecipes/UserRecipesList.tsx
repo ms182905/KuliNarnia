@@ -3,8 +3,8 @@ import { useStore } from '../../../app/stores/store';
 import UserRecipesListItem from './UserRecipesListItem';
 
 export default function UserRecipesList() {
-    const { recipeStore } = useStore();
-    const { userRecipes } = recipeStore;
+    const { userRecipesStore } = useStore();
+    const { userRecipes } = userRecipesStore;
 
     if (userRecipes.length < 1) {
         return (

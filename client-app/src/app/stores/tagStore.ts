@@ -1,13 +1,13 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import agent from "../api/agent";
-import { Tag } from "../models/tag";
+import { makeAutoObservable, runInAction } from 'mobx';
+import agent from '../api/agent';
+import { Tag } from '../models/tag';
 
 export default class TagStore {
     tagsTable: Tag[] = [];
     loadingInitial = false;
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this);
     }
 
     get tags() {
@@ -19,16 +19,16 @@ export default class TagStore {
         try {
             const tags = await agent.Tags.list();
             runInAction(() => {
-                this.tagsTable = tags
-                this.loadingInitial = false
-            })
+                this.tagsTable = tags;
+                this.loadingInitial = false;
+            });
         } catch (error) {
             console.log(error);
             this.setLoadingInitial(false);
         }
-    }
+    };
 
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
-    }
+    };
 }

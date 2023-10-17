@@ -5,7 +5,6 @@ import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeFilters from './RecipeFilters';
-import { Dashboard } from '../../../app/common/options/dashboards';
 import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
@@ -45,7 +44,7 @@ export default observer(function RecipeDashboard() {
                     paddingBottom: '1em',
                 }}
                 onPageChange={(event, data) => {
-                    handlePageChange(Dashboard.RecipeDashboard, Number(data.activePage) - 1);
+                    handlePageChange(Number(data.activePage) - 1);
                     setPageNumber(Number(data.activePage));
                     window.scrollTo(0, 0);
                 }}

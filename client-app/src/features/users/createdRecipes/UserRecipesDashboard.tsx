@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function UserRecipesDashboard() {
-    const { recipeStore } = useStore();
-    const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber } = recipeStore;
+    const { userRecipesStore } = useStore();
+    const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber } = userRecipesStore;
 
     useEffect(() => {
         if (userRecipeRegistry.size < 1 && !userRecipesLoaded) {

@@ -1,13 +1,13 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import agent from "../api/agent";
-import { Category } from "../models/category";
+import { makeAutoObservable, runInAction } from 'mobx';
+import agent from '../api/agent';
+import { Category } from '../models/category';
 
 export default class CategoryStore {
     categoriesTable: Category[] = [];
     loadingInitial = false;
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this);
     }
 
     get categories() {
@@ -19,16 +19,16 @@ export default class CategoryStore {
         try {
             const categories = await agent.Categories.list();
             runInAction(() => {
-                this.categoriesTable = categories
-                this.loadingInitial = false
-            })
+                this.categoriesTable = categories;
+                this.loadingInitial = false;
+            });
         } catch (error) {
             console.log(error);
             this.setLoadingInitial(false);
         }
-    }
+    };
 
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
-    }
+    };
 }

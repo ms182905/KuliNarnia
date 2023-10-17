@@ -2,23 +2,16 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
-import { Dashboard } from '../common/options/dashboards';
-import { store } from './store';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
-    userRecipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
     editMode = false;
     loading = false;
     loadingInitial = false;
-    userRecipesLoaded = false;
     recipesNumber = 0;
-    userRecipesNumber = 0;
     pageCapacity = 8;
     recipeDashboardPageNumber = 0;
-
-    //TODO: separate logic for favouriteRecipesStore, userRecipesStore
 
     constructor() {
         makeAutoObservable(this);
@@ -26,10 +19,6 @@ export default class RecipeStore {
 
     get recipes() {
         return Array.from(this.recipeRegistry.values()).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-    }
-
-    get userRecipes() {
-        return Array.from(this.userRecipeRegistry.values());
     }
 
     get groupedRecipes() {
@@ -46,8 +35,9 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list(
-                pageNumber * this.pageCapacity, 
-                pageNumber * this.pageCapacity + this.pageCapacity - 1);
+                pageNumber * this.pageCapacity,
+                pageNumber * this.pageCapacity + this.pageCapacity - 1
+            );
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
             });
@@ -59,38 +49,10 @@ export default class RecipeStore {
         }
     };
 
-    loadUserRecipes = async () => {
-        this.setUserRecipesLoaded(false);
-        this.setLoadingInitial(true);
-        try {
-            const recipes = await agent.Recipes.listByUser();
-            recipes.recipes.forEach((recipe) => {
-                this.setUserRecipe(recipe);
-            });
-            this.setUserRecipesNumber(recipes.count);
-            this.setUserRecipesLoaded(true);
-            this.setLoadingInitial(false);
-        } catch (error) {
-            console.log(error);
-            this.setUserRecipesLoaded(true);
-            this.setLoadingInitial(false);
-        }
+    handlePageChange = async (pageNumber: number) => {
+        this.recipeRegistry.clear();
+        this.recipeDashboardPageNumber = pageNumber;
     };
-
-    handlePageChange = async (dashboardType: Dashboard, pageNumber: number) => {
-        switch (dashboardType) {
-            case Dashboard.RecipeDashboard: {
-                this.recipeRegistry.clear();
-                this.recipeDashboardPageNumber = pageNumber;
-                break;
-            }
-            case Dashboard.UserRecipesDashboard: {
-                this.userRecipeRegistry.clear();
-                this.setUserRecipesLoaded(false);
-                break;
-            }
-        }
-    }
 
     loadRecipe = async (id: string) => {
         this.setLoadingInitial(true);
@@ -146,15 +108,6 @@ export default class RecipeStore {
         this.recipeRegistry.set(recipe.id, recipe);
     };
 
-    private setUserRecipe = (recipe: Recipe) => {
-        recipe.date = recipe.date.split('T')[0];
-        this.userRecipeRegistry.set(recipe.id, recipe);
-    };
-
-    private getRecipe = (id: string) => {
-        return this.recipeRegistry.get(id);
-    };
-
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     };
@@ -163,16 +116,8 @@ export default class RecipeStore {
         this.loading = state;
     };
 
-    setUserRecipesLoaded = (state: boolean) => {
-        this.userRecipesLoaded = state;
-    };
-
     setRecipesNumber = (recipesNumber: number) => {
         this.recipesNumber = recipesNumber;
-    };
-
-    setUserRecipesNumber = (recipesNumber: number) => {
-        this.userRecipesNumber = recipesNumber;
     };
 
     createRecipe = async (recipe: Recipe) => {
@@ -217,39 +162,16 @@ export default class RecipeStore {
         }
     };
 
-    deleteRecipe = async (id: string) => {
-        this.setLoading(true);
-        try {
-            await agent.Recipes.delete(id);
-            runInAction(() => {
-                this.recipeRegistry.delete(id);
-                this.loading = false;
-            });
-            this.setRecipesNumber(this.recipesNumber - 1);
-            store.favouriteRecipesStore.reset();
-        } catch (error) {
-            console.log(error);
-            runInAction(() => {
-                this.loading = false;
-            });
-        }
-    };
-
-
-
     reset = () => {
         this.recipeRegistry.clear();
-        this.userRecipeRegistry.clear();
-        this.userRecipesLoaded = false;
-    }
+        this.recipeDashboardPageNumber = 0;
+        this.recipesNumber = 0;
+    };
 
-
-    resetUserRecipesRegistry = () => {
+    resetRecipeRegistry = () => {
         runInAction(() => {
-            this.userRecipeRegistry.clear();
+            this.recipeRegistry.clear();
         });
-        this.setUserRecipesLoaded(false);
-    }
-
-
+        this.setRecipesNumber(0);
+    };
 }

@@ -1,15 +1,17 @@
-import { createContext, useContext } from "react";
-import RecipeStore from "./recipeStore";
-import CommonStore from "./commonStore";
-import UserStore from "./userStore";
-import ModalStore from "./modalStore";
-import CategoryStore from "./categoryStore";
-import TagStore from "./tagStore";
-import FavouriteRecipesStore from "./favouriteRecipesStore";
+import { createContext, useContext } from 'react';
+import RecipeStore from './recipeStore';
+import CommonStore from './commonStore';
+import UserStore from './userStore';
+import ModalStore from './modalStore';
+import CategoryStore from './categoryStore';
+import TagStore from './tagStore';
+import FavouriteRecipesStore from './favouriteRecipesStore';
+import UserRecipesStore from './userRecipesStore';
 
 interface Store {
     recipeStore: RecipeStore;
     favouriteRecipesStore: FavouriteRecipesStore;
+    userRecipesStore: UserRecipesStore;
     commonStore: CommonStore;
     userStore: UserStore;
     modalStore: ModalStore;
@@ -19,13 +21,14 @@ interface Store {
 
 export const store: Store = {
     recipeStore: new RecipeStore(),
-    favouriteRecipesStore: new  FavouriteRecipesStore(),
+    favouriteRecipesStore: new FavouriteRecipesStore(),
+    userRecipesStore: new UserRecipesStore(),
     commonStore: new CommonStore(),
     userStore: new UserStore(),
     modalStore: new ModalStore(),
     categoryStore: new CategoryStore(),
-    tagStore: new TagStore()
-}
+    tagStore: new TagStore(),
+};
 
 export const StoreContext = createContext(store);
 

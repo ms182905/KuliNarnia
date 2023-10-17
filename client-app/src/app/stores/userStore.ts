@@ -43,6 +43,7 @@ export default class UserStore {
         store.commonStore.setToken(null);
         store.recipeStore.reset();
         store.favouriteRecipesStore.reset();
+        store.userRecipesStore.reset();
         this.user = null;
         router.navigate('/');
     }
