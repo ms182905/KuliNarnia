@@ -9,7 +9,7 @@ namespace API.Controllers
     {
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetRecipes(int from = 1, int to = 6)
+        public async Task<IActionResult> GetRecipes(int from = 0, int to = 7)
         {
             return HandleResult(await Mediator.Send(new List.Querry{From = from, To = to}));
         }
@@ -23,7 +23,7 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpGet("userRecipes")]
-        public async Task<IActionResult> GetRecipesByUser(int from = 1, int to = 6)
+        public async Task<IActionResult> GetRecipesByUser(int from = 0, int to = 7)
         {
             return HandleResult(await Mediator.Send(new ListByUser.Querry{From = from, To = to}));
         }
