@@ -50,7 +50,7 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
                     loading={loading && target === recipe.id}
                     onClick={(e) => handleRecipeDelete(e, recipe.id)}
                     floated="right"
-                    content="Remove from favourites"
+                    content="Delete recipe"
                     color="red"
                 />
             </Segment>
