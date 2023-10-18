@@ -8,7 +8,7 @@ namespace Application.UserSelection
         public UserSelectionPointValidator()
         {
             RuleFor(x => x.CategoryId).NotEmpty();
-            RuleFor(x => x.TagId).NotEmpty();
+            RuleFor(x => x.TagIds).NotEmpty();
         }
     }
 }

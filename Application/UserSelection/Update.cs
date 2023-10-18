@@ -37,24 +37,29 @@ namespace Application.UserSelection
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
-                var userSelection = await _context.UserSelectionStastics.FirstOrDefaultAsync(x => x.UserId == user.Id && x.CategoryId == request.UserSelectionPoint.CategoryId && x.TagId == request.UserSelectionPoint.TagId);
 
-                if (userSelection != null)
+                foreach (var TagId in request.UserSelectionPoint.TagIds)
                 {
-                    userSelection.Counter++;
-                }
-                else
-                {
-                    var newUserSelection = new UserSelectionStastic
+                    var userSelection = await _context.UserSelectionStastics.FirstOrDefaultAsync(x => x.UserId == user.Id && x.CategoryId == request.UserSelectionPoint.CategoryId && x.TagId == TagId);
+
+                    if (userSelection != null)
                     {
-                        UserId = user.Id,
-                        CategoryId = request.UserSelectionPoint.CategoryId,
-                        TagId = request.UserSelectionPoint.TagId,
-                        Counter = 1
-                    };
+                        userSelection.Counter++;
+                    }
+                    else
+                    {
+                        var newUserSelection = new UserSelectionStastic
+                        {
+                            UserId = user.Id,
+                            CategoryId = request.UserSelectionPoint.CategoryId,
+                            TagId = TagId,
+                            Counter = 1
+                        };
 
-                    await _context.UserSelectionStastics.AddAsync(newUserSelection);
+                        await _context.UserSelectionStastics.AddAsync(newUserSelection);
+                    }
                 }
+
 
                 var result = await _context.SaveChangesAsync() > 0;
 

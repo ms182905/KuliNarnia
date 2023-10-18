@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
+import { UserSelection } from '../models/userSelection';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -60,7 +61,7 @@ export default class RecipeStore {
             var recipe = await agent.Recipes.details(id);
             const tagIds: string[] = [];
             this.setRecipe(recipe);
-            runInAction(() => {
+            runInAction(async () => {
                 if (recipe !== undefined) {
                     recipe!.tags.forEach((tag) => {
                         tagIds.push(tag.id);
@@ -69,6 +70,8 @@ export default class RecipeStore {
 
                 recipe!.tagIds = tagIds;
                 this.selectedRecipe = recipe;
+                const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
+                await agent.UserSelection.post(userSelection);
             });
             console.log('------------' + recipe);
             this.setLoadingInitial(false);
