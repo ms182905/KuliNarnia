@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { Recipe } from '../models/recipe';
-import { Recipes as RecipesWithCounter } from '../models/recipes';
+import { Recipes as RecipesDTO } from '../models/recipes';
 import { toast } from 'react-toastify';
 import { router } from '../router/Routes';
 import { store } from '../stores/store';
@@ -74,8 +74,8 @@ const requests = {
 };
 
 const Recipes = {
-    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/recipes?from=${from}&to=${to}`),
-    listByUser: () => requests.get<RecipesWithCounter>('/recipes/byUser'),
+    list: (from: number, to: number) => requests.get<RecipesDTO>(`/recipes?from=${from}&to=${to}`),
+    listByUser: () => requests.get<RecipesDTO>('/recipes/byUser'),
     details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
     update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),
@@ -83,13 +83,13 @@ const Recipes = {
 };
 
 const FavouriteRecipes = {
-    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/favouriteRecipes?from=${from}&to=${to}`),
+    list: (from: number, to: number) => requests.get<RecipesDTO>(`/favouriteRecipes?from=${from}&to=${to}`),
     removeFromFavourites: (id: string) => axios.delete<void>(`/favouriteRecipes/${id}`),
     addToFavourites: (id: string) => requests.put<void>(`/favouriteRecipes/${id}`, {}),
 };
 
 const UserRecipes = {
-    list: (from: number, to: number) => requests.get<RecipesWithCounter>(`/recipes/userRecipes?from=${from}&to=${to}`),
+    list: (from: number, to: number) => requests.get<RecipesDTO>(`/recipes/userRecipes?from=${from}&to=${to}`),
 };
 
 const Account = {

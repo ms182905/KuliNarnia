@@ -3,6 +3,7 @@ import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
 import { UserSelection } from '../models/userSelection';
+import { store } from './store';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -70,8 +71,10 @@ export default class RecipeStore {
 
                 recipe!.tagIds = tagIds;
                 this.selectedRecipe = recipe;
-                const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
-                await agent.UserSelection.post(userSelection);
+                if (recipe.creatorName && recipe.creatorName !== store.userStore.user?.displayName) {
+                    const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
+                    await agent.UserSelection.post(userSelection);
+                }
             });
             console.log('------------' + recipe);
             this.setLoadingInitial(false);
