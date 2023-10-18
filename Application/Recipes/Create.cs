@@ -49,6 +49,7 @@ namespace Application.Recipes
                 {
                     Id = request.RecipeDetailsDTO.Id,
                     Title = request.RecipeDetailsDTO.Title,
+                    Date = request.RecipeDetailsDTO.Date,
                     Description = request.RecipeDetailsDTO.Description,
                     CreatorId = user.Id,
                     CategoryId = category.Id,
