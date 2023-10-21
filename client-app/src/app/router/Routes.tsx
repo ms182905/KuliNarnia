@@ -10,6 +10,7 @@ import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
 import FavouriteRecipesDashboard from '../../features/recipes/favouriteRecipes/FavouriteRecipesDashboard';
 import UserRecipesDashboard from '../../features/recipes/userRecipes/UserRecipesDashboard';
+import RecommendedRecipesDashboard from '../../features/recipes/recommendedRecipes/RecommendedRecipesDashboard';
 
 export const routes: RouteObject[] = [
     {
@@ -21,6 +22,7 @@ export const routes: RouteObject[] = [
             { path: 'recipes/:id/:byUser?', element: <RecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
             { path: 'userRecipes', element: <UserRecipesDashboard /> },
+            { path: 'recommendations', element: <RecommendedRecipesDashboard /> },
             { path: 'createRecipe', element: <RecipeForm key="create" /> },
             { path: 'manage/:id', element: <RecipeForm key="manage" /> },
             { path: 'login', element: <LoginForm key="manage" /> },

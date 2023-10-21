@@ -69,6 +69,8 @@ export default class RecipeStore {
                     });
                 }
 
+                store.recommendedRecipesStore.resetRecommendedRecipesRegistry();
+
                 recipe!.tagIds = tagIds;
                 this.selectedRecipe = recipe;
                 if (recipe.creatorName && recipe.creatorName !== store.userStore.user?.displayName) {

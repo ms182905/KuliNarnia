@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { Recipe } from '../models/recipe';
 import agent from '../api/agent';
+import { store } from './store';
 
 export default class FavouriteRecipesStore {
     favouriteRecipeRegistry = new Map<string, Recipe>();
@@ -77,6 +78,7 @@ export default class FavouriteRecipesStore {
                 this.loading = false;
             });
             this.resetFavouriteRecipesRegistry();
+            store.recommendedRecipesStore.resetRecommendedRecipesRegistry();
         } catch (error) {
             console.log(error);
             this.setLoading(false);

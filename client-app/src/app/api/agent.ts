@@ -92,6 +92,10 @@ const UserRecipes = {
     list: (from: number, to: number) => requests.get<RecipesDTO>(`/recipes/userRecipes?from=${from}&to=${to}`),
 };
 
+const RecommendedRecipes = {
+    list: () => requests.get<RecipesDTO>(`/recipes/recommendedRecipes`),
+};
+
 const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
@@ -118,6 +122,7 @@ const agent = {
     Recipes,
     FavouriteRecipes,
     UserRecipes,
+    RecommendedRecipes,
     Account,
     Categories,
     Tags,
