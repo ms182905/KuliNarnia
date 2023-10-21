@@ -11,8 +11,8 @@ namespace Application.FavouriteRecipes
 {
     public class List
     {
-        public class Querry : IRequest<Result<RecipesDTO>> 
-        { 
+        public class Querry : IRequest<Result<RecipesDTO>>
+        {
             public int From { get; set; }
             public int To { get; set; }
         }
@@ -39,21 +39,20 @@ namespace Application.FavouriteRecipes
                     x => x.UserName == _userAccessor.GetUsername()
                 );
 
-                System.Console.WriteLine("--------------------------------" + request.From);
-
                 var favouriteRecipes = await _context.Recipes
+                    .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id))
                     .Skip(request.From)
                     .Take(request.To - request.From)
-                    .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id))
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
                 var recipesNumber = await _context.Recipes
-                    .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id)).CountAsync();
+                    .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id))
+                    .CountAsync();
 
                 var recipesDTO = new RecipesDTO
                 {
-                    Recipes = favouriteRecipes, 
+                    Recipes = favouriteRecipes,
                     Count = recipesNumber
                 };
 

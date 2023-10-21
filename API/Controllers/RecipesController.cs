@@ -21,11 +21,16 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Querry{Id = id}));
         }
 
-        [AllowAnonymous]
         [HttpGet("userRecipes")]
         public async Task<IActionResult> GetRecipesByUser(int from = 0, int to = 7)
         {
             return HandleResult(await Mediator.Send(new ListByUser.Querry{From = from, To = to}));
+        }
+
+        [HttpGet("recommendedRecipes")]
+        public async Task<IActionResult> GetRecommendedRecipes()
+        {
+            return HandleResult(await Mediator.Send(new Recomend.Querry()));
         }
 
         [HttpPost]
