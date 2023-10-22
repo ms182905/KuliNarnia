@@ -18,14 +18,14 @@ export default observer(function NavBar() {
                     <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
                     KuliNarnia
                 </Menu.Item>
-                <Menu.Item as={NavLink} to="/recipes" name="Recipes" />
+                <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />
                 <Menu.Item as={NavLink} to="/errors" name="Errors" />
                 {user ? (
                     <>
-                        <Menu.Item as={NavLink} to="/favouriteRecipes" name="Favourites" />
-                        <Menu.Item as={NavLink} to="/recommendations" name="Recommendations" />
+                        <Menu.Item as={NavLink} to="/favouriteRecipes" onClick={() => window.scrollTo(0, 0)} name="Favourites" />
+                        <Menu.Item as={NavLink} to="/recommendations" onClick={() => window.scrollTo(0, 0)} name="Recommendations" />
                         <Menu.Item>
-                            <Button as={NavLink} to="/createRecipe" positive content="Create Recipe" />
+                            <Button as={NavLink} to="/createRecipe" onClick={() => window.scrollTo(0, 0)} positive content="Create Recipe" />
                         </Menu.Item>
                     </>
                 ) : (
