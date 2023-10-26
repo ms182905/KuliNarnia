@@ -94,7 +94,9 @@ namespace Application.Recipes
                     return new List<RecipeDetailsDTO>();
                 }
 
-                var recipeDistionary = new Dictionary<RecipeDetailsDTO, int>();
+                var sumOfTagSelections = userSelectionStastics.Sum(x => x.Counter);
+
+                var recipeDistionary = new Dictionary<RecipeDetailsDTO, float>();
                 foreach (var recipe in recipes)
                 {
                     var userSelection = userSelectionStastics.Where(
@@ -102,8 +104,10 @@ namespace Application.Recipes
                             x.CategoryId == recipe.CategoryId
                             && recipe.Tags.Any(t => t.Id == x.TagId)
                     );
-                    recipeDistionary.Add(recipe, userSelection.Sum(u => u.Counter));
+                    recipeDistionary.Add(recipe, (float) userSelection.Sum(u => u.Counter) / sumOfTagSelections);
+                    System.Console.WriteLine((float) userSelection.Sum(u => u.Counter) / sumOfTagSelections);
                 }
+
 
                 return recipeDistionary
                     .Where(r => r.Value > 0)
