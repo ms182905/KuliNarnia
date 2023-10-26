@@ -104,10 +104,14 @@ namespace Application.Recipes
                             x.CategoryId == recipe.CategoryId
                             && recipe.Tags.Any(t => t.Id == x.TagId)
                     );
-                    recipeDistionary.Add(recipe, (float) userSelection.Sum(u => u.Counter) / sumOfTagSelections);
-                    System.Console.WriteLine((float) userSelection.Sum(u => u.Counter) / sumOfTagSelections);
+                    recipeDistionary.Add(
+                        recipe,
+                        (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
+                    );
+                    System.Console.WriteLine(
+                        (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
+                    );
                 }
-
 
                 return recipeDistionary
                     .Where(r => r.Value > 0)
