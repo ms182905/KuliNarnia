@@ -9,15 +9,17 @@ import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
-    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity } = recipeStore;
-
-    const [pageNumber, setPageNumber] = useState(recipeStore.recipeDashboardPageNumber + 1);
+    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity, recipeDashboardPageNumber } = recipeStore;
 
     console.log(useLocation().pathname);
 
     useEffect(() => {
-        if (recipeRegistry.size < 1) loadRecipes(pageNumber - 1);
-    }, [loadRecipes, recipeRegistry.size, pageNumber]);
+        if (recipeRegistry.size < 1) loadRecipes(recipeDashboardPageNumber);
+    }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber]);
+
+    // useEffect(() => {
+    //     if (recipeStore.recipeDashboardPageNumber === 1) setPageNumber(1);
+    // }, [recipeStore.recipeDashboardPageNumber]);
 
     if (recipeStore.loadingInitial){
         window.scrollTo(0, 0);
@@ -35,7 +37,7 @@ export default observer(function RecipeDashboard() {
                 </Grid.Column>
             </Grid>
             <Pagination
-                defaultActivePage={pageNumber}
+                defaultActivePage={recipeDashboardPageNumber}
                 pointing
                 secondary
                 totalPages={Math.ceil(recipesNumber / pageCapacity)}
@@ -47,8 +49,7 @@ export default observer(function RecipeDashboard() {
                     paddingBottom: '1em',
                 }}
                 onPageChange={(event, data) => {
-                    handlePageChange(Number(data.activePage) - 1);
-                    setPageNumber(Number(data.activePage));
+                    handlePageChange(Number(data.activePage));
                     window.scrollTo(0, 0);
                 }}
             />

@@ -13,7 +13,10 @@ export default class RecipeStore {
     loadingInitial = false;
     recipesNumber = 0;
     pageCapacity = 7;
-    recipeDashboardPageNumber = 0;
+    recipeDashboardPageNumber = 1;
+    selectedCategory = "";
+    selectedTags: string[] = [];
+    searchQuery = "";
 
     constructor() {
         makeAutoObservable(this);
@@ -37,8 +40,8 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.Recipes.list(
-                pageNumber * this.pageCapacity,
-                pageNumber * this.pageCapacity + this.pageCapacity
+                (pageNumber - 1) * this.pageCapacity,
+                (pageNumber - 1) * this.pageCapacity + this.pageCapacity
             );
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
@@ -170,16 +173,27 @@ export default class RecipeStore {
         }
     };
 
-    reset = () => {
-        this.recipeRegistry.clear();
-        this.recipeDashboardPageNumber = 0;
-        this.recipesNumber = 0;
+    setFilters = (category: string, tags: string[]) => {
+        runInAction(() => {
+            this.selectedCategory = category;
+            this.selectedTags = tags
+        });
     };
 
-    resetRecipeRegistry = () => {
+    setSearchQuerry = (querry: string) => {
         runInAction(() => {
-            this.recipeRegistry.clear();
+            this.searchQuery = querry;
         });
-        this.setRecipesNumber(0);
+    };
+
+    reset = () => {
+        runInAction(() => {
+            this.recipeDashboardPageNumber = 1;
+            this.recipeRegistry.clear();
+            this.recipesNumber = 0;
+            this.selectedCategory = "";
+            this.selectedTags = []
+            this.searchQuery = ""
+        });
     };
 }

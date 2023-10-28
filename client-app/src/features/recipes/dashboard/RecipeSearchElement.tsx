@@ -4,15 +4,15 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../../../app/stores/store';
 
 export default observer(function RecipeSearchElement() {
-    const { categoryStore, tagStore } = useStore();
-    //const {  } = recipeStore;
+    const { categoryStore, tagStore, recipeStore } = useStore();
+    const {  } = recipeStore;
     const { categoriesTable, loadCategories } = categoryStore;
     const { tagsTable, loadTags } = tagStore;
     const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
     const [tagsList, setTagList] = useState<{ text: string; value: string; key: string }[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState<string>();
+    const [searchQuery, setSearchQuery] = useState(recipeStore.searchQuery);
+    const [selectedTags, setSelectedTags] = useState<string[]>(recipeStore.selectedTags);
+    const [selectedCategory, setSelectedCategory] = useState<string>(recipeStore.selectedCategory);
 
     useEffect(() => {
         if (categoriesTable.length > 0) {
@@ -47,14 +47,33 @@ export default observer(function RecipeSearchElement() {
 
     const handleSearch = () => {
         console.log('Searching for:', searchQuery);
-        console.log(selectedTags);
-        console.log(selectedCategory);
+        if (searchQuery.length !== 0) {
+            recipeStore.setSearchQuerry(searchQuery);
+        }
+    };
+
+    const handleClearSearch = () => {
+        if (searchQuery.length !== 0) {
+            setSearchQuery("");
+            recipeStore.reset();
+        }
     };
 
     const handleApplyFilters = () => {
-        console.log('Searching for:', searchQuery);
-        console.log(selectedTags);
+        console.log(typeof(selectedTags));
         console.log(selectedCategory);
+        if (selectedTags.length > 0 || selectedCategory.length !== 0) {
+            recipeStore.setFilters(selectedCategory, selectedTags)
+        }
+    };
+
+    const handleClearFilters = () => {
+        if (selectedTags.length > 0 || selectedCategory.length !== 0) {
+            setSelectedTags([]);
+            setSelectedCategory("")
+         
+            recipeStore.reset();
+        }
     };
 
     const handleTagDropdownChange = (_event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
@@ -73,7 +92,7 @@ export default observer(function RecipeSearchElement() {
                 <Header icon="wordpress simple" attached color="teal" content="Search by phrase" />
                 <Menu.Item>
                     <Grid columns={2}>
-                        <Grid.Column width={14}>
+                        <Grid.Column width={12}>
                             <Input
                                 fluid
                                 icon="search"
@@ -84,6 +103,9 @@ export default observer(function RecipeSearchElement() {
                         <Grid.Column width={2}>
                             <Button fluid type="button" content="Search" color="green" onClick={handleSearch} />
                         </Grid.Column>
+                        <Grid.Column width={2}>
+                            <Button fluid type="button" content="Clear" color="red" onClick={handleClearSearch} />
+                        </Grid.Column>
                     </Grid>
                 </Menu.Item>
             </Menu>
@@ -92,7 +114,7 @@ export default observer(function RecipeSearchElement() {
                 <Header icon="filter" attached color="teal" content="Filters" />
                 <Menu.Item>
                     <Grid columns={2}>
-                        <Grid.Column width={7}>
+                        <Grid.Column width={6}>
                             <Dropdown
                                 fluid
                                 clearable
@@ -104,7 +126,7 @@ export default observer(function RecipeSearchElement() {
                                 selection
                             />
                         </Grid.Column>
-                        <Grid.Column width={7}>
+                        <Grid.Column width={6}>
                             <Select
                                 fluid
                                 clearable
@@ -116,6 +138,9 @@ export default observer(function RecipeSearchElement() {
                         </Grid.Column>
                         <Grid.Column width={2}>
                             <Button fluid type="button" content="Apply" color="green" onClick={handleApplyFilters} />
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                            <Button fluid type="button" content="Clear" color="red" onClick={handleClearFilters} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>

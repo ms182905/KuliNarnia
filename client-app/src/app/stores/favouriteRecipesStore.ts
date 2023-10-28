@@ -79,7 +79,7 @@ export default class FavouriteRecipesStore {
             });
             this.resetFavouriteRecipesRegistry();
             store.recommendedRecipesStore.resetRecommendedRecipesRegistry();
-            store.recipeStore.resetRecipeRegistry();
+            store.recipeStore.reset();
         } catch (error) {
             console.log(error);
             this.setLoading(false);
@@ -94,7 +94,7 @@ export default class FavouriteRecipesStore {
             this.resetFavouriteRecipesRegistry();
             this.setLoading(false);
             store.recommendedRecipesStore.resetRecommendedRecipesRegistry();
-            store.recipeStore.resetRecipeRegistry();
+            store.recipeStore.reset();
         } catch (error) {
             console.log(error);
             this.setLoading(false);
@@ -111,7 +111,7 @@ export default class FavouriteRecipesStore {
             });
             this.resetFavouriteRecipesRegistry();
             store.recommendedRecipesStore.resetRecommendedRecipesRegistry();
-            store.recipeStore.resetRecipeRegistry();
+            store.recipeStore.reset();
         } catch (error) {
             console.log(error);
             this.setLoading(false);
