@@ -4,7 +4,7 @@ import RecipeList from './RecipeList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import RecipeFilters from './RecipeFilters';
+import RecipeSearchElement from './RecipeSearchElement';
 import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
@@ -30,7 +30,7 @@ export default observer(function RecipeDashboard() {
                 <Grid.Column width="16">
                     {/* </Grid.Column>
             <Grid.Column width='6'> */}
-                    <RecipeFilters />
+                    <RecipeSearchElement />
                     <RecipeList />
                 </Grid.Column>
             </Grid>
