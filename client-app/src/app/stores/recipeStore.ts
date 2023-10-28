@@ -14,9 +14,9 @@ export default class RecipeStore {
     recipesNumber = 0;
     pageCapacity = 7;
     recipeDashboardPageNumber = 1;
-    selectedCategory = "";
+    selectedCategory = '';
     selectedTags: string[] = [];
-    searchQuery = "";
+    searchQuery = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -39,9 +39,13 @@ export default class RecipeStore {
     loadRecipes = async (pageNumber: number) => {
         this.setLoadingInitial(true);
         try {
+            console.log(this.selectedCategory);
             const recipes = await agent.Recipes.list(
                 (pageNumber - 1) * this.pageCapacity,
-                (pageNumber - 1) * this.pageCapacity + this.pageCapacity
+                (pageNumber - 1) * this.pageCapacity + this.pageCapacity,
+                this.selectedCategory,
+                encodeURIComponent(this.selectedTags.join(' ')),
+                encodeURIComponent(this.searchQuery)
             );
             recipes.recipes.forEach((recipe) => {
                 this.setRecipe(recipe);
@@ -174,10 +178,13 @@ export default class RecipeStore {
     };
 
     setFilters = (category: string, tags: string[]) => {
-        runInAction(() => {
-            this.selectedCategory = category;
-            this.selectedTags = tags
-        });
+        this.selectedCategory = category;
+        this.selectedTags = tags;
+    };
+
+    resetFilters = () => {
+        this.selectedCategory = '';
+        this.selectedTags = [];
     };
 
     setSearchQuerry = (querry: string) => {
@@ -186,14 +193,17 @@ export default class RecipeStore {
         });
     };
 
+    resetSearchQuerry = () => {
+        runInAction(() => {
+            this.searchQuery = '';
+        });
+    };
+
     reset = () => {
         runInAction(() => {
             this.recipeDashboardPageNumber = 1;
             this.recipeRegistry.clear();
             this.recipesNumber = 0;
-            this.selectedCategory = "";
-            this.selectedTags = []
-            this.searchQuery = ""
         });
     };
 }

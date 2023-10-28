@@ -20,9 +20,8 @@ export default observer(function RecipeForm() {
     const { tagsTable, loadTags } = tagStore;
     const { id } = useParams();
     const navigate = useNavigate();
-    const [categoriesList, setCategoriesList] = useState<{text: string, value: string}[]>([]);
-    const [tagsList, setTagList] = useState<{text: string, value: string, key: string}[]>([]);
-
+    const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
+    const [tagsList, setTagList] = useState<{ text: string; value: string; key: string }[]>([]);
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -33,24 +32,28 @@ export default observer(function RecipeForm() {
         creatorId: '',
         ingredients: [],
         instructions: [],
-        tags: [], 
+        tags: [],
         tagIds: [],
-        comments: []
+        comments: [],
     });
 
-    useEffect( () => {
+    useEffect(() => {
         if (categoriesTable.length > 0) {
-            const tempCategories: {text: string, value: string}[] = [];
-            categoriesTable.forEach(s => tempCategories.push({text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id}));
+            const tempCategories: { text: string; value: string }[] = [];
+            categoriesTable.forEach((s) =>
+                tempCategories.push({ text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id })
+            );
             tempCategories.sort((a, b) => a.text.localeCompare(b.text));
             setCategoriesList(tempCategories);
         }
     }, [categoriesTable]);
 
-    useEffect( () => {
+    useEffect(() => {
         if (tagsTable.length > 0) {
-            const tempTags: {text: string, value: string, key: string}[] = [];
-            tagsTable.forEach(s => tempTags.push({text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id, key: s.name}));
+            const tempTags: { text: string; value: string; key: string }[] = [];
+            tagsTable.forEach((s) =>
+                tempTags.push({ text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id, key: s.name })
+            );
             tempTags.sort((a, b) => a.text.localeCompare(b.text));
             setTagList(tempTags);
         }
@@ -60,7 +63,7 @@ export default observer(function RecipeForm() {
         title: Yup.string().required('The recipe title is required'),
         description: Yup.string().required('The recipe description is required'),
         categoryId: Yup.string().required(),
-        tagIds: Yup.array().min(1)
+        tagIds: Yup.array().min(1),
     });
 
     useEffect(() => {
@@ -68,15 +71,15 @@ export default observer(function RecipeForm() {
             if (recipeStore.selectedRecipe?.id === id) setRecipe(recipeStore.selectedRecipe);
             else {
                 loadRecipe(id).then((recipe) => {
-                    console.log(recipe)
-                    setRecipe(recipe!)
+                    console.log(recipe);
+                    setRecipe(recipe!);
                 });
             }
-        } 
-        if (categoriesList.length === 0) {
+        }
+        if (categoriesList.length < 1) {
             loadCategories();
         }
-        if (tagsList.length === 0) {
+        if (tagsList.length < 1) {
             loadTags();
         }
     }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags, recipeStore.selectedRecipe]);
@@ -97,7 +100,7 @@ export default observer(function RecipeForm() {
 
     return (
         <Segment clearing>
-            <Header content='Recipe Details' sub color='teal' /> 
+            <Header content="Recipe Details" sub color="teal" />
             <Formik
                 validationSchema={validationSchema}
                 enableReinitialize
@@ -110,12 +113,14 @@ export default observer(function RecipeForm() {
                         <MyTextArea placeholder="Description" name="description" rows={3} />
                         <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
                         <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
-                        <Button 
+                        <Button
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={loading}
                             floated="right"
-                            positive type="submit" 
-                            content="Submit" />
+                            positive
+                            type="submit"
+                            content="Submit"
+                        />
                         <Button as={Link} to="/recipes" floated="right" type="button" content="Cancel" />
                     </Form>
                 )}

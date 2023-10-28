@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Grid, Pagination } from 'semantic-ui-react';
 import RecipeList from './RecipeList';
 import { useStore } from '../../../app/stores/store';
@@ -9,22 +9,25 @@ import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
-    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity, recipeDashboardPageNumber } = recipeStore;
+    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity, recipeDashboardPageNumber } =
+        recipeStore;
 
     console.log(useLocation().pathname);
 
     useEffect(() => {
-        if (recipeRegistry.size < 1) loadRecipes(recipeDashboardPageNumber);
+        if (recipeRegistry.size < 1) {
+            if (recipeDashboardPageNumber !== 1) {
+                loadRecipes(recipeDashboardPageNumber - 1);
+            } else {
+                loadRecipes(recipeDashboardPageNumber);
+            }
+        }
     }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber]);
 
-    // useEffect(() => {
-    //     if (recipeStore.recipeDashboardPageNumber === 1) setPageNumber(1);
-    // }, [recipeStore.recipeDashboardPageNumber]);
-
-    if (recipeStore.loadingInitial){
+    if (recipeStore.loadingInitial) {
         window.scrollTo(0, 0);
         return <LoadingComponent content="Loading recipes..." />;
-    } 
+    }
 
     return (
         <>

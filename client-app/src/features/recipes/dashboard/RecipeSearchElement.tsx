@@ -5,7 +5,7 @@ import { useStore } from '../../../app/stores/store';
 
 export default observer(function RecipeSearchElement() {
     const { categoryStore, tagStore, recipeStore } = useStore();
-    const {  } = recipeStore;
+    const { resetFilters, setSearchQuerry, setFilters, reset, resetSearchQuerry } = recipeStore;
     const { categoriesTable, loadCategories } = categoryStore;
     const { tagsTable, loadTags } = tagStore;
     const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
@@ -37,10 +37,10 @@ export default observer(function RecipeSearchElement() {
     }, [tagsTable]);
 
     useEffect(() => {
-        if (categoriesList.length === 0) {
+        if (categoriesList.length < 1) {
             loadCategories();
         }
-        if (tagsList.length === 0) {
+        if (tagsList.length < 1) {
             loadTags();
         }
     }, [categoriesList, loadCategories, tagsList, loadTags]);
@@ -48,31 +48,35 @@ export default observer(function RecipeSearchElement() {
     const handleSearch = () => {
         console.log('Searching for:', searchQuery);
         if (searchQuery.length !== 0) {
-            recipeStore.setSearchQuerry(searchQuery);
+            setSearchQuerry(searchQuery);
+            reset();
         }
     };
 
     const handleClearSearch = () => {
         if (searchQuery.length !== 0) {
-            setSearchQuery("");
-            recipeStore.reset();
+            setSearchQuery('');
+            resetSearchQuerry();
+            reset();
         }
     };
 
     const handleApplyFilters = () => {
-        console.log(typeof(selectedTags));
+        console.log(typeof selectedTags);
         console.log(selectedCategory);
         if (selectedTags.length > 0 || selectedCategory.length !== 0) {
-            recipeStore.setFilters(selectedCategory, selectedTags)
+            console.log();
+            setFilters(selectedCategory, selectedTags);
+            reset();
         }
     };
 
     const handleClearFilters = () => {
         if (selectedTags.length > 0 || selectedCategory.length !== 0) {
             setSelectedTags([]);
-            setSelectedCategory("")
-         
-            recipeStore.reset();
+            setSelectedCategory('');
+
+            resetFilters();
         }
     };
 
@@ -97,6 +101,7 @@ export default observer(function RecipeSearchElement() {
                                 fluid
                                 icon="search"
                                 placeholder="Search name..."
+                                value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </Grid.Column>

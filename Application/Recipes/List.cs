@@ -14,6 +14,9 @@ namespace Application.Recipes
         {
             public int From { get; set; }
             public int To { get; set; }
+            public string CategoryFilter { get; set; }
+            public string TagsFilter { get; set; }
+            public string SearchQuerry { get; set; }
         }
 
         public class Handler : IRequestHandler<Querry, Result<RecipesDTO>>
@@ -32,6 +35,11 @@ namespace Application.Recipes
                 CancellationToken cancellationToken
             )
             {
+                System.Console.WriteLine("-------------------------");
+                System.Console.WriteLine(request.CategoryFilter);
+                System.Console.WriteLine(request.TagsFilter);
+                System.Console.WriteLine(request.SearchQuerry);
+
                 var recipes = await _context.Recipes
                     .Skip(request.From)
                     .Take(request.To - request.From)

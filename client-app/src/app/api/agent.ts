@@ -74,7 +74,14 @@ const requests = {
 };
 
 const Recipes = {
-    list: (from: number, to: number) => requests.get<RecipesDTO>(`/recipes?from=${from}&to=${to}`),
+    list: (from: number, to: number, category: string, tags: string, querry: string) =>
+        requests.get<RecipesDTO>(
+            `/recipes?from=${from}&to=${to}`.concat(
+                category.length ? `&category=${category}` : '',
+                tags.length ? `&tags=${tags}` : '',
+                querry.length ? `&querry=${querry}` : ''
+            )
+        ),
     listByUser: () => requests.get<RecipesDTO>('/recipes/byUser'),
     details: (id: string) => requests.get<Recipe>(`/recipes/${id}`),
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
