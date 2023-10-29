@@ -18,7 +18,7 @@ export default function RecipeDetailedIngredients({ recipe }: Props) {
             {recipe.ingredients.map((ingredient, index) => (
                 <Segment key={index}>
                     <span>
-                        {capitalizeFirstLetter(ingredient.name)}: {ingredient.amount} {ingredient.measurementName}{' '}
+                        {capitalizeFirstLetter(ingredient.name)}: {ingredient.amount} {ingredient.measurement.name}{' '}
                     </span>
                 </Segment>
             ))}

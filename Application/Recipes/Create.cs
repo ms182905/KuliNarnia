@@ -88,7 +88,7 @@ namespace Application.Recipes
                                 Name = ingredient.Name,
                                 Amount = ingredient.Amount,
                                 RecipeId = request.RecipeDetailsDTO.Id,
-                                MeasurementId = ingredient.MeasurementId
+                                MeasurementId = ingredient.Measurement.Id
                             }
                     )
                     .ToList();

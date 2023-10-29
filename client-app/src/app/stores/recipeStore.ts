@@ -4,6 +4,7 @@ import agent from '../api/agent';
 import { RecipeComment } from '../models/comment';
 import { UserSelection } from '../models/userSelection';
 import { store } from './store';
+import { Ingredient } from '../models/ingredient';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -102,6 +103,18 @@ export default class RecipeStore {
             await agent.Comments.create(recipeComment);
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    addRecipeIngredient = async (recipeIngredient: Ingredient) => {
+        this.selectedRecipe?.ingredients?.push(recipeIngredient);
+    };
+
+    deleteRecipeIngredient = async (id: string) => {
+        if (this.selectedRecipe && this.selectedRecipe.ingredients) {
+            this.selectedRecipe.ingredients = this.selectedRecipe.ingredients.filter(
+                (ingredient) => ingredient.id !== id
+            );
         }
     };
 

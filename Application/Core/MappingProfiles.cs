@@ -22,7 +22,7 @@ namespace Application.Core
             CreateMap<Tag, TagDTO>();
             CreateMap<Photo, PhotoDTO>();
             CreateMap<Ingredient, IngredientDTO>()
-                .ForMember(x => x.MeasurementName, o => o.MapFrom(s => s.Measurement.Name));
+                .ForMember(x => x.Measurement, o => o.MapFrom(s => s.Measurement));
             CreateMap<Comment, CommentDTO>()
                 .ForMember(x => x.AppUserDisplayName, o => o.MapFrom(s => s.AppUser.DisplayName));
             CreateMap<RecipeTags, TagDTO>()
