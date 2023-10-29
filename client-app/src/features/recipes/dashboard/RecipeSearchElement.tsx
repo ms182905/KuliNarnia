@@ -47,14 +47,14 @@ export default observer(function RecipeSearchElement() {
 
     const handleSearch = () => {
         console.log('Searching for:', searchQuery);
-        if (searchQuery.length !== 0) {
+        if (searchQuery.length !== 0 || recipeStore.recipeRegistry.size === 0) {
             setSearchQuerry(searchQuery);
             reset();
         }
     };
 
     const handleClearSearch = () => {
-        if (searchQuery.length !== 0) {
+        if (searchQuery.length !== 0 || recipeStore.recipeRegistry.size === 0) {
             setSearchQuery('');
             resetSearchQuerry();
             reset();
@@ -62,9 +62,15 @@ export default observer(function RecipeSearchElement() {
     };
 
     const handleApplyFilters = () => {
-        console.log(typeof selectedTags);
+        console.log(selectedTags);
         console.log(selectedCategory);
-        if (selectedTags.length > 0 || selectedCategory.length !== 0) {
+        if (
+            selectedTags.length > 0 ||
+            selectedCategory.length > 0 ||
+            recipeStore.recipeRegistry.size === 0 ||
+            (recipeStore.selectedCategory.length > 0 && recipeStore.selectedCategory !== selectedCategory) ||
+            (recipeStore.selectedTags.length > 0 && recipeStore.selectedTags !== selectedTags)
+        ) {
             console.log();
             setFilters(selectedCategory, selectedTags);
             reset();
@@ -72,11 +78,16 @@ export default observer(function RecipeSearchElement() {
     };
 
     const handleClearFilters = () => {
-        if (selectedTags.length > 0 || selectedCategory.length !== 0) {
+        if (
+            recipeStore.recipeRegistry.size < 1 ||
+            recipeStore.selectedCategory.length > 0 ||
+            recipeStore.selectedTags.length > 0
+        ) {
             setSelectedTags([]);
             setSelectedCategory('');
 
             resetFilters();
+            reset();
         }
     };
 

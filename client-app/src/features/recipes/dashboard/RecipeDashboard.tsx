@@ -9,20 +9,25 @@ import { useLocation } from 'react-router-dom';
 
 export default observer(function RecipeDashboard() {
     const { recipeStore } = useStore();
-    const { loadRecipes, recipeRegistry, recipesNumber, handlePageChange, pageCapacity, recipeDashboardPageNumber } =
-        recipeStore;
+    const {
+        loadRecipes,
+        recipeRegistry,
+        recipesNumber,
+        handlePageChange,
+        pageCapacity,
+        recipeDashboardPageNumber,
+        searchQuery,
+        selectedCategory,
+        selectedTags,
+    } = recipeStore;
 
     console.log(useLocation().pathname);
 
     useEffect(() => {
         if (recipeRegistry.size < 1) {
-            if (recipeDashboardPageNumber !== 1) {
-                loadRecipes(recipeDashboardPageNumber - 1);
-            } else {
-                loadRecipes(recipeDashboardPageNumber);
-            }
+            loadRecipes(recipeDashboardPageNumber);
         }
-    }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber]);
+    }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber, searchQuery, selectedCategory, selectedTags]);
 
     if (recipeStore.loadingInitial) {
         window.scrollTo(0, 0);

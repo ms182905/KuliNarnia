@@ -25,7 +25,7 @@ export default observer(function ({ recipe }: Props) {
             </Segment>
             <Segment>
                 <span>
-                    <Icon name='clock' /> {recipe.date}
+                    <Icon name="clock" /> {recipe.date}
                 </span>
             </Segment>
             {/* <Segment secondary>

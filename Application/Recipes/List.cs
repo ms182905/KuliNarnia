@@ -4,6 +4,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Persistence;
 
 namespace Application.Recipes
@@ -35,22 +36,44 @@ namespace Application.Recipes
                 CancellationToken cancellationToken
             )
             {
-                System.Console.WriteLine("-------------------------");
-                System.Console.WriteLine(request.CategoryFilter);
-                System.Console.WriteLine(request.TagsFilter);
-                System.Console.WriteLine(request.SearchQuerry);
+                var categoryToFilter = Uri.UnescapeDataString(request.CategoryFilter);
+                var searchQuerry = Uri.UnescapeDataString(request.SearchQuerry).ToLower();
+                List<string> tagsToFilter = request.TagsFilter
+                    .Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
 
-                var recipes = await _context.Recipes
+                var tagIdsToFilter = tagsToFilter.Select(tag => tag).ToList();
+
+                var recipesQuery = _context.Recipes.Where(
+                    r =>
+                        (
+                            categoryToFilter.IsNullOrEmpty()
+                            || r.CategoryId.ToString() == categoryToFilter
+                        )
+                        && (
+                            tagsToFilter.IsNullOrEmpty()
+                            || r.RecipeTags.Any(rt => tagIdsToFilter.Contains(rt.TagId.ToString()))
+                        )
+                        && (
+                            searchQuerry.IsNullOrEmpty()
+                            || r.Title.ToLower().Contains(searchQuerry)
+                            || r.Ingredients.Any(i => i.Name.ToLower().Contains(searchQuerry))
+                        )
+                );
+
+                int recipesNumber = recipesQuery.Count();
+
+                var recipes = await recipesQuery
                     .Skip(request.From)
                     .Take(request.To - request.From)
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                var recipesNumber = await _context.Recipes.CountAsync();
+                    .ToListAsync(cancellationToken: cancellationToken);
 
                 foreach (var recipe in recipes)
                 {
                     var photo = await _context.Photos.FirstOrDefaultAsync(
-                        x => x.RecipeId == recipe.Id
+                        x => x.RecipeId == recipe.Id,
+                        cancellationToken: cancellationToken
                     );
                     if (photo == null)
                     {
