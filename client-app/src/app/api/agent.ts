@@ -9,6 +9,7 @@ import { Category } from '../models/category';
 import { Tag } from '../models/tag';
 import { RecipeComment } from '../models/comment';
 import { UserSelection as UserSelectionDTO } from '../models/userSelection';
+import { Measurement } from '../models/measurement';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -116,6 +117,11 @@ const Categories = {
 const Tags = {
     list: () => requests.get<Tag[]>('/tags'),
 };
+
+const Measurements = {
+    list: () => requests.get<Measurement[]>(`/measurements`),
+};
+
 const Comments = {
     create: (comment: RecipeComment) => axios.post<void>('/comments', comment),
     delete: (id: string) => axios.delete<void>(`/comments/${id}`),
@@ -133,6 +139,7 @@ const agent = {
     Account,
     Categories,
     Tags,
+    Measurements,
     Comments,
     UserSelection,
 };

@@ -14,14 +14,16 @@ import MySelectInput from '../../../app/common/form/MySelectInput';
 import MyMultipleChoiceDropdownInput from '../../../app/common/form/MyMultipleChoiceDropdownInput';
 
 export default observer(function RecipeForm() {
-    const { recipeStore, categoryStore, tagStore } = useStore();
+    const { recipeStore, categoryStore, tagStore, measurementStore } = useStore();
     const { createRecipe, updateRecipe, loading, loadRecipe } = recipeStore;
     const { categoriesTable, loadCategories } = categoryStore;
     const { tagsTable, loadTags } = tagStore;
+    const { measurementsTable, loadMeasurements } = measurementStore;
     const { id } = useParams();
     const navigate = useNavigate();
     const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
     const [tagsList, setTagList] = useState<{ text: string; value: string; key: string }[]>([]);
+    const [measurementsList, setMeasurementsList] = useState<{ text: string; value: string; key: string }[]>([]);
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -59,6 +61,17 @@ export default observer(function RecipeForm() {
         }
     }, [tagsTable]);
 
+    useEffect(() => {
+        if (measurementsTable.length > 0) {
+            const tempMeasurements: { text: string; value: string; key: string }[] = [];
+            measurementsTable.forEach((s) =>
+                tempMeasurements.push({ text: s.name.charAt(0).toUpperCase() + s.name.slice(1), value: s.id, key: s.name })
+            );
+            tempMeasurements.sort((a, b) => a.text.localeCompare(b.text));
+            setMeasurementsList(tempMeasurements);
+        }
+    }, [measurementsTable]);
+
     const validationSchema = Yup.object({
         title: Yup.string().required('The recipe title is required'),
         description: Yup.string().required('The recipe description is required'),
@@ -82,7 +95,10 @@ export default observer(function RecipeForm() {
         if (tagsList.length < 1) {
             loadTags();
         }
-    }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags, recipeStore.selectedRecipe]);
+        if (measurementsList.length < 1) {
+            loadMeasurements();
+        }
+    }, [id, loadRecipe, categoriesList, loadCategories, tagsList, loadTags, measurementsList, loadMeasurements, recipeStore.selectedRecipe]);
 
     function handleFormSubmit(recipe: Recipe) {
         console.log(recipe);
@@ -99,32 +115,40 @@ export default observer(function RecipeForm() {
     if (tagStore.loadingInitial) return <LoadingComponent content="Loading tags..." />;
 
     return (
-        <Segment clearing>
-            <Header content="Recipe Details" sub color="teal" />
-            <Formik
-                validationSchema={validationSchema}
-                enableReinitialize
-                initialValues={recipe}
-                onSubmit={(values) => handleFormSubmit(values)}
-            >
-                {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-                    <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                        <MyTextInput placeholder="Title" name="title" />
-                        <MyTextArea placeholder="Description" name="description" rows={3} />
-                        <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
-                        <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
-                        <Button
-                            disabled={isSubmitting || !dirty || !isValid}
-                            loading={loading}
-                            floated="right"
-                            positive
-                            type="submit"
-                            content="Submit"
-                        />
-                        <Button as={Link} to="/recipes" floated="right" type="button" content="Cancel" />
-                    </Form>
-                )}
-            </Formik>
-        </Segment>
+        <Segment.Group>
+            <Segment textAlign="center" attached="top" inverted color="red" style={{ border: 'none' }}>
+                <Header>Add new recipe</Header>
+            </Segment>
+            <Segment clearing>
+                <Header content="Recipe Details" sub color="teal" />
+                <Formik
+                    validationSchema={validationSchema}
+                    enableReinitialize
+                    initialValues={recipe}
+                    onSubmit={(values) => handleFormSubmit(values)}
+                >
+                    {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                            <MyTextInput placeholder="Title" name="title" />
+                            <MyTextArea placeholder="Description" name="description" rows={3} />
+                            <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
+                            <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
+                            <Button
+                                disabled={isSubmitting || !dirty || !isValid}
+                                loading={loading}
+                                floated="right"
+                                positive
+                                type="submit"
+                                content="Submit"
+                            />
+                            <Button as={Link} to="/recipes" floated="right" type="button" content="Cancel" />
+                        </Form>
+                    )}
+                </Formik>
+            </Segment>
+            <Segment textAlign="center" attached="top" inverted color="blue" style={{ border: 'none' }}>
+                <Header>Add ingredients</Header>
+            </Segment>
+        </Segment.Group>
     );
 });

@@ -8,6 +8,7 @@ import TagStore from './tagStore';
 import FavouriteRecipesStore from './favouriteRecipesStore';
 import UserRecipesStore from './userRecipesStore';
 import RecommendedRecipesStore from './recommendedRecipesStore';
+import MeasurementStore from './measurementStore';
 
 interface Store {
     recipeStore: RecipeStore;
@@ -19,6 +20,7 @@ interface Store {
     modalStore: ModalStore;
     categoryStore: CategoryStore;
     tagStore: TagStore;
+    measurementStore: MeasurementStore;
 }
 
 export const store: Store = {
@@ -31,6 +33,7 @@ export const store: Store = {
     modalStore: new ModalStore(),
     categoryStore: new CategoryStore(),
     tagStore: new TagStore(),
+    measurementStore: new MeasurementStore(),
 };
 
 export const StoreContext = createContext(store);

@@ -17,6 +17,7 @@ namespace Application.Core
                 .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
             CreateMap<RecipeDetailsDTO, RecipeDTO>();
             CreateMap<Instruction, InstructionDTO>();
+            CreateMap<Measurement, MeasurementDTO>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<Tag, TagDTO>();
             CreateMap<Photo, PhotoDTO>();
