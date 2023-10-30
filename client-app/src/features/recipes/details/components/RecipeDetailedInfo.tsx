@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Segment, Grid, Icon } from 'semantic-ui-react';
-import { Recipe } from '../../../app/models/recipe';
+import { Recipe } from '../../../../app/models/recipe';
 
 interface Props {
     recipe: Recipe;

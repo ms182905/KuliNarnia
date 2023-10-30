@@ -27,7 +27,7 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
                     <Item>
                         <Item.Image size="tiny" circular src="/assets/placeholder.png" />
                         <Item.Content>
-                            <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
+                            <Item.Header as={Link} to={`/recipes/${recipe.id}/${true}`}>
                                 {recipe.title}
                             </Item.Header>
                         </Item.Content>

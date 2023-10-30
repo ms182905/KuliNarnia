@@ -1,5 +1,5 @@
 import { Segment, Header } from 'semantic-ui-react';
-import { Recipe } from '../../../app/models/recipe';
+import { Recipe } from '../../../../app/models/recipe';
 
 interface Props {
     recipe: Recipe;

@@ -14,7 +14,7 @@ export default observer(function RecipeFormIngredients() {
     const { recipeStore, measurementStore } = useStore();
     const { loading } = recipeStore;
     const { measurementsTable } = measurementStore;
-    const [measurementsList] = useState<{ text: string; value: string; key: string }[]>([]);
+    const [measurementsList, setMeasurementsList] = useState<{ text: string; value: string; key: string }[]>([]);
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -39,6 +39,21 @@ export default observer(function RecipeFormIngredients() {
             name: '',
         },
     });
+
+    useEffect(() => {
+        if (measurementsTable.length > 0) {
+            const tempMeasurements: { text: string; value: string; key: string }[] = [];
+            measurementsTable.forEach((s) =>
+                tempMeasurements.push({
+                    text: s.name.charAt(0).toUpperCase() + s.name.slice(1),
+                    value: s.id,
+                    key: s.name,
+                })
+            );
+            tempMeasurements.sort((a, b) => a.text.localeCompare(b.text));
+            setMeasurementsList(tempMeasurements);
+        }
+    }, [measurementsTable]);
 
     useEffect(() => {
         if (recipeStore.selectedRecipe) setRecipe(recipeStore.selectedRecipe);
@@ -107,7 +122,10 @@ export default observer(function RecipeFormIngredients() {
                     validationSchema={ingredientValidationSchema}
                     enableReinitialize
                     initialValues={ingredient}
-                    onSubmit={(values) => handleFormSubmit(values)}
+                    onSubmit={(values, { resetForm }) => {
+                        handleFormSubmit(values);
+                        resetForm();
+                    }}
                 >
                     {({ handleSubmit, isValid, isSubmitting, dirty }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">

@@ -65,31 +65,31 @@ export default observer(function RecipeFormInstructions() {
         <>
             {recipe.instructions.map((instruction) => (
                 <Segment attached key={instruction.id}>
-                    <Grid>
-                        <Grid.Row verticalAlign="middle" style={{ margin: '5px', padding: '4px' }}>
-                            <Grid.Column width={2} />
-                            <Grid.Column width={4}>
-                                <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
-                                    Step {instruction.position}:
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column width={6}>
-                                <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
-                                    {instruction.text}
-                                </Segment>
-                            </Grid.Column>
-                            <Grid.Column width={2}>
-                                <Button
-                                    fluid
-                                    type="button"
-                                    color="red"
-                                    content="Delete"
-                                    onClick={() => handleInstructionDelete(instruction.id)}
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Segment>
+                <Grid>
+                    <Grid.Row verticalAlign="middle" style={{ margin: '5px', padding: '4px' }}>
+                        <Grid.Column width={2}>
+                            <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
+                                Step {instruction.position}:
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column width={12} style={{ textAlign: 'center', maxWidth: '100%' }}>
+                            <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
+                                {instruction.text}
+                            </Segment>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                            <Button
+                                fluid
+                                type="button"
+                                color="red"
+                                content="Delete"
+                                onClick={() => handleInstructionDelete(instruction.id)}
+                            />
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Segment>
+            
             ))}
             <Segment clearing>
                 <Formik
@@ -104,8 +104,7 @@ export default observer(function RecipeFormInstructions() {
                     {({ handleSubmit, isValid, isSubmitting, dirty }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                             <Grid>
-                                <Grid.Column width={2} />
-                                <Grid.Column width={10}>
+                                <Grid.Column width={14}>
                                     <MyTextInput placeholder="Content" name="text" />
                                 </Grid.Column>
                                 <Grid.Column width={2}>

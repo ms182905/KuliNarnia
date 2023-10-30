@@ -10,6 +10,7 @@ export default observer(function NavBar() {
     const {
         userStore: { user, logout },
         modalStore: { openModal },
+        recipeStore: { resetSelectedRecipe },
     } = useStore();
     return (
         <Menu inverted fixed="top">
@@ -22,10 +23,29 @@ export default observer(function NavBar() {
                 <Menu.Item as={NavLink} to="/errors" name="Errors" />
                 {user ? (
                     <>
-                        <Menu.Item as={NavLink} to="/favouriteRecipes" onClick={() => window.scrollTo(0, 0)} name="Favourites" />
-                        <Menu.Item as={NavLink} to="/recommendations" onClick={() => window.scrollTo(0, 0)} name="Recommendations" />
+                        <Menu.Item
+                            as={NavLink}
+                            to="/favouriteRecipes"
+                            onClick={() => window.scrollTo(0, 0)}
+                            name="Favourites"
+                        />
+                        <Menu.Item
+                            as={NavLink}
+                            to="/recommendations"
+                            onClick={() => window.scrollTo(0, 0)}
+                            name="Recommendations"
+                        />
                         <Menu.Item>
-                            <Button as={NavLink} to="/createRecipe" onClick={() => window.scrollTo(0, 0)} positive content="Create Recipe" />
+                            <Button
+                                as={NavLink}
+                                to="/createRecipe"
+                                onClick={() => {
+                                    resetSelectedRecipe();
+                                    window.scrollTo(0, 0);
+                                }}
+                                positive
+                                content="Create Recipe"
+                            />
                         </Menu.Item>
                     </>
                 ) : (

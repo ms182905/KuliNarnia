@@ -108,15 +108,30 @@ export default class RecipeStore {
         }
     };
 
-    addRecipeIngredient = async (recipeIngredient: Ingredient) => {
+    addRecipeIngredient = (recipeIngredient: Ingredient) => {
         this.selectedRecipe?.ingredients?.push(recipeIngredient);
     };
 
-    addRecipeInstruction = async (recipeInstruction: Instruction) => {
+    addRecipeInstruction = (recipeInstruction: Instruction) => {
         this.selectedRecipe?.instructions?.push(recipeInstruction);
     };
 
-    deleteRecipeIngredient = async (id: string) => {
+    updateRecipeData = (recipe: Recipe) => {
+        if (this.selectedRecipe) {
+            this.selectedRecipe.tagIds = recipe.tagIds;
+            this.selectedRecipe.categoryId = recipe.categoryId;
+            this.selectedRecipe.title = recipe.title;
+            this.selectedRecipe.description = recipe.description;
+        } else {
+            this.selectedRecipe = recipe;
+        }
+    };
+
+    resetSelectedRecipe = () => {
+        this.selectedRecipe = undefined;
+    }
+
+    deleteRecipeIngredient = (id: string) => {
         if (this.selectedRecipe && this.selectedRecipe.ingredients) {
             this.selectedRecipe.ingredients = this.selectedRecipe.ingredients.filter(
                 (ingredient) => ingredient.id !== id
@@ -124,7 +139,7 @@ export default class RecipeStore {
         }
     };
 
-    deleteRecipeInstruction = async (id: string) => {
+    deleteRecipeInstruction = (id: string) => {
         if (this.selectedRecipe && this.selectedRecipe.instructions) {
             this.selectedRecipe.instructions = this.selectedRecipe.instructions.filter(
                 (instruction) => instruction.id !== id

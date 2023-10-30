@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Button, Header, Item, Segment, Image } from 'semantic-ui-react';
-import { Recipe } from '../../../app/models/recipe';
+import { Recipe } from '../../../../app/models/recipe';
 import { Link } from 'react-router-dom';
-import { useStore } from '../../../app/stores/store';
+import { useStore } from '../../../../app/stores/store';
 import { toast } from 'react-toastify';
-import RemoveRecipeFromFavourites from '../favouriteRecipes/RemoveRecipeFromFavourites';
+import RemoveRecipeFromFavourites from '../../favouriteRecipes/RemoveRecipeFromFavourites';
 
 const recipeImageStyle = {
     filter: 'brightness(30%)',
@@ -22,10 +22,11 @@ const recipeImageTextStyle = {
 
 interface Props {
     recipe: Recipe;
+    editable: boolean;
 }
 
-export default observer(function RecipeDetailedHeader({ recipe }: Props) {
-    const { modalStore, favouriteRecipesStore } = useStore();
+export default observer(function RecipeDetailedHeader({ recipe, editable }: Props) {
+    const { modalStore, favouriteRecipesStore, userStore } = useStore();
     const { loading, addRecipeToFavourites } = favouriteRecipesStore;
 
     return (
@@ -65,9 +66,13 @@ export default observer(function RecipeDetailedHeader({ recipe }: Props) {
                         }}
                     />
                 )}
-                <Button as={Link} to={`/manage/${recipe.id}`} color="orange" floated="right">
-                    Manage Recipe
-                </Button>
+                {editable && userStore.user?.displayName === recipe.creatorName ? (
+                    <Button as={Link} to={`/manage/${recipe.id}`} color="orange" floated="right">
+                        Manage Recipe
+                    </Button>
+                ) : (
+                    <></>
+                )}
             </Segment>
         </Segment.Group>
     );
