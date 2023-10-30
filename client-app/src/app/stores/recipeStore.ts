@@ -5,6 +5,7 @@ import { RecipeComment } from '../models/comment';
 import { UserSelection } from '../models/userSelection';
 import { store } from './store';
 import { Ingredient } from '../models/ingredient';
+import { Instruction } from '../models/instruction';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -69,6 +70,7 @@ export default class RecipeStore {
         try {
             var recipe = await agent.Recipes.details(id);
             const tagIds: string[] = [];
+            recipe.instructions.sort((a, b) => a.position - b.position);
             this.setRecipe(recipe);
             runInAction(async () => {
                 if (recipe !== undefined) {
@@ -86,7 +88,7 @@ export default class RecipeStore {
                     await agent.UserSelection.post(userSelection);
                 }
             });
-            console.log('------------' + recipe);
+
             this.setLoadingInitial(false);
             return recipe;
         } catch (error) {
@@ -110,10 +112,22 @@ export default class RecipeStore {
         this.selectedRecipe?.ingredients?.push(recipeIngredient);
     };
 
+    addRecipeInstruction = async (recipeInstruction: Instruction) => {
+        this.selectedRecipe?.instructions?.push(recipeInstruction);
+    };
+
     deleteRecipeIngredient = async (id: string) => {
         if (this.selectedRecipe && this.selectedRecipe.ingredients) {
             this.selectedRecipe.ingredients = this.selectedRecipe.ingredients.filter(
                 (ingredient) => ingredient.id !== id
+            );
+        }
+    };
+
+    deleteRecipeInstruction = async (id: string) => {
+        if (this.selectedRecipe && this.selectedRecipe.instructions) {
+            this.selectedRecipe.instructions = this.selectedRecipe.instructions.filter(
+                (instruction) => instruction.id !== id
             );
         }
     };

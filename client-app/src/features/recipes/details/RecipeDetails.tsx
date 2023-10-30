@@ -8,6 +8,7 @@ import RecipeDetailedHeader from './RecipeDetailedHeader';
 import RecipeDetailedInfo from './RecipeDetailedInfo';
 import RecipeDetailedComments from './RecipeDetailedComments';
 import RecipeDetailedIngredients from './RecipeDetailedIngredients';
+import RecipeDetailedInstructions from './RecipeDetailedInstructions';
 
 export default observer(function RecipeDetails() {
     const { recipeStore } = useStore();
@@ -29,6 +30,7 @@ export default observer(function RecipeDetails() {
                 <RecipeDetailedHeader recipe={recipe} />
                 <RecipeDetailedInfo recipe={recipe} />
                 <RecipeDetailedIngredients recipe={recipe} />
+                <RecipeDetailedInstructions recipe={recipe} />
                 <RecipeDetailedComments recipe={recipe} />
             </Grid.Column>
         </Grid>

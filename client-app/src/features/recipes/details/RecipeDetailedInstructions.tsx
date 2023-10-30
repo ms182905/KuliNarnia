@@ -9,16 +9,18 @@ function capitalizeFirstLetter(input: string): string {
     return input.charAt(0).toUpperCase() + input.slice(1);
 }
 
-export default function RecipeDetailedIngredients({ recipe }: Props) {
+export default function RecipeDetailedInstructions({ recipe }: Props) {
     return (
         <Segment.Group>
-            <Segment textAlign="center" attached="top" inverted color="red" style={{ border: 'none' }}>
-                <Header>Ingredients</Header>
+            <Segment textAlign="center" attached="top" inverted color="blue" style={{ border: 'none' }}>
+                <Header>Instructions</Header>
             </Segment>
-            {recipe.ingredients.map((ingredient, index) => (
+
+            {recipe.instructions.map((instruction, index) => (
                 <Segment key={index}>
                     <span>
-                        <b>{capitalizeFirstLetter(ingredient.name)}:&emsp;</b>{ingredient.amount}&emsp;{ingredient.measurement.name}{' '}
+                        <b>Step {instruction.position}:&nbsp;&nbsp;</b>
+                        {capitalizeFirstLetter(instruction.text)}
                     </span>
                 </Segment>
             ))}
