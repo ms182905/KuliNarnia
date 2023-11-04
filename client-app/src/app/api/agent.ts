@@ -10,6 +10,7 @@ import { Tag } from '../models/tag';
 import { RecipeComment } from '../models/comment';
 import { UserSelection as UserSelectionDTO } from '../models/userSelection';
 import { Measurement } from '../models/measurement';
+import { Photo } from '../models/photo';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -88,6 +89,13 @@ const Recipes = {
     create: (recipe: Recipe) => axios.post<void>('/recipes', recipe),
     update: (recipe: Recipe) => axios.put<void>(`/recipes/${recipe.id}`, recipe),
     delete: (id: string) => axios.delete<void>(`/recipes/${id}`),
+    uploadPhoto: (id: string, file: Blob) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<Photo>(`photos/${id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
 };
 
 const FavouriteRecipes = {

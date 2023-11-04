@@ -1,6 +1,7 @@
 import { RecipeComment } from './comment';
 import { Ingredient } from './ingredient';
 import { Instruction } from './instruction';
+import { Photo } from './photo';
 import { Tag } from './tag';
 
 export interface Recipe {
@@ -18,4 +19,5 @@ export interface Recipe {
     comments: RecipeComment[];
     instructions: Instruction[];
     inFavourites?: boolean;
+    photo?: Photo;
 }

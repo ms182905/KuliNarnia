@@ -19,6 +19,7 @@ export default class RecipeStore {
     selectedCategory = '';
     selectedTags: string[] = [];
     searchQuery = '';
+    uploading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -129,7 +130,7 @@ export default class RecipeStore {
 
     resetSelectedRecipe = () => {
         this.selectedRecipe = undefined;
-    }
+    };
 
     deleteRecipeIngredient = (id: string) => {
         if (this.selectedRecipe && this.selectedRecipe.ingredients) {
@@ -247,5 +248,23 @@ export default class RecipeStore {
             this.recipeRegistry.clear();
             this.recipesNumber = 0;
         });
+    };
+
+    uploadPhoto = async (file: Blob) => {
+        this.uploading = true;
+        try {
+            if (!this.selectedRecipe) return;
+            const responce = await agent.Recipes.uploadPhoto(this.selectedRecipe?.id, file);
+            const photo = responce.data;
+            runInAction(() => {
+                if (this.selectedRecipe) {
+                    this.selectedRecipe.photo = photo;
+                }
+                this.uploading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => (this.uploading = false));
+        }
     };
 }

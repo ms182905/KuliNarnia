@@ -13,7 +13,7 @@ export default observer(function ({ recipe }: Props) {
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image size="tiny" circular src="/assets/placeholder.png" />
+                        <Item.Image size="tiny" circular src={recipe.photo?.url || '/assets/placeholder.png'} />
                         <Item.Content>
                             <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
                                 {recipe.title}

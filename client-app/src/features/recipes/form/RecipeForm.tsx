@@ -7,10 +7,11 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeFormInstructions from './RecipeFormInstructions';
 import RecipeFormIngredients from './RecipeFormIngredients';
 import RecipeFormBaseInfo from './RecipeFormBaseInfo';
+import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
 
 export default observer(function RecipeForm() {
     const { recipeStore, categoryStore, tagStore, measurementStore } = useStore();
-    const { loadRecipe } = recipeStore;
+    const { loadRecipe, uploadPhoto, uploading } = recipeStore;
     const { loadCategories } = categoryStore;
     const { loadTags } = tagStore;
     const { loadMeasurements } = measurementStore;
@@ -51,14 +52,10 @@ export default observer(function RecipeForm() {
     //         updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
     //     }
     // }
-    
-        const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-            const files = event.target.files;
-            if (files && files.length > 0) {
-                setSelectedFile(files[0]);
-            }
-        };
-    
+
+    function handlePhotoUpload(file: Blob) {
+        uploadPhoto(file);
+    }
 
     if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipe..." />;
     if (categoryStore.loadingInitial) return <LoadingComponent content="Loading categories..." />;
@@ -95,7 +92,10 @@ export default observer(function RecipeForm() {
             <Segment textAlign="center" inverted color="yellow" style={{ border: 'none', borderRadius: '3px' }}>
                 <Header>Photos</Header>
             </Segment>
-            <Segment placeholder>
+            <Segment>
+                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
+            </Segment>
+            {/* <Segment placeholder>
             {selectedFile ? (
                 // Display the selected file
                 <div>
@@ -115,7 +115,7 @@ export default observer(function RecipeForm() {
             <label htmlFor="fileInput" className="ui primary button">
                 <i className="upload icon"></i> Upload Photo
             </label>
-        </Segment>
+        </Segment> */}
             <Segment>
                 {/* <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe.id}`} color="teal" floated="right" content="View" /> */}
                 <Button color="green" size="huge" fluid content="Save changes" />
