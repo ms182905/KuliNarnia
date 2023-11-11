@@ -12,7 +12,6 @@ import { Ingredient } from '../../../app/models/ingredient';
 
 export default observer(function RecipeFormIngredients() {
     const { recipeStore, measurementStore } = useStore();
-    const { loading } = recipeStore;
     const { measurementsTable } = measurementStore;
     const [measurementsList, setMeasurementsList] = useState<{ text: string; value: string; key: string }[]>([]);
 
@@ -147,7 +146,6 @@ export default observer(function RecipeFormIngredients() {
                                 <Grid.Column width={2}>
                                     <Button
                                         disabled={isSubmitting || !dirty || !isValid}
-                                        loading={loading}
                                         floated="right"
                                         positive
                                         type="submit"

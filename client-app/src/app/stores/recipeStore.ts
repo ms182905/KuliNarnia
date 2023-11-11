@@ -6,11 +6,11 @@ import { UserSelection } from '../models/userSelection';
 import { store } from './store';
 import { Ingredient } from '../models/ingredient';
 import { Instruction } from '../models/instruction';
+import { Tag } from '../models/tag';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
     selectedRecipe: Recipe | undefined = undefined;
-    editMode = false;
     loading = false;
     loadingInitial = false;
     recipesNumber = 0;
@@ -178,43 +178,58 @@ export default class RecipeStore {
         this.recipesNumber = recipesNumber;
     };
 
-    createRecipe = async (recipe: Recipe) => {
+    createRecipe = async () => {
         this.setLoading(true);
         try {
+            if (!this.selectedRecipe) return;
+            this.selectedRecipe.tags = [];
+            this.selectedRecipe.tagIds?.forEach((tagId) => {
+                const newTag: Tag = {
+                    id: tagId,
+                    name: ""
+                };
+                this.selectedRecipe?.tags.push(newTag);
+            });
             const date = new Date();
-            recipe.date = date.toISOString().split('T')[0];
-            await agent.Recipes.create(recipe);
+            this.selectedRecipe.date = date.toISOString().split('T')[0];
+            await agent.Recipes.create(this.selectedRecipe);
             runInAction(() => {
-                this.recipeRegistry.set(recipe.id, recipe);
-                this.selectedRecipe = recipe;
-                this.editMode = false;
+                this.reset();
+                store.userRecipesStore.reset()
                 this.loading = false;
             });
-            this.setRecipesNumber(this.recipesNumber + 1);
             this.loading = false;
         } catch (error) {
             console.log(error);
             runInAction(() => {
-                this.editMode = false;
                 this.loading = false;
             });
         }
     };
 
-    updateRecipe = async (recipe: Recipe) => {
+    updateRecipe = async () => {
         this.setLoading(true);
         try {
-            await agent.Recipes.update(recipe);
+            if (!this.selectedRecipe) return;
+            this.selectedRecipe.tags = [];
+            this.selectedRecipe.tagIds?.forEach((tagId) => {
+                const newTag: Tag = {
+                    id: tagId,
+                    name: ""
+                };
+                this.selectedRecipe?.tags.push(newTag);
+            });
+            const date = new Date();
+            this.selectedRecipe.date = date.toISOString().split('T')[0];
+            await agent.Recipes.update(this.selectedRecipe);
             runInAction(() => {
-                this.recipeRegistry.set(recipe.id, recipe);
-                this.selectedRecipe = recipe;
-                this.editMode = false;
+                this.reset();
+                store.userRecipesStore.reset()
                 this.loading = false;
             });
         } catch (error) {
             console.log(error);
             runInAction(() => {
-                this.editMode = false;
                 this.loading = false;
             });
         }

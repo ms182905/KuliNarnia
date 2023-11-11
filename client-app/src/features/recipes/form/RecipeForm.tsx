@@ -11,13 +11,13 @@ import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget
 
 export default observer(function RecipeForm() {
     const { recipeStore, categoryStore, tagStore, measurementStore } = useStore();
-    const { loadRecipe, uploadPhoto, uploading } = recipeStore;
+    const { loadRecipe, uploadPhoto, uploading, updateRecipe, createRecipe, loading } = recipeStore;
     const { loadCategories } = categoryStore;
     const { loadTags } = tagStore;
     const { loadMeasurements } = measurementStore;
     const { id } = useParams();
 
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [dataEditMode, setDataEditMode] = useState(true);
 
     useEffect(() => {
         if (id && (!recipeStore.selectedRecipe || recipeStore.selectedRecipe.id !== id)) {
@@ -43,15 +43,16 @@ export default observer(function RecipeForm() {
         }
     }, [measurementStore.measurementsTable, loadMeasurements]);
 
-    // function handleFormSubmit(recipe: Recipe) {
-    //     console.log(recipe);
-    //     if (!recipe.id) {
-    //         recipe.id = uuid();
-    //         createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
-    //     } else {
-    //         updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
-    //     }
-    // }
+    function handleFormSubmit() {
+        if (id) {
+            //recipe.id = uuid();
+            //createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
+            updateRecipe();
+        } else {
+            createRecipe();
+            //updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
+        }
+    }
 
     function handlePhotoUpload(file: Blob) {
         uploadPhoto(file);
@@ -63,63 +64,74 @@ export default observer(function RecipeForm() {
     if (measurementStore.loadingInitial) return <LoadingComponent content="Loading measurements..." />;
 
     // TODO: add firm to confirm ingredient delete
+    if (dataEditMode) {
+        return (
+            <Segment.Group>
+                <Segment
+                    textAlign="center"
+                    attached="top"
+                    inverted
+                    color="red"
+                    style={{ border: 'none', borderRadius: '3px' }}
+                >
+                    <Header>Primary data</Header>
+                </Segment>
+                <RecipeFormBaseInfo />
+
+                <Segment textAlign="center" inverted color="pink" style={{ border: 'none', borderRadius: '3px' }}>
+                    <Header>Ingredients</Header>
+                </Segment>
+
+                <RecipeFormIngredients />
+
+                <Segment textAlign="center" inverted color="violet" style={{ border: 'none', borderRadius: '3px' }}>
+                    <Header>Instructions</Header>
+                </Segment>
+
+                <RecipeFormInstructions />
+
+                {/* <Segment textAlign="center" inverted color="yellow" style={{ border: 'none', borderRadius: '3px' }}>
+                    <Header>Photos</Header>
+                </Segment>
+                <Segment>
+                    <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
+                </Segment> */}
+                <Segment>
+                    {/* <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe.id}`} color="teal" floated="right" content="View" /> */}
+                    <Button
+                        color="green"
+                        size="huge"
+                        fluid
+                        content="Save changes"
+                        loading={loading}
+                        onClick={() => {handleFormSubmit()}}
+                    />
+                    <Button
+                        color="blue"
+                        size="huge"
+                        fluid
+                        disabled={loading}
+                        content="Go to photos"
+                        onClick={() => {setDataEditMode(false)}}
+                    />
+                </Segment>
+            </Segment.Group>
+        );
+    }
 
     return (
-        <Segment.Group>
-            <Segment
-                textAlign="center"
-                attached="top"
-                inverted
-                color="red"
-                style={{ border: 'none', borderRadius: '3px' }}
-            >
-                <Header>Primary data</Header>
-            </Segment>
-            <RecipeFormBaseInfo />
-
-            <Segment textAlign="center" inverted color="pink" style={{ border: 'none', borderRadius: '3px' }}>
-                <Header>Ingredients</Header>
-            </Segment>
-
-            <RecipeFormIngredients />
-
-            <Segment textAlign="center" inverted color="violet" style={{ border: 'none', borderRadius: '3px' }}>
-                <Header>Instructions</Header>
-            </Segment>
-
-            <RecipeFormInstructions />
-
+        <>
             <Segment textAlign="center" inverted color="yellow" style={{ border: 'none', borderRadius: '3px' }}>
                 <Header>Photos</Header>
             </Segment>
             <Segment>
                 <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
             </Segment>
-            {/* <Segment placeholder>
-            {selectedFile ? (
-                // Display the selected file
-                <div>
-                    <Icon name="file image outline" size="huge" />
-                    <p>Selected file: {selectedFile.name}</p>
-                </div>
-            ) : (
-                // Placeholder for selecting a file
-                <input
-                    type="file"
-                    id="fileInput"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
-                />
-            )}
-            <label htmlFor="fileInput" className="ui primary button">
-                <i className="upload icon"></i> Upload Photo
-            </label>
-        </Segment> */}
             <Segment>
-                {/* <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe.id}`} color="teal" floated="right" content="View" /> */}
-                <Button color="green" size="huge" fluid content="Save changes" />
+                <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe!.id}`} color="teal" floated="right" content="View" />
+                {/* <Button color="green" size="huge" fluid content="Save changes" onClick={() => setDataEditMode(false)} /> */}
+                <Button color="blue" size="huge" fluid content="Back" onClick={() => setDataEditMode(true)} />
             </Segment>
-        </Segment.Group>
+        </>
     );
 });

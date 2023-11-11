@@ -13,7 +13,7 @@ import MyMultipleChoiceDropdownInput from '../../../app/common/form/MyMultipleCh
 
 export default observer(function RecipeFormBaseInfo() {
     const { recipeStore, categoryStore, tagStore } = useStore();
-    const { loading, updateRecipeData } = recipeStore;
+    const { updateRecipeData } = recipeStore;
     const { categoriesTable } = categoryStore;
     const { tagsTable } = tagStore;
     const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
@@ -97,7 +97,6 @@ export default observer(function RecipeFormBaseInfo() {
                             <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
                             <Button
                                 disabled={isSubmitting || !dirty || !isValid}
-                                loading={loading}
                                 floated="right"
                                 positive
                                 type="submit"

@@ -1,3 +1,7 @@
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces;
@@ -17,7 +21,7 @@ namespace Application.Recipes
             public RecipeDetailsDTO RecipeDetailsDTO { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command> 
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -29,6 +33,7 @@ namespace Application.Recipes
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
+
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _context = context;
@@ -38,94 +43,104 @@ namespace Application.Recipes
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var oldRecipe = await _context.Recipes.FindAsync(request.RecipeDetailsDTO.Id);
-                
-                if (oldRecipe == null) 
+
+                if (oldRecipe == null)
                 {
                     return null;
                 }
 
-                var userId = oldRecipe.CreatorId;
+                UpdateRecipeProperties(oldRecipe, request.RecipeDetailsDTO);
 
-                _context.Recipes.Remove(oldRecipe);
-                var result = await _context.SaveChangesAsync() > 0;
-                if (!result)
+                if (_context.ChangeTracker.HasChanges())
                 {
-                    return Result<Unit>.Failure("Failed to update recipe");
+                    var result = await _context.SaveChangesAsync() > 0;
+                    if (!result)
+                    {
+                        return Result<Unit>.Failure("Failed to update recipe");
+                    }
                 }
 
-                var category = await _context.Categories.FindAsync(request.RecipeDetailsDTO.CategoryId);
+                RemoveExistingEntities(request.RecipeDetailsDTO.Id);
 
-                var recipe = new Recipe
+                if (_context.ChangeTracker.HasChanges())
                 {
-                    Id = request.RecipeDetailsDTO.Id,
-                    Title = request.RecipeDetailsDTO.Title,
-                    Date = request.RecipeDetailsDTO.Date,
-                    Description = request.RecipeDetailsDTO.Description,
-                    CreatorId = userId,
-                    CategoryId = category.Id,
-                };
+                    var result = await _context.SaveChangesAsync() > 0;
+                    if (!result)
+                    {
+                        return Result<Unit>.Failure("Failed to update recipe");
+                    }
+                }
 
-                // _context.Recipes.Add(recipe);
-                // var result = await _context.SaveChangesAsync() > 0;
-                // if (!result)
-                // {
-                //     return Result<Unit>.Failure("Failed to update recipe");
-                // }
+                AddNewEntities(request.RecipeDetailsDTO);
 
-                var recipeTags = request.RecipeDetailsDTO.Tags
-                    .Select(
-                        tag => new RecipeTags { TagId = tag.Id, RecipeId = request.RecipeDetailsDTO.Id }
-                    )
-                    .ToList();
-                var instructions = request.RecipeDetailsDTO.Instructions
-                    .Select(
-                        instruction =>
-                            new Instruction
-                            {
-                                Id = instruction.Id,
-                                Text = instruction.Text,
-                                Position = instruction.Position,
-                                RecipeId = request.RecipeDetailsDTO.Id
-                            }
-                    )
-                    .ToList();
-                var ingredients = request.RecipeDetailsDTO.Ingredients
-                    .Select(
-                        ingredient =>
-                            new Ingredient
-                            {
-                                Id = ingredient.Id,
-                                Name = ingredient.Name,
-                                Amount = ingredient.Amount,
-                                RecipeId = request.RecipeDetailsDTO.Id,
-                                MeasurementId = ingredient.Measurement.Id
-                            }
-                    )
-                    .ToList();
-
-                // await _context.RecipeTags.AddRangeAsync(recipeTags);
-                // await _context.Instructions.AddRangeAsync(instructions);
-                // await _context.Ingredients.AddRangeAsync(ingredients);
-
-                // result = await _context.SaveChangesAsync() > 0;
-                // if (!result)
-                // {
-                //     return Result<Unit>.Failure("Failed to update recipe");
-                // }
-
-                recipe.Ingredients = ingredients;
-                recipe.Instructions = instructions;
-                recipe.RecipeTags = recipeTags;
-
-                await _context.Recipes.AddAsync(recipe);
-
-                result = await _context.SaveChangesAsync() > 0;
-                if (!result)
+                if (_context.ChangeTracker.HasChanges())
                 {
-                    return Result<Unit>.Failure("Failed to update recipe");
+                    var result = await _context.SaveChangesAsync() > 0;
+                    if (!result)
+                    {
+                        return Result<Unit>.Failure("Failed to update recipe");
+                    }
                 }
 
                 return Result<Unit>.Success(Unit.Value);
+            }
+
+            private void UpdateRecipeProperties(Recipe recipe, RecipeDetailsDTO detailsDTO)
+            {
+                recipe.Title = detailsDTO.Title;
+                recipe.Description = detailsDTO.Description;
+                recipe.CategoryId = detailsDTO.CategoryId;
+            }
+
+            private void RemoveExistingEntities(Guid recipeId)
+            {
+                var existingRecipeTags = _context.RecipeTags
+                    .Where(rt => rt.RecipeId == recipeId)
+                    .ToList();
+
+                var existingRecipeIngredients = _context.Ingredients
+                    .Where(rt => rt.RecipeId == recipeId)
+                    .ToList();
+
+                var existingRecipeInstructions = _context.Instructions
+                    .Where(rt => rt.RecipeId == recipeId)
+                    .ToList();
+
+                _context.RecipeTags.RemoveRange(existingRecipeTags);
+                _context.Ingredients.RemoveRange(existingRecipeIngredients);
+                _context.Instructions.RemoveRange(existingRecipeInstructions);
+            }
+
+            private void AddNewEntities(RecipeDetailsDTO detailsDTO)
+            {
+                var recipeTags = detailsDTO.Tags
+                    .Select(tag => new RecipeTags { TagId = tag.Id, RecipeId = detailsDTO.Id })
+                    .ToList();
+
+                var instructions = detailsDTO.Instructions
+                    .Select(instruction => new Instruction
+                    {
+                        Id = instruction.Id,
+                        Text = instruction.Text,
+                        Position = instruction.Position,
+                        RecipeId = detailsDTO.Id
+                    })
+                    .ToList();
+
+                var ingredients = detailsDTO.Ingredients
+                    .Select(ingredient => new Ingredient
+                    {
+                        Id = ingredient.Id,
+                        Name = ingredient.Name,
+                        Amount = ingredient.Amount,
+                        RecipeId = detailsDTO.Id,
+                        MeasurementId = ingredient.Measurement.Id
+                    })
+                    .ToList();
+
+                _context.RecipeTags.AddRange(recipeTags);
+                _context.Ingredients.AddRange(ingredients);
+                _context.Instructions.AddRange(instructions);
             }
         }
     }

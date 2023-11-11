@@ -11,7 +11,7 @@ import { Instruction } from '../../../app/models/instruction';
 
 export default observer(function RecipeFormInstructions() {
     const { recipeStore } = useStore();
-    const { loading, addRecipeInstruction, deleteRecipeInstruction } = recipeStore;
+    const { addRecipeInstruction, deleteRecipeInstruction } = recipeStore;
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -110,7 +110,6 @@ export default observer(function RecipeFormInstructions() {
                                 <Grid.Column width={2}>
                                     <Button
                                         disabled={isSubmitting || !dirty || !isValid}
-                                        loading={loading}
                                         floated="right"
                                         positive
                                         type="submit"

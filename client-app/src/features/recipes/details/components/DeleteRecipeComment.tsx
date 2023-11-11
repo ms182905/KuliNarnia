@@ -1,5 +1,5 @@
 import { Button, Header, Table } from "semantic-ui-react";
-import { useStore } from "../../../app/stores/store";
+import { useStore } from "../../../../app/stores/store";
 
 interface Props {
     recipeCommentId: string
