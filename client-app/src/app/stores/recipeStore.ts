@@ -329,7 +329,6 @@ export default class RecipeStore {
         if (!this.selectedRecipe) return;
         this.uploading = true;
         try {
-            const response = await agent.Recipes.deletePhoto(id);
             runInAction(() => {
                 const photoIndexToDelete = this.selectedRecipe?.photos?.findIndex((photo) => photo.id === id);
 

@@ -25,7 +25,7 @@ export default observer(function RecipeForm() {
 
     useEffect(() => {
         if (recipeStore.selectedRecipe) setRecipePhotos(recipeStore.selectedRecipe.photos);
-    }, [recipeStore.selectedRecipe?.photos]);
+    }, [recipeStore.selectedRecipe, recipeStore.selectedRecipe?.photos]);
 
     useEffect(() => {
         if (id && (!recipeStore.selectedRecipe || recipeStore.selectedRecipe.id !== id)) {
@@ -153,7 +153,7 @@ export default observer(function RecipeForm() {
                             >
                                 <img
                                     src={photo.url}
-                                    alt={`Photo ${index + 1}`}
+                                    alt={` ${index + 1}`}
                                     style={{ maxWidth: '100%', height: '200px', objectFit: 'cover' }}
                                 />
                                 <Button

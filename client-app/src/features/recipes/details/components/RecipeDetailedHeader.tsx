@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { Button, Header, Item, Segment, Image } from 'semantic-ui-react';
+import { Button, Header, Item, Segment } from 'semantic-ui-react';
 import { Recipe } from '../../../../app/models/recipe';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../app/stores/store';
