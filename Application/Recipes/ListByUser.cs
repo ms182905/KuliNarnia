@@ -46,23 +46,6 @@ namespace Application.Recipes
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                foreach (var recipe in recipes)
-                {
-                    var photo = await _context.Photos.FirstOrDefaultAsync(
-                        x => x.RecipeId == recipe.Id
-                    );
-                    if (photo == null)
-                    {
-                        continue;
-                    }
-                    recipe.Photo = new PhotoDTO
-                    {
-                        Id = photo.Id,
-                        IsMain = true,
-                        Url = photo.Url
-                    };
-                }
-
                 var recipesNumber = await _context.Recipes
                     .Where(x => x.CreatorId == user.Id)
                     .CountAsync();

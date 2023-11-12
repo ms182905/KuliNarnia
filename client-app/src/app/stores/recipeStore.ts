@@ -71,9 +71,9 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             var recipe = await agent.Recipes.details(id);
+            console.log(recipe);
             const tagIds: string[] = [];
             recipe.instructions.sort((a, b) => a.position - b.position);
-            this.setRecipe(recipe);
             runInAction(async () => {
                 if (recipe !== undefined) {
                     recipe!.tags.forEach((tag) => {
@@ -236,6 +236,7 @@ export default class RecipeStore {
             runInAction(() => {
                 this.reset();
                 store.userRecipesStore.reset();
+                this.reset();
                 this.loading = false;
             });
             this.loading = false;
@@ -313,7 +314,30 @@ export default class RecipeStore {
             const photo = responce.data;
             runInAction(() => {
                 if (this.selectedRecipe) {
-                    this.selectedRecipe.photo = photo;
+                    if (!this.selectedRecipe.photos) this.selectedRecipe.photos = [];
+                    this.selectedRecipe.photos?.push(photo);
+                }
+                this.uploading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => (this.uploading = false));
+        }
+    };
+
+    deletePhoto = async (id: string) => {
+        if (!this.selectedRecipe) return;
+        this.uploading = true;
+        try {
+            const response = await agent.Recipes.deletePhoto(id);
+            runInAction(() => {
+                const photoIndexToDelete = this.selectedRecipe?.photos?.findIndex((photo) => photo.id === id);
+
+                if (photoIndexToDelete !== undefined && photoIndexToDelete !== -1 && this.selectedRecipe?.photos) {
+                    this.selectedRecipe.photos = [
+                        ...this.selectedRecipe.photos.slice(0, photoIndexToDelete),
+                        ...this.selectedRecipe.photos.slice(photoIndexToDelete + 1),
+                    ];
                 }
                 this.uploading = false;
             });

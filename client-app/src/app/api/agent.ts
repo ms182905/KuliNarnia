@@ -96,6 +96,7 @@ const Recipes = {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
+    deletePhoto: (id: string) => axios.delete<void>(`/photos/${id}`),
 };
 
 const FavouriteRecipes = {

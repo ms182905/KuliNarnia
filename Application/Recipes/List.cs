@@ -69,24 +69,6 @@ namespace Application.Recipes
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                foreach (var recipe in recipes)
-                {
-                    var photo = await _context.Photos.FirstOrDefaultAsync(
-                        x => x.RecipeId == recipe.Id,
-                        cancellationToken: cancellationToken
-                    );
-                    if (photo == null)
-                    {
-                        continue;
-                    }
-                    recipe.Photo = new PhotoDTO
-                    {
-                        Id = photo.Id,
-                        IsMain = true,
-                        Url = photo.Url
-                    };
-                }
-
                 var recipesDTO = new RecipesDTO { Recipes = recipes, Count = recipesNumber };
 
                 return Result<RecipesDTO>.Success(recipesDTO);

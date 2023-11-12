@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
+import { Button, Grid, Header, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import { Link, useParams } from 'react-router-dom';
@@ -21,6 +21,11 @@ export default observer(function RecipeForm() {
     const [dataEditMode, setDataEditMode] = useState(true);
     const [isValid, setValid] = useState(false);
     const [isSaved, setSaved] = useState(false);
+    const [recipePhotos, setRecipePhotos] = useState(recipeStore.selectedRecipe?.photos);
+
+    useEffect(() => {
+        if (recipeStore.selectedRecipe) setRecipePhotos(recipeStore.selectedRecipe.photos);
+    }, [recipeStore.selectedRecipe?.photos]);
 
     useEffect(() => {
         if (id && (!recipeStore.selectedRecipe || recipeStore.selectedRecipe.id !== id)) {
@@ -132,6 +137,38 @@ export default observer(function RecipeForm() {
         <>
             <Segment textAlign="center" inverted color="yellow" style={{ border: 'none', borderRadius: '3px' }}>
                 <Header>Photos</Header>
+            </Segment>
+            <Segment>
+                {recipePhotos?.length ? (
+                    <Grid columns={3}>
+                        {recipePhotos.map((photo, index) => (
+                            <Grid.Column
+                                key={index}
+                                style={{
+                                    marginBottom: '10px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <img
+                                    src={photo.url}
+                                    alt={`Photo ${index + 1}`}
+                                    style={{ maxWidth: '100%', height: '200px', objectFit: 'cover' }}
+                                />
+                                <Button
+                                    color="red"
+                                    size="mini"
+                                    content="Delete"
+                                    fluid
+                                    onClick={() => recipeStore.deletePhoto(photo.id)}
+                                />
+                            </Grid.Column>
+                        ))}
+                    </Grid>
+                ) : (
+                    <div>No photos available</div>
+                )}
             </Segment>
             <Segment>
                 <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />

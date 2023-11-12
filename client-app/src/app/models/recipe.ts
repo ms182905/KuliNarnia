@@ -19,5 +19,5 @@ export interface Recipe {
     comments: RecipeComment[];
     instructions: Instruction[];
     inFavourites?: boolean;
-    photo?: Photo;
+    photos?: Photo[];
 }

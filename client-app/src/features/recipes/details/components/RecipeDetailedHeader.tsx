@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom';
 import { useStore } from '../../../../app/stores/store';
 import { toast } from 'react-toastify';
 import RemoveRecipeFromFavourites from '../../favouriteRecipes/RemoveRecipeFromFavourites';
-
-const recipeImageStyle = {
-    filter: 'brightness(30%)',
-};
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
 
 const recipeImageTextStyle = {
     position: 'absolute',
@@ -32,7 +30,22 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
-                <Image src="/assets/placeholder.png" fluid style={recipeImageStyle} />
+                <Slide>
+                    {recipe.photos?.length ? (
+                        recipe.photos.map((photo, index) => (
+                            <div key={index} className="each-slide-effect">
+                                <div style={{ backgroundImage: `url(${photo.url})` }}></div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="each-slide-effect">
+                            <div style={{ backgroundImage: `url('/assets/placeholder.png')` }}>
+                                <span>No photos available</span>
+                            </div>
+                        </div>
+                    )}
+                </Slide>
+                {/* <Image src="/assets/placeholder.png" fluid style={recipeImageStyle} /> */}
                 <Segment style={recipeImageTextStyle} basic>
                     <Item.Group>
                         <Item>
