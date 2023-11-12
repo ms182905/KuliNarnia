@@ -7,6 +7,7 @@ import { store } from './store';
 import { Ingredient } from '../models/ingredient';
 import { Instruction } from '../models/instruction';
 import { Tag } from '../models/tag';
+import { v4 as uuid } from 'uuid';
 
 export default class RecipeStore {
     recipeRegistry = new Map<string, Recipe>();
@@ -110,10 +111,49 @@ export default class RecipeStore {
     };
 
     addRecipeIngredient = (recipeIngredient: Ingredient) => {
+        if (!this.selectedRecipe) {
+            const newRecipe: Recipe = {
+                id: '',
+                title: '',
+                categoryId: '',
+                description: '',
+                date: '',
+                creatorId: '',
+                ingredients: [],
+                instructions: [],
+                tags: [],
+                tagIds: [],
+                comments: [],
+            };
+            runInAction(() => {
+                this.selectedRecipe = newRecipe;
+                this.selectedRecipe.id = uuid();
+            });
+        }
         this.selectedRecipe?.ingredients?.push(recipeIngredient);
     };
 
     addRecipeInstruction = (recipeInstruction: Instruction) => {
+        if (!this.selectedRecipe) {
+            const newRecipe: Recipe = {
+                id: '',
+                title: '',
+                categoryId: '',
+                description: '',
+                date: '',
+                creatorId: '',
+                ingredients: [],
+                instructions: [],
+                tags: [],
+                tagIds: [],
+                comments: [],
+            };
+            runInAction(() => {
+                this.selectedRecipe = newRecipe;
+                this.selectedRecipe.id = uuid();
+            });
+        }
+
         this.selectedRecipe?.instructions?.push(recipeInstruction);
     };
 
@@ -186,7 +226,7 @@ export default class RecipeStore {
             this.selectedRecipe.tagIds?.forEach((tagId) => {
                 const newTag: Tag = {
                     id: tagId,
-                    name: ""
+                    name: '',
                 };
                 this.selectedRecipe?.tags.push(newTag);
             });
@@ -195,7 +235,7 @@ export default class RecipeStore {
             await agent.Recipes.create(this.selectedRecipe);
             runInAction(() => {
                 this.reset();
-                store.userRecipesStore.reset()
+                store.userRecipesStore.reset();
                 this.loading = false;
             });
             this.loading = false;
@@ -215,7 +255,7 @@ export default class RecipeStore {
             this.selectedRecipe.tagIds?.forEach((tagId) => {
                 const newTag: Tag = {
                     id: tagId,
-                    name: ""
+                    name: '',
                 };
                 this.selectedRecipe?.tags.push(newTag);
             });
@@ -224,7 +264,7 @@ export default class RecipeStore {
             await agent.Recipes.update(this.selectedRecipe);
             runInAction(() => {
                 this.reset();
-                store.userRecipesStore.reset()
+                store.userRecipesStore.reset();
                 this.loading = false;
             });
         } catch (error) {

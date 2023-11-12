@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { Button, Header, Icon, Segment } from 'semantic-ui-react';
+import { useEffect, useState } from 'react';
+import { Button, Header, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import { Link, useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import RecipeFormInstructions from './RecipeFormInstructions';
 import RecipeFormIngredients from './RecipeFormIngredients';
 import RecipeFormBaseInfo from './RecipeFormBaseInfo';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
+import RecipeFormValidation from './RecipeFormValidation';
 
 export default observer(function RecipeForm() {
     const { recipeStore, categoryStore, tagStore, measurementStore } = useStore();
@@ -18,6 +19,8 @@ export default observer(function RecipeForm() {
     const { id } = useParams();
 
     const [dataEditMode, setDataEditMode] = useState(true);
+    const [isValid, setValid] = useState(false);
+    const [isSaved, setSaved] = useState(false);
 
     useEffect(() => {
         if (id && (!recipeStore.selectedRecipe || recipeStore.selectedRecipe.id !== id)) {
@@ -63,7 +66,6 @@ export default observer(function RecipeForm() {
     if (tagStore.loadingInitial) return <LoadingComponent content="Loading tags..." />;
     if (measurementStore.loadingInitial) return <LoadingComponent content="Loading measurements..." />;
 
-    // TODO: add firm to confirm ingredient delete
     if (dataEditMode) {
         return (
             <Segment.Group>
@@ -90,12 +92,12 @@ export default observer(function RecipeForm() {
 
                 <RecipeFormInstructions />
 
-                {/* <Segment textAlign="center" inverted color="yellow" style={{ border: 'none', borderRadius: '3px' }}>
-                    <Header>Photos</Header>
+                <Segment textAlign="center" inverted color="green" style={{ border: 'none', borderRadius: '3px' }}>
+                    <Header>Recipe validation</Header>
                 </Segment>
-                <Segment>
-                    <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
-                </Segment> */}
+
+                <RecipeFormValidation setValid={setValid} />
+
                 <Segment>
                     {/* <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe.id}`} color="teal" floated="right" content="View" /> */}
                     <Button
@@ -104,15 +106,22 @@ export default observer(function RecipeForm() {
                         fluid
                         content="Save changes"
                         loading={loading}
-                        onClick={() => {handleFormSubmit()}}
+                        disabled={!isValid}
+                        onClick={() => {
+                            handleFormSubmit();
+                            setSaved(true);
+                        }}
                     />
+
                     <Button
                         color="blue"
                         size="huge"
                         fluid
-                        disabled={loading}
+                        disabled={loading || (!isSaved && !id)}
                         content="Go to photos"
-                        onClick={() => {setDataEditMode(false)}}
+                        onClick={() => {
+                            setDataEditMode(false);
+                        }}
                     />
                 </Segment>
             </Segment.Group>
@@ -128,7 +137,13 @@ export default observer(function RecipeForm() {
                 <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
             </Segment>
             <Segment>
-                <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe!.id}`} color="teal" floated="right" content="View" />
+                <Button
+                    as={Link}
+                    to={`/recipes/${recipeStore.selectedRecipe!.id}`}
+                    color="teal"
+                    floated="right"
+                    content="View"
+                />
                 {/* <Button color="green" size="huge" fluid content="Save changes" onClick={() => setDataEditMode(false)} /> */}
                 <Button color="blue" size="huge" fluid content="Back" onClick={() => setDataEditMode(true)} />
             </Segment>

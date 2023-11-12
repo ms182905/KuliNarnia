@@ -60,10 +60,8 @@ export default observer(function RecipeFormBaseInfo() {
     }, [recipeStore.selectedRecipe]);
 
     const primaryDataValidationSchema = Yup.object({
-        title: Yup.string().required('Recipe title is required'),
-        description: Yup.string().required('Recipe description is required'),
-        categoryId: Yup.string().required('Recipe category is required!'),
-        tagIds: Yup.array().min(1).required('Select at least 1 tag'),
+        title: Yup.string().matches(/^[^\s].*$/, 'Title cannot start with a space'),
+        description: Yup.string().matches(/^[^\s].*$/, 'Desription cannot start with a space'),
     });
 
     function handleFormSubmit(recipe: Recipe) {

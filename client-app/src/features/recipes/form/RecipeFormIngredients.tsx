@@ -59,8 +59,11 @@ export default observer(function RecipeFormIngredients() {
     }, [recipeStore.selectedRecipe]);
 
     const ingredientValidationSchema = Yup.object({
-        name: Yup.string().required('Ingredient name is required'),
-        amount: Yup.number().required('Ingredient amount is required'),
+        name: Yup.string().required("Name is required").matches(/^[^\s].*$/, 'Name cannot start with a space'),
+        amount: Yup.number().required("Amount is required").typeError('Amount must be a number'),
+        measurement: Yup.object({
+            id: Yup.string().required("Measurement is required"),
+          }),
     });
 
     function handleFormSubmit(ingredient: Ingredient) {

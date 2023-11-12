@@ -34,7 +34,7 @@ export default observer(function RecipeFormInstructions() {
     });
 
     const instructionValidationSchema = Yup.object({
-        text: Yup.string().required('Instruction content is required'),
+        text: Yup.string().matches(/^[^\s].*$/, 'Instruction cannot start with a space'),
     });
 
     useEffect(() => {
