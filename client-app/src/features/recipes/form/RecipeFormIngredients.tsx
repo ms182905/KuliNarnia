@@ -9,9 +9,10 @@ import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { Ingredient } from '../../../app/models/ingredient';
+import DeleteRecipeIngredient from './DeleteRecipeIngredient';
 
 export default observer(function RecipeFormIngredients() {
-    const { recipeStore, measurementStore } = useStore();
+    const { recipeStore, measurementStore, modalStore } = useStore();
     const { measurementsTable } = measurementStore;
     const [measurementsList, setMeasurementsList] = useState<{ text: string; value: string; key: string }[]>([]);
 
@@ -59,11 +60,13 @@ export default observer(function RecipeFormIngredients() {
     }, [recipeStore.selectedRecipe]);
 
     const ingredientValidationSchema = Yup.object({
-        name: Yup.string().required("Name is required").matches(/^[^\s].*$/, 'Name cannot start with a space'),
-        amount: Yup.number().required("Amount is required").typeError('Amount must be a number'),
+        name: Yup.string()
+            .required('Name is required')
+            .matches(/^[^\s].*$/, 'Name cannot start with a space'),
+        amount: Yup.number().required('Amount is required').typeError('Amount must be a number'),
         measurement: Yup.object({
-            id: Yup.string().required("Measurement is required"),
-          }),
+            id: Yup.string().required('Measurement is required'),
+        }),
     });
 
     function handleFormSubmit(ingredient: Ingredient) {
@@ -75,13 +78,6 @@ export default observer(function RecipeFormIngredients() {
         recipeStore.addRecipeIngredient(ingredient);
         setRecipe(recipeStore.selectedRecipe!);
     }
-
-    function handleIngredientDelete(id: string) {
-        recipeStore.deleteRecipeIngredient(id);
-        setRecipe(recipeStore.selectedRecipe!);
-    }
-
-    // TODO: add firm to confirm ingredient delete
 
     return (
         <>
@@ -111,7 +107,11 @@ export default observer(function RecipeFormIngredients() {
                                     type="button"
                                     color="red"
                                     content="Delete"
-                                    onClick={() => handleIngredientDelete(ingredient.id)}
+                                    onClick={() =>
+                                        modalStore.openModal(
+                                            <DeleteRecipeIngredient recipeIngredientId={ingredient.id} />
+                                        )
+                                    }
                                 />
                             </Grid.Column>
                         </Grid.Row>

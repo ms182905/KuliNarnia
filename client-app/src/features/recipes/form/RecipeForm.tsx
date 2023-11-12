@@ -176,9 +176,9 @@ export default observer(function RecipeForm() {
             <Segment>
                 <Button
                     as={Link}
-                    to={`/recipes/${recipeStore.selectedRecipe!.id}`}
+                    to={`/recipes/${recipeStore.selectedRecipe!.id}/true`}
                     color="teal"
-                    floated="right"
+                    fluid
                     content="View"
                 />
                 {/* <Button color="green" size="huge" fluid content="Save changes" onClick={() => setDataEditMode(false)} /> */}

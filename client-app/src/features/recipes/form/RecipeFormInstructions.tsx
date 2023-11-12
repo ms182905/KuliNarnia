@@ -8,10 +8,11 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import { Instruction } from '../../../app/models/instruction';
+import DeleteRecipeInstruction from './DeleteRecipeInstruction';
 
 export default observer(function RecipeFormInstructions() {
-    const { recipeStore } = useStore();
-    const { addRecipeInstruction, deleteRecipeInstruction } = recipeStore;
+    const { recipeStore, modalStore } = useStore();
+    const { addRecipeInstruction } = recipeStore;
 
     const [recipe, setRecipe] = useState<Recipe>({
         id: '',
@@ -54,13 +55,6 @@ export default observer(function RecipeFormInstructions() {
         addRecipeInstruction(instruction);
     }
 
-    function handleInstructionDelete(id: string) {
-        deleteRecipeInstruction(id);
-        setRecipe(recipeStore.selectedRecipe!);
-    }
-
-    // TODO: add confirm instruction delete
-
     return (
         <>
             {recipe.instructions.map((instruction) => (
@@ -83,7 +77,11 @@ export default observer(function RecipeFormInstructions() {
                                 type="button"
                                 color="red"
                                 content="Delete"
-                                onClick={() => handleInstructionDelete(instruction.id)}
+                                onClick={() =>
+                                    modalStore.openModal(
+                                        <DeleteRecipeInstruction recipeInstructionId={instruction.id} />
+                                    )
+                                }
                             />
                         </Grid.Column>
                     </Grid.Row>
