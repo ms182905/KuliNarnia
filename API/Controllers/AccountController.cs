@@ -14,10 +14,12 @@ namespace API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, TokenService tokenService)
         {
             _tokenService = tokenService;
+            _roleManager = roleManager;
             _userManager = userManager;
         }
 
@@ -27,10 +29,15 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
+
             if (user == null)
             {
                 return Unauthorized();
             }
+
+            // await _roleManager.CreateAsync(new IdentityRole("PortalUser"));
+
+            // await _userManager.AddToRoleAsync(user, "PortalUser");
 
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
@@ -66,6 +73,8 @@ namespace API.Controllers
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            await _userManager.AddToRoleAsync(user, "PortalUser");
 
             if (result.Succeeded)
             {

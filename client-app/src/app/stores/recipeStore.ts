@@ -85,7 +85,7 @@ export default class RecipeStore {
 
                 recipe!.tagIds = tagIds;
                 this.selectedRecipe = recipe;
-                if (recipe.creatorName && recipe.creatorName !== store.userStore.user?.displayName) {
+                if (recipe.creatorName && recipe.creatorName !== store.userStore.user?.displayName && recipe.tagIds.length > 0) {
                     const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
                     await agent.UserSelection.post(userSelection);
                 }
