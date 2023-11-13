@@ -85,13 +85,13 @@ namespace Application.Recipes
                     var userSelection = userSelectionStastics.Where(
                         x =>
                             x.CategoryId == recipe.CategoryId
-                            && recipe.Tags.Any(t => t.Id == x.TagId)
+                            || recipe.Tags.Any(t => t.Id == x.TagId)
                     );
                     recipeDistionary.Add(
                         recipe,
                         (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
                     );
-                    System.Console.WriteLine(
+                    Console.WriteLine(
                         (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
                     );
                 }

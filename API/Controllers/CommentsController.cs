@@ -17,5 +17,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command{Id = id}));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLast()
+        {
+            return HandleResult(await Mediator.Send(new ListLast.Querry()));
+        }
     }
 }

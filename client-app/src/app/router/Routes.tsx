@@ -11,6 +11,7 @@ import LoginForm from '../../features/users/LoginForm';
 import FavouriteRecipesDashboard from '../../features/recipes/favouriteRecipes/FavouriteRecipesDashboard';
 import UserRecipesDashboard from '../../features/recipes/userRecipes/UserRecipesDashboard';
 import RecommendedRecipesDashboard from '../../features/recipes/recommendedRecipes/RecommendedRecipesDashboard';
+import UserPage from '../../features/users/UserPage';
 
 export const routes: RouteObject[] = [
     {
@@ -19,7 +20,8 @@ export const routes: RouteObject[] = [
         children: [
             { path: '', element: <HomePage /> },
             { path: 'recipes', element: <RecipeDashboard /> },
-            { path: 'recipes/:id/:byUser?', element: <RecipeDetails /> },
+            { path: 'userPage/:userName', element: <UserPage /> },
+            { path: 'recipes/:recipeId/:byUser?', element: <RecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
             { path: 'userRecipes', element: <UserRecipesDashboard /> },
             { path: 'recommendations', element: <RecommendedRecipesDashboard /> },

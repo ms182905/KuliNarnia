@@ -13,11 +13,11 @@ import RecipeDetailedInstructions from './components/RecipeDetailedInstructions'
 export default observer(function RecipeDetails() {
     const { recipeStore } = useStore();
     const { selectedRecipe: recipe, loadRecipe, loadingInitial } = recipeStore;
-    const { id, byUser } = useParams();
+    const { recipeId, byUser } = useParams();
 
     useEffect(() => {
-        if (id) loadRecipe(id);
-    }, [id, loadRecipe]);
+        if (recipeId) loadRecipe(recipeId);
+    }, [recipeId, loadRecipe]);
 
     if (loadingInitial || !recipe) return <LoadingComponent content="Loading recipe..." />;
 
