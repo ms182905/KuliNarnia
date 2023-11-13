@@ -3,6 +3,7 @@ export interface User {
     displayName: string;
     token: string;
     image?: string;
+    role?: string;
 }
 
 export interface UserFormValues {
