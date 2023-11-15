@@ -117,6 +117,14 @@ const Account = {
     current: () => requests.get<User>('/account'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
     register: (user: UserFormValues) => requests.post<User>('/account/register', user),
+    getUserProfilePhotoUrl: (username: string) => requests.get<string>(`/account/profilePhoto/${username}`),
+    uploadProfilePhoto: (file: Blob) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<Photo>('/photos/changeUserProfilePhoto', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+    },
 };
 
 const Categories = {

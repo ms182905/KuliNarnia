@@ -22,13 +22,11 @@ namespace Application.Recipes
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _userAccessor = userAccessor;
             }
 
             public async Task<Result<RecipesDTO>> Handle(

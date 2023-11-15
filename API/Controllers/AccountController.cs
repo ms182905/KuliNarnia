@@ -16,7 +16,12 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, TokenService tokenService)
+
+        public AccountController(
+            UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            TokenService tokenService
+        )
         {
             _tokenService = tokenService;
             _roleManager = roleManager;
@@ -29,7 +34,6 @@ namespace API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-
             if (user == null)
             {
                 return Unauthorized();
@@ -41,7 +45,7 @@ namespace API.Controllers
 
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if (result) 
+            if (result)
             {
                 return await CreateUserObject(user);
             }
@@ -93,6 +97,14 @@ namespace API.Controllers
             return await CreateUserObject(user);
         }
 
+        [HttpGet("profilePhoto/{userName}")]
+        public async Task<ActionResult<string>> GetUserPhotoUrl(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            return user.PhotoUrl;
+        }
+
         private async Task<UserDto> CreateUserObject(AppUser user)
         {
             var roles = await _userManager.GetRolesAsync(user);
@@ -104,7 +116,8 @@ namespace API.Controllers
                 Image = null,
                 Token = _tokenService.CreateToken(user),
                 Username = user.UserName,
-                Role = role
+                Role = role,
+                PhotoUrl = user.PhotoUrl
             };
         }
     }

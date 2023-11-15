@@ -14,6 +14,7 @@ export default class UserRecipesStore {
     loggedUserRecipesNumber = 0;
     pageCapacity = 7;
     recipeDashboardPageNumber = 0;
+    anotherUserProfilePhotoUrl = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -64,6 +65,12 @@ export default class UserRecipesStore {
             recipes.recipes.forEach((recipe) => {
                 this.setAnotherUserRecipe(recipe);
             });
+            const anotherUserProfilePhotoUrl = await agent.Account.getUserProfilePhotoUrl(username);
+            runInAction(() => {
+                if (anotherUserProfilePhotoUrl) {
+                    this.anotherUserProfilePhotoUrl = anotherUserProfilePhotoUrl;
+                }
+            });
             this.setLoadingAnotherUserRecipes(false);
         } catch (error) {
             console.log(error);
@@ -104,6 +111,10 @@ export default class UserRecipesStore {
 
     setAnotherUserUsername = (username: string) => {
         this.anotherUserUsername = username;
+    };
+
+    setAnotherUserProfilePhotoUrl = (url: string) => {
+        this.anotherUserProfilePhotoUrl = url;
     };
 
     setUserRecipesNumber = (recipesNumber: number) => {

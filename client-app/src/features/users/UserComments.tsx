@@ -8,7 +8,7 @@ interface Props {
     username: string;
 }
 
-export default observer(function RecipeDetailedComs({ username }: Props) {
+export default observer(function RecipeDetailedComments({ username }: Props) {
     const { commentStore, userStore } = useStore();
     const { userComments, userCommentsLoaded, loadUserComments } = commentStore;
 
@@ -37,7 +37,7 @@ export default observer(function RecipeDetailedComs({ username }: Props) {
                                 <Comment as={Link} to={`/recipes/${s.recipeId}`} key={s.id}>
                                     <Comment.Avatar src="/assets/user.png" />
                                     <Comment.Content>
-                                        <Comment.Author as="a">{s.appUserDisplayName}</Comment.Author>
+                                        <Comment.Author >{s.appUserDisplayName}</Comment.Author>
 
                                         <Comment.Metadata>
                                             <div>

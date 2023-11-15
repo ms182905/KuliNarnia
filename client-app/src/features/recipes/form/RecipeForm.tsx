@@ -161,6 +161,7 @@ export default observer(function RecipeForm() {
                                     size="mini"
                                     content="Delete"
                                     fluid
+                                    loading={loading}
                                     onClick={() => recipeStore.deletePhoto(photo.id)}
                                 />
                             </Grid.Column>
@@ -171,7 +172,7 @@ export default observer(function RecipeForm() {
                 )}
             </Segment>
             <Segment>
-                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} />
+                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} ratio={1.4}/>
             </Segment>
             <Segment>
                 <Button

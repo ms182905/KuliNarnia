@@ -6,11 +6,13 @@ import PhotoWidgetCropper from './PhotoWidgetCropper';
 interface Props {
     loading: boolean;
     uploadPhoto: (file: Blob) => void;
+    ratio: number;
 }
 
-export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
+export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props) {
     const [files, setFiles] = useState<any>([]);
     const [cropper, setCropper] = useState<Cropper>();
+    const [cropperVisible, setCropperVisible] = useState(false);
 
     function OnCrop() {
         if (cropper) {
@@ -24,6 +26,10 @@ export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
         };
     }, [files]);
 
+    useEffect(() => {
+        if (files.length > 0) setCropperVisible(true);
+    }, [files.length]);
+
     return (
         <Grid>
             <Grid.Column width={4}>
@@ -33,7 +39,8 @@ export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
             <Grid.Column width={1} />
             <Grid.Column width={4}>
                 <Header sub color="teal" content="Step 2 - Resize image" />
-                <PhotoWidgetCropper setCropper={setCropper} imagePreview={files[0]?.preview} />
+                {(cropperVisible)? (<PhotoWidgetCropper setCropper={setCropper} imagePreview={files[0]?.preview} ratio={ratio} />) : (<></>)}
+                
             </Grid.Column>
             <Grid.Column width={1} />
             <Grid.Column width={4}>
@@ -43,7 +50,7 @@ export default function PhotoUploadWidget({ loading, uploadPhoto }: Props) {
                         <div className="img-preview" style={{ minHeight: 200, overflow: 'hidden' }} />
                         <Button.Group widths={2}>
                             <Button loading={loading} onClick={OnCrop} positive icon="check" />
-                            <Button disabled={loading} onClick={() => setFiles([])} icon="close" />
+                            <Button disabled={loading} onClick={() => {setFiles([]); setCropperVisible(false);}} icon="close" />
                         </Button.Group>
                     </>
                 )}

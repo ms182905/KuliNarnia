@@ -10,5 +10,7 @@ namespace Domain
         public ICollection<Recipe> CreatedRecipes { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<UserSelectionStastic> UserSelectionStastics { get; set; }
+        public string PhotoUrl { get; set; }
+        public string PhotoId { get; set; }
     }
 }

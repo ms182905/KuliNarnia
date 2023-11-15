@@ -17,10 +17,10 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
 
-        [HttpPost("{id}/setMain")]
-        public async Task<IActionResult> SetMain(string id)
+        [HttpPost("changeUserProfilePhoto")]
+        public async Task<IActionResult> ChangeUserProfilePhoto(IFormFile File)
         {
-            return HandleResult(await Mediator.Send(new SetMain.Command { Id = id }));
+            return HandleResult(await Mediator.Send(new ChangeUserProfilePhoto.Command { File = File }));
         }
     }
 }

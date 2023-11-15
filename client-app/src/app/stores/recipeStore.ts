@@ -21,6 +21,7 @@ export default class RecipeStore {
     selectedTags: string[] = [];
     searchQuery = '';
     uploading = false;
+    photoDeleting = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -85,7 +86,11 @@ export default class RecipeStore {
 
                 recipe!.tagIds = tagIds;
                 this.selectedRecipe = recipe;
-                if (recipe.creatorName && recipe.creatorName !== store.userStore.user?.displayName && recipe.tagIds.length > 0) {
+                if (
+                    recipe.creatorName &&
+                    recipe.creatorName !== store.userStore.user?.displayName &&
+                    recipe.tagIds.length > 0
+                ) {
                     const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
                     await agent.UserSelection.post(userSelection);
                 }
@@ -329,8 +334,9 @@ export default class RecipeStore {
 
     deletePhoto = async (id: string) => {
         if (!this.selectedRecipe) return;
-        this.uploading = true;
+        runInAction(() => (this.loading = true));
         try {
+            await agent.Recipes.deletePhoto(id);
             runInAction(() => {
                 const photoIndexToDelete = this.selectedRecipe?.photos?.findIndex((photo) => photo.id === id);
 
@@ -340,11 +346,11 @@ export default class RecipeStore {
                         ...this.selectedRecipe.photos.slice(photoIndexToDelete + 1),
                     ];
                 }
-                this.uploading = false;
+                this.loading = false;
             });
         } catch (error) {
             console.log(error);
-            runInAction(() => (this.uploading = false));
+            runInAction(() => (this.loading = false));
         }
     };
 }

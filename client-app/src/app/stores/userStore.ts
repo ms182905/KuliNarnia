@@ -7,6 +7,7 @@ import { RecipeComment } from '../models/comment';
 
 export default class UserStore {
     user: User | null = null;
+    photoUploading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -61,4 +62,28 @@ export default class UserStore {
             console.log(error);
         }
     };
+
+    uploadPhoto = async (file: Blob) => {
+        this.photoUploading = true;
+        try {
+            if (!this.user) return;
+            const responce = await agent.Account.uploadProfilePhoto(file);
+            const photo = responce.data;
+            this.changeUserProfilePhotoUrl(photo.url);
+            runInAction(() => {
+                this.photoUploading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => (this.photoUploading = false));
+        }
+    };
+
+    changeUserProfilePhotoUrl = (photoUrl: string) => {
+        if (this.user){
+            console.log(photoUrl);
+            this.user.photoUrl = photoUrl;
+            store.userRecipesStore.setAnotherUserProfilePhotoUrl(photoUrl);
+        }
+    }
 }

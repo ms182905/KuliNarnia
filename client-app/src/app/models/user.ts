@@ -4,6 +4,7 @@ export interface User {
     token: string;
     image?: string;
     role?: string;
+    photoUrl?: string;
 }
 
 export interface UserFormValues {

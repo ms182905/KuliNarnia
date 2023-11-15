@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
-import { Header, Icon, Item, Segment } from 'semantic-ui-react';
+import { useEffect, useState } from 'react';
+import { Header, Icon, Item, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
 import { useStore } from '../../app/stores/store';
 import { Link } from 'react-router-dom';
+import PhotoUploadWidget from '../../app/common/imageUpload/PhotoUploadWidget';
 
 interface Props {
     username: string;
@@ -10,14 +11,59 @@ interface Props {
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
     const { userRecipesStore, userStore } = useStore();
-    const { loadAnotherUserRecipes, anotherUserRecipes } = userRecipesStore;
+    const { loadAnotherUserRecipes, anotherUserRecipes, anotherUserProfilePhotoUrl } = userRecipesStore;
+
+    const [editPhotoMode, setEditPhotoMode] = useState(false);
 
     useEffect(() => {
         if (userRecipesStore.anotherUserUsername !== username) loadAnotherUserRecipes(username);
     }, [loadAnotherUserRecipes, userRecipesStore.anotherUserUsername, username]);
 
+    function handlePhotoUpload(file: Blob) {
+        userStore.uploadPhoto(file);
+    }
+
     return (
         <>
+            <Segment textAlign="center">
+                {userStore.user?.username === username ? (
+                    <Button
+                        color="teal"
+                        onClick={() => setEditPhotoMode(true)}
+                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}
+                    >
+                        <Icon name="edit" style={{ marginRight: '8px' }} />
+                        Edit Photo
+                    </Button>
+                ) : (
+                    <></>
+                )}
+
+                <Img
+                    size="medium"
+                    circular
+                    centered
+                    src={anotherUserProfilePhotoUrl ? anotherUserProfilePhotoUrl : '/assets/user.png'}
+                />
+                <Header as="h1">{username}</Header>
+                {editPhotoMode ? (
+                    <>
+                        <Divider horizontal>
+                            <Header as="h4">
+                                <Icon name="edit" />
+                                Edit profile photo
+                            </Header>
+                        </Divider>
+                        <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={userStore.photoUploading} ratio={1}/>
+                        <Button color="red" onClick={() => setEditPhotoMode(false)} fluid style={{ marginTop: '8px' }}>
+                            <Icon name="cancel" />
+                            Cancel
+                        </Button>
+                    </>
+                ) : (
+                    <></>
+                )}
+            </Segment>
             <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
                 {userStore.user?.username === username ? (
                     <Header>Your recently added recipes</Header>
