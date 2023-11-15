@@ -14,7 +14,7 @@ interface Props {
     recipe: Recipe;
 }
 
-export default observer(function RecipeDetailedComs({ recipe: rec }: Props) {
+export default observer(function RecipeDetailedComments({ recipe: rec }: Props) {
     const { recipeStore, userStore, modalStore } = useStore();
     const { addRecipeComment } = recipeStore;
     const { openModal } = modalStore;

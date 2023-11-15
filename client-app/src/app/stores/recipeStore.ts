@@ -105,6 +105,7 @@ export default class RecipeStore {
                 this.selectedRecipe?.comments?.push(recipeComment);
             });
             await agent.Comments.create(recipeComment);
+            store.commentStore.setUserCommentsLoaded(false);
         } catch (error) {
             console.log(error);
         }
@@ -196,6 +197,7 @@ export default class RecipeStore {
                 this.selectedRecipe.comments = filteredComments;
             });
             await agent.Comments.delete(recipeCommentId);
+            store.commentStore.setUserCommentsLoaded(false);
         } catch (error) {
             console.log(error);
         }

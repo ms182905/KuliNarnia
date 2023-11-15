@@ -18,10 +18,10 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Delete.Command{Id = id}));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetLast()
+        [HttpGet("userComments/{username}")]
+        public async Task<IActionResult> GetLast(string username)
         {
-            return HandleResult(await Mediator.Send(new ListLast.Querry()));
+            return HandleResult(await Mediator.Send(new ListLast.Querry{UserName = username}));
         }
     }
 }

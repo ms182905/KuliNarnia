@@ -17,6 +17,7 @@ namespace Application.Comments
     {
         public class Querry : IRequest<Result<List<CommentDTO>>>
         {
+            public string UserName { get; set; }
         }
 
         public class Handler : IRequestHandler<Querry, Result<List<CommentDTO>>>
@@ -38,7 +39,7 @@ namespace Application.Comments
             )
             {
                 var user = await _context.Users.FirstOrDefaultAsync(
-                    x => x.UserName == _userAccessor.GetUsername()
+                    x => x.UserName == request.UserName
                 );
 
                 var comments = await _context.Comments

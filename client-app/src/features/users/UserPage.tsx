@@ -1,15 +1,22 @@
 import { useParams } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import UserComments from "./UserComments";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 
 export default observer(function UserPage() {
-    const { recipeStore } = useStore();
+    const { commentStore } = useStore();
 
-    const { userName } = useParams();
+    const {userName} = useParams();
+
+    if (commentStore.loadingComments) {
+        window.scrollTo(0, 0);
+        return <LoadingComponent content="Loading user comments..." />;
+    }
 
     return (
         <>
-            User: {userName}
+            {userName? (<UserComments username={userName} />) : (<></>)}
         </>
     );
 });

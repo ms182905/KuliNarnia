@@ -134,6 +134,7 @@ const Measurements = {
 const Comments = {
     create: (comment: RecipeComment) => axios.post<void>('/comments', comment),
     delete: (id: string) => axios.delete<void>(`/comments/${id}`),
+    getLast: (username: string) => requests.get<RecipeComment[]>(`/comments/userComments/${username}`),
 };
 
 const UserSelection = {
