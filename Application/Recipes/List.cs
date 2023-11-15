@@ -64,6 +64,7 @@ namespace Application.Recipes
                 int recipesNumber = recipesQuery.Count();
 
                 var recipes = await recipesQuery
+                    .OrderByDescending(r => r.Date)
                     .Skip(request.From)
                     .Take(request.To - request.From)
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)

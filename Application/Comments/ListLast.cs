@@ -44,6 +44,7 @@ namespace Application.Comments
 
                 var comments = await _context.Comments
                     .Where(x => x.AppUserId == user.Id)
+                    .OrderByDescending(c => c.Date)
                     .Take(12)
                     .ProjectTo<CommentDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();

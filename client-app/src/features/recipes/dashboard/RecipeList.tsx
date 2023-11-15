@@ -9,16 +9,20 @@ export default function RecipeList() {
 
     return (
         <>
-            {groupedRecipes.map(([group, recipes]) => (
-                <Fragment key={group}>
-                    <Header sub color="teal">
-                        {group}
-                    </Header>
-                    {recipes.map((recipe) => (
-                        <RecipeListItem key={recipe.id} recipe={recipe} />
-                    ))}
-                </Fragment>
-            ))}
+            {groupedRecipes
+                .sort((a, b) => {
+                    return new Date(b[0]).getTime() - new Date(a[0]).getTime();
+                })
+                .map(([group, recipes]) => (
+                    <Fragment key={group}>
+                        <Header sub color="teal">
+                            {group}
+                        </Header>
+                        {recipes.map((recipe) => (
+                            <RecipeListItem key={recipe.id} recipe={recipe} />
+                        ))}
+                    </Fragment>
+                ))}
         </>
     );
 }

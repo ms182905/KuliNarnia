@@ -16,9 +16,13 @@ export default function UserRecipesList() {
 
     return (
         <>
-            {userRecipes.map((recipe) => (
-                <UserRecipesListItem key={recipe.id} recipe={recipe} />
-            ))}
+            {userRecipes
+                .sort((a, b) => {
+                    return new Date(b.date).getTime() - new Date(a.date).getTime();
+                })
+                .map((recipe) => (
+                    <UserRecipesListItem key={recipe.id} recipe={recipe} />
+                ))}
         </>
     );
 }

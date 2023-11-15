@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { Header, Item, Segment } from 'semantic-ui-react';
+import { Header, Icon, Item, Segment } from 'semantic-ui-react';
 import { useStore } from '../../app/stores/store';
 import { Link } from 'react-router-dom';
 
@@ -30,22 +30,29 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                     <>
                         <Segment.Group>
                             {anotherUserRecipes.map((recipe) => (
-                                <Segment>
-                                    <Item.Group>
-                                        <Item>
-                                            <Item.Image
-                                                size="tiny"
-                                                circular
-                                                src={recipe.photos?.at(0)?.url || '/assets/placeholder.png'}
-                                            />
-                                            <Item.Content>
-                                                <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
-                                                    {recipe.title}
-                                                </Item.Header>
-                                            </Item.Content>
-                                        </Item>
-                                    </Item.Group>
-                                </Segment>
+                                <>
+                                    <Segment>
+                                        <Item.Group>
+                                            <Item>
+                                                <Item.Image
+                                                    size="tiny"
+                                                    circular
+                                                    src={recipe.photos?.at(0)?.url || '/assets/placeholder.png'}
+                                                />
+                                                <Item.Content>
+                                                    <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
+                                                        {recipe.title}
+                                                    </Item.Header>
+                                                    <Item.Description>
+                                                        <span>
+                                                            <Icon name="clock" /> {recipe.date}
+                                                        </span>
+                                                    </Item.Description>
+                                                </Item.Content>
+                                            </Item>
+                                        </Item.Group>
+                                    </Segment>
+                                </>
                             ))}
                         </Segment.Group>
                     </>

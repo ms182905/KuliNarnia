@@ -42,6 +42,7 @@ namespace Application.Recipes
 
                 var recipes = await _context.Recipes
                     .Where(x => x.CreatorId == user.Id)
+                    .OrderByDescending(r => r.Date)
                     .Skip(request.From)
                     .Take(request.To - request.From)
                     .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
