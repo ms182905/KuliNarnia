@@ -8,7 +8,7 @@ interface Props {
     username: string;
 }
 
-export default observer(function RecipeDetailedComs({username} : Props) {
+export default observer(function RecipeDetailedComs({ username }: Props) {
     const { commentStore, userStore } = useStore();
     const { userComments, userCommentsLoaded, loadUserComments } = commentStore;
 
@@ -19,8 +19,11 @@ export default observer(function RecipeDetailedComs({username} : Props) {
     return (
         <>
             <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
-                {(userStore.user?.username === username)? (<Header>Your comments</Header>) : (<Header>{username}`s comments</Header>)}
-                
+                {userStore.user?.username === username ? (
+                    <Header>Your recently added comments</Header>
+                ) : (
+                    <Header>{username}`s recently added comments</Header>
+                )}
             </Segment>
             <Segment attached>
                 {userComments.length !== 0 ? (
@@ -34,9 +37,7 @@ export default observer(function RecipeDetailedComs({username} : Props) {
                                 <Comment as={Link} to={`/recipes/${s.recipeId}`} key={s.id}>
                                     <Comment.Avatar src="/assets/user.png" />
                                     <Comment.Content>
-
                                         <Comment.Author as="a">{s.appUserDisplayName}</Comment.Author>
-
 
                                         <Comment.Metadata>
                                             <div>
@@ -44,9 +45,6 @@ export default observer(function RecipeDetailedComs({username} : Props) {
                                             </div>
                                         </Comment.Metadata>
                                         <Comment.Text>{s.text}</Comment.Text>
-                                        {/* <Com.Actions>
-                                    <Com.Action>Reply</Com.Action>
-                                </Com.Actions> */}
                                     </Comment.Content>
                                 </Comment>
                             ))}

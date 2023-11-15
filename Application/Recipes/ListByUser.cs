@@ -13,6 +13,7 @@ namespace Application.Recipes
     {
         public class Querry : IRequest<Result<RecipesDTO>>
         {
+            public string UserName { get; set; }
             public int From { get; set; }
             public int To { get; set; }
         }
@@ -36,7 +37,7 @@ namespace Application.Recipes
             )
             {
                 var user = await _context.Users.FirstOrDefaultAsync(
-                    x => x.UserName == _userAccessor.GetUsername()
+                    x => x.UserName == request.UserName
                 );
 
                 var recipes = await _context.Recipes

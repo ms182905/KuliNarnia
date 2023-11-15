@@ -18,7 +18,9 @@ export default observer(function ({ recipe }: Props) {
                             <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
                                 {recipe.title}
                             </Item.Header>
-                            <Item.Description>Created by {recipe.creatorName}</Item.Description>
+                            <Item.Description>
+                                Created by <Link to={`/userPage/${recipe.creatorName}`}>{recipe.creatorName}</Link>
+                            </Item.Description>
                         </Item.Content>
                     </Item>
                 </Item.Group>

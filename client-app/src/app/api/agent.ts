@@ -106,7 +106,7 @@ const FavouriteRecipes = {
 };
 
 const UserRecipes = {
-    list: (from: number, to: number) => requests.get<RecipesDTO>(`/recipes/userRecipes?from=${from}&to=${to}`),
+    list: (username: string, from: number, to: number) => requests.get<RecipesDTO>(`/recipes/userRecipes?username=${username}&from=${from}&to=${to}`),
 };
 
 const RecommendedRecipes = {

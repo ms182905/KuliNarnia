@@ -39,10 +39,10 @@ namespace API.Controllers
         }
 
         [HttpGet("userRecipes")]
-        public async Task<IActionResult> GetRecipesByUser(int from = 0, int to = 7)
+        public async Task<IActionResult> GetRecipesByUser(string username, int from = 0, int to = 7)
         {
             return HandleResult(
-                await Mediator.Send(new ListByUser.Querry { From = from, To = to })
+                await Mediator.Send(new ListByUser.Querry { UserName = username, From = from, To = to })
             );
         }
 

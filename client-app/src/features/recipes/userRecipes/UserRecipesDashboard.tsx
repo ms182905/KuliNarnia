@@ -7,24 +7,29 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 export default observer(function UserRecipesDashboard() {
     const { userRecipesStore } = useStore();
-    const { loadUserRecipes, userRecipeRegistry, userRecipesLoaded, userRecipesNumber, pageCapacity } =
-        userRecipesStore;
+    const {
+        loadLoggedUserRecipes,
+        loggedUserRecipeRegistry,
+        loggedUserRecipesLoaded,
+        loggedUserRecipesNumber,
+        pageCapacity,
+    } = userRecipesStore;
 
     const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
-        if (userRecipeRegistry.size < 1 && !userRecipesLoaded) {
-            console.log(userRecipesNumber);
-            if (pageNumber > 1 && (pageNumber - 1) * pageCapacity + 1 > userRecipesNumber) {
-                loadUserRecipes(pageNumber - 2);
+        if (loggedUserRecipeRegistry.size < 1 && !loggedUserRecipesLoaded) {
+            console.log(loggedUserRecipesNumber);
+            if (pageNumber > 1 && (pageNumber - 1) * pageCapacity + 1 > loggedUserRecipesNumber) {
+                loadLoggedUserRecipes(pageNumber - 2);
                 setPageNumber(pageNumber - 1);
                 return;
             }
-            loadUserRecipes(pageNumber - 1);
+            loadLoggedUserRecipes(pageNumber - 1);
         }
-    }, [loadUserRecipes, userRecipeRegistry.size, userRecipesLoaded, pageNumber, userRecipesNumber, pageCapacity]);
+    }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, loggedUserRecipesLoaded, pageNumber, loggedUserRecipesNumber, pageCapacity]);
 
-    if (!userRecipesLoaded) {
+    if (!loggedUserRecipesLoaded) {
         window.scrollTo(0, 0);
         return <LoadingComponent content="Loading user recipes..." />;
     }
@@ -36,12 +41,12 @@ export default observer(function UserRecipesDashboard() {
                     <UserRecipesList />
                 </Grid.Column>
             </Grid>
-            {userRecipesNumber > pageCapacity && (
+            {loggedUserRecipesNumber > pageCapacity && (
                 <Pagination
                     defaultActivePage={1}
                     pointing
                     secondary
-                    totalPages={Math.ceil(userRecipesNumber / pageCapacity)}
+                    totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
                     size="huge"
                     style={{
                         display: 'flex',
