@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Segment, Header, Comment } from 'semantic-ui-react';
-import { Recipe } from '../../app/models/recipe';
 import { useStore } from '../../app/stores/store';
+import { Link } from 'react-router-dom';
 
 interface Props {
     username: string;
@@ -13,13 +13,14 @@ export default observer(function RecipeDetailedComs({username} : Props) {
     const { userComments, userCommentsLoaded, loadUserComments } = commentStore;
 
     useEffect(() => {
-        if (!userCommentsLoaded || commentStore.username.length === 0) loadUserComments(username);
-    }, [userCommentsLoaded, loadUserComments, commentStore.username.length]);
+        if (!userCommentsLoaded || commentStore.username !== username) loadUserComments(username);
+    }, [userCommentsLoaded, loadUserComments, commentStore.username, username]);
 
     return (
         <>
             <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
-                <Header>Your comments</Header>
+                {(userStore.user?.username === username)? (<Header>Your comments</Header>) : (<Header>{username}`s comments</Header>)}
+                
             </Segment>
             <Segment attached>
                 {userComments.length !== 0 ? (
@@ -30,7 +31,7 @@ export default observer(function RecipeDetailedComs({username} : Props) {
                                 return new Date(a.date).getTime() - new Date(b.date).getTime();
                             })
                             .map((s) => (
-                                <Comment key={s.id}>
+                                <Comment as={Link} to={`/recipes/${s.recipeId}`} key={s.id}>
                                     <Comment.Avatar src="/assets/user.png" />
                                     <Comment.Content>
 
