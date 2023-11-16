@@ -1,7 +1,7 @@
 import { Button, Header, Table, TableCell, TableRow } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
-import LoginForm from '../../../features/users/LoginForm';
-import RegisterForm from '../../../features/users/RegisterForm';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 export default function LoginOrRegister() {
     const { modalStore } = useStore();

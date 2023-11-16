@@ -3,7 +3,7 @@ import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
 import { SyntheticEvent, useState } from 'react';
-import RemoveUserRecipe from './RemoveUserRecipe';
+import RemoveUserRecipe from '../../../app/common/modals/RemoveUserRecipe';
 import { useStore } from '../../../app/stores/store';
 
 interface Props {

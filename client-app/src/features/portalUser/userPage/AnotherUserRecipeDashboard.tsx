@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { Header, Icon, Item, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
-import { useStore } from '../../app/stores/store';
+import { useStore } from '../../../app/stores/store';
 import { Link } from 'react-router-dom';
-import PhotoUploadWidget from '../../app/common/imageUpload/PhotoUploadWidget';
+import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
 
 interface Props {
     username: string;

@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../app/stores/store';
+import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import UserComments from './UserComments';
-import LoadingComponent from '../../app/layout/LoadingComponent';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import AnotherUserRecipeDashboard from './AnotherUserRecipeDashboard';
 
 export default observer(function UserPage() {

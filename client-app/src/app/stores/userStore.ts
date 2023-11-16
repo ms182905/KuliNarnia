@@ -3,7 +3,6 @@ import { User, UserFormValues } from '../models/user';
 import agent from '../api/agent';
 import { store } from './store';
 import { router } from '../router/Routes';
-import { RecipeComment } from '../models/comment';
 
 export default class UserStore {
     user: User | null = null;
@@ -24,7 +23,16 @@ export default class UserStore {
             console.log(user.role)
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
-            router.navigate('/recipes');
+            if (user.role === "Administrator") {
+                store.recipeStore.reset();
+                store.recipeStore.resetFilters();
+                store.recipeStore.resetSearchQuerry();
+                store.favouriteRecipesStore.reset();
+                store.userRecipesStore.reset();
+                router.navigate('/lastActivity');
+            } else {
+                router.navigate('/recipes');
+            }
             store.modalStore.closeModal();
         } catch (error) {
             throw error;

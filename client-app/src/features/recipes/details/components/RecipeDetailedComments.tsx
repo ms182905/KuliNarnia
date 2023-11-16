@@ -7,7 +7,7 @@ import { useStore } from '../../../../app/stores/store';
 import { Formik } from 'formik';
 import { v4 as uuid } from 'uuid';
 import MyTextArea from '../../../../app/common/form/MyTextArea';
-import DeleteRecipeComment from './DeleteRecipeComment';
+import DeleteRecipeComment from '../../../../app/common/modals/DeleteRecipeComment';
 import LoginOrRegister from '../../../../app/common/modals/LoginOrRegister';
 
 interface Props {

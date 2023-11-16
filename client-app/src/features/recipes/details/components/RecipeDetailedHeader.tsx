@@ -5,7 +5,7 @@ import { Recipe } from '../../../../app/models/recipe';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../../../app/stores/store';
 import { toast } from 'react-toastify';
-import RemoveRecipeFromFavourites from '../../favouriteRecipes/RemoveRecipeFromFavourites';
+import RemoveRecipeFromFavourites from '../../../../app/common/modals/RemoveRecipeFromFavourites';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 

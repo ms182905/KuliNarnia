@@ -7,11 +7,14 @@ import RecipeDetails from '../../features/recipes/details/RecipeDetails';
 import TestErrors from '../../features/errors/TestErrors';
 import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
-import LoginForm from '../../features/users/LoginForm';
+import LoginForm from '../common/modals/LoginForm';
 import FavouriteRecipesDashboard from '../../features/recipes/favouriteRecipes/FavouriteRecipesDashboard';
 import UserRecipesDashboard from '../../features/recipes/userRecipes/UserRecipesDashboard';
 import RecommendedRecipesDashboard from '../../features/recipes/recommendedRecipes/RecommendedRecipesDashboard';
-import UserPage from '../../features/users/UserPage';
+import UserPage from '../../features/portalUser/userPage/UserPage';
+import LastActivity from '../../features/administrator/lastActivity/LastActivity';
+import Tags from '../../features/administrator/tags/Tags';
+import Categories from '../../features/administrator/categories/Categories';
 
 export const routes: RouteObject[] = [
     {
@@ -20,6 +23,9 @@ export const routes: RouteObject[] = [
         children: [
             { path: '', element: <HomePage /> },
             { path: 'recipes', element: <RecipeDashboard /> },
+            { path: 'lastActivity', element: <LastActivity /> },
+            { path: 'tags', element: <Tags /> },
+            { path: 'categories', element: <Categories /> },
             { path: 'userPage/:userName', element: <UserPage /> },
             { path: 'recipes/:recipeId/:byUser?', element: <RecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },

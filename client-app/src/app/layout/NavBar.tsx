@@ -2,8 +2,8 @@ import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
-import LoginForm from '../../features/users/LoginForm';
-import RegisterForm from '../../features/users/RegisterForm';
+import LoginForm from '../common/modals/LoginForm';
+import RegisterForm from '../common/modals/RegisterForm';
 import LoginOrRegister from '../common/modals/LoginOrRegister';
 
 export default observer(function NavBar() {
@@ -13,9 +13,46 @@ export default observer(function NavBar() {
         recipeStore: { resetSelectedRecipe },
     } = useStore();
 
-    // if (user?.role === "") {
+    if (user?.role === 'Administrator') {
+        return (
+            <Menu inverted fixed="top">
+                <Container>
+                    <Menu.Item as={NavLink} to="/" header>
+                        <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
+                        KuliNarnia
+                    </Menu.Item>
+                    <Menu.Item
+                        as={NavLink}
+                        to="/lastActivity"
+                        onClick={() => window.scrollTo(0, 0)}
+                        name="Last activity"
+                    />
+                    <Menu.Item
+                        as={NavLink}
+                        to="/categories"
+                        onClick={() => window.scrollTo(0, 0)}
+                        name="Manage categories"
+                    />
 
-    // }
+                    <Menu.Item as={NavLink} to="/tags" onClick={() => window.scrollTo(0, 0)} name="Manage tags" />
+                    <Menu.Item position="right">
+                        <Image src={user?.image || '/assets/user.png'} avatar spaced="right" />
+                        <Dropdown pointing="top left" text={user?.displayName}>
+                            <Dropdown.Menu>
+                                {/* <Dropdown.Item
+                                    as={Link}
+                                    to={`/userPage/${user?.username}`}
+                                    text="My Profile"
+                                    icon="user"
+                                /> */}
+                                <Dropdown.Item onClick={logout} text="Logout" icon="power" />
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </Menu.Item>
+                </Container>
+            </Menu>
+        );
+    }
 
     return (
         <Menu inverted fixed="top">

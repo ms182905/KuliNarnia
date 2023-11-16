@@ -8,7 +8,7 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import { Instruction } from '../../../app/models/instruction';
-import DeleteRecipeInstruction from './DeleteRecipeInstruction';
+import DeleteRecipeInstruction from '../../../app/common/modals/DeleteRecipeInstruction';
 
 export default observer(function RecipeFormInstructions() {
     const { recipeStore, modalStore } = useStore();

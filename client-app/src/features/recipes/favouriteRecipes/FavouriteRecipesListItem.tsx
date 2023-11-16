@@ -4,7 +4,7 @@ import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
-import RemoveRecipeFromFavourites from './RemoveRecipeFromFavourites';
+import RemoveRecipeFromFavourites from '../../../app/common/modals/RemoveRecipeFromFavourites';
 
 interface Props {
     recipe: Recipe;

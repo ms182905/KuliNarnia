@@ -1,7 +1,7 @@
 import { Button, Header, Table } from 'semantic-ui-react';
-import { useStore } from '../../../app/stores/store';
+import { useStore } from '../../stores/store';
 import { toast } from 'react-toastify';
-import { Recipe } from '../../../app/models/recipe';
+import { Recipe } from '../../models/recipe';
 
 interface Props {
     recipe?: Recipe;

@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MySelectInput from '../../../app/common/form/MySelectInput';
 import { Ingredient } from '../../../app/models/ingredient';
-import DeleteRecipeIngredient from './DeleteRecipeIngredient';
+import DeleteRecipeIngredient from '../../../app/common/modals/DeleteRecipeIngredient';
 
 export default observer(function RecipeFormIngredients() {
     const { recipeStore, measurementStore, modalStore } = useStore();
