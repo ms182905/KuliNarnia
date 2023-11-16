@@ -33,8 +33,9 @@ export default observer(function NavBar() {
                         onClick={() => window.scrollTo(0, 0)}
                         name="Manage categories"
                     />
-
                     <Menu.Item as={NavLink} to="/tags" onClick={() => window.scrollTo(0, 0)} name="Manage tags" />
+                    <Menu.Item as={NavLink} to="/measurements" onClick={() => window.scrollTo(0, 0)} name="Manage measurements" />
+
                     <Menu.Item position="right">
                         <Image src={user?.image || '/assets/user.png'} avatar spaced="right" />
                         <Dropdown pointing="top left" text={user?.displayName}>

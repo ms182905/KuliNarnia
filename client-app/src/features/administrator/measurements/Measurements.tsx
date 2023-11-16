@@ -5,33 +5,33 @@ import { useEffect } from "react";
 import { Button, Segment } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 
-export default observer(function Categories() {
-    const { userStore, categoryStore } = useStore();
+export default observer(function Measurements() {
+    const { userStore, measurementStore } = useStore();
     const { user } = userStore;
-    const { categoriesTable, loadCategories } = categoryStore;
+    const { measurementsTable, loadMeasurements } = measurementStore;
 
     if (user?.role !== "Administrator") {
         router.navigate('/not-found');
     }
 
     useEffect(() => {
-        if (categoriesTable.length < 1) {
-            loadCategories();
+        if (measurementsTable.length < 1) {
+            loadMeasurements();
         }
-    }, [categoriesTable, loadCategories]);
+    }, [measurementsTable, loadMeasurements]);
 
-    if (categoryStore.loadingInitial) {
+    if (measurementStore.loadingInitial) {
         window.scrollTo(0, 0);
-        return <LoadingComponent content="Loading categories..." />;
+        return <LoadingComponent content="Loading measurements..." />;
     }
 
     return (
         <>
             <h2>Categories</h2>
-            {categoriesTable.map((category) => (
-                <Segment key={category.id}>
-                    <strong>ID:</strong> {category.id} <br />
-                    <strong>Name:</strong> {capitalizeFirstLetter(category.name)} <br />
+            {measurementsTable.map((measurement) => (
+                <Segment key={measurement.id}>
+                    <strong>ID:</strong> {measurement.id} <br />
+                    <strong>Name:</strong> {capitalizeFirstLetter(measurement.name)} <br />
                     <Button color="red" content="Delete" style={{ position: 'absolute', top: 10, right: 10 }} />
                 </Segment>
             ))}

@@ -15,6 +15,7 @@ import UserPage from '../../features/portalUser/userPage/UserPage';
 import LastActivity from '../../features/administrator/lastActivity/LastActivity';
 import Tags from '../../features/administrator/tags/Tags';
 import Categories from '../../features/administrator/categories/Categories';
+import Measurements from '../../features/administrator/measurements/Measurements';
 
 export const routes: RouteObject[] = [
     {
@@ -26,6 +27,7 @@ export const routes: RouteObject[] = [
             { path: 'lastActivity', element: <LastActivity /> },
             { path: 'tags', element: <Tags /> },
             { path: 'categories', element: <Categories /> },
+            { path: 'measurements', element: <Measurements /> },
             { path: 'userPage/:userName', element: <UserPage /> },
             { path: 'recipes/:recipeId/:byUser?', element: <RecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
