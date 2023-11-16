@@ -5,6 +5,7 @@ import { useStore } from "../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import * as Yup from 'yup';
 import ValidationErrors from "../errors/ValidationErrors";
+import { AxiosError } from "axios";
 
 export default observer(function RegisterForm() {
     const {userStore} = useStore();
@@ -30,7 +31,7 @@ export default observer(function RegisterForm() {
                     <MyTextInput placeholder='Password' name='password' type='password' />
                     <ErrorMessage
                         name='error' render={() => 
-                        <ValidationErrors errors={errors.error as unknown as string[]} />}
+                        <ValidationErrors errors={errors.error as unknown as AxiosError} />}
                     />
                     <Button 
                         disabled={!isValid || !dirty || isSubmitting}

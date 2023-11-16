@@ -39,9 +39,12 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            // await _roleManager.CreateAsync(new IdentityRole("PortalUser"));
+            // await _roleManager.CreateAsync(new IdentityRole("Administrator"));
 
             // await _userManager.AddToRoleAsync(user, "PortalUser");
+
+            // await _userManager.DeleteAsync(user);
+            // return Unauthorized();
 
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
@@ -78,10 +81,10 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            await _userManager.AddToRoleAsync(user, "PortalUser");
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "PortalUser");
                 return await CreateUserObject(user);
             }
 

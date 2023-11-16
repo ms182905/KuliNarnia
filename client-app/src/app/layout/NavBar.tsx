@@ -12,6 +12,11 @@ export default observer(function NavBar() {
         modalStore: { openModal },
         recipeStore: { resetSelectedRecipe },
     } = useStore();
+
+    // if (user?.role === "") {
+
+    // }
+
     return (
         <Menu inverted fixed="top">
             <Container>

@@ -12,21 +12,29 @@ namespace API.Extensions
 {
     public static class IdentityServiceExtensions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services, 
-            IConfiguration config)
+        public static IServiceCollection AddIdentityServices(
+            this IServiceCollection services,
+            IConfiguration config
+        )
         {
-            services.AddIdentityCore<AppUser>(opt => 
-            {
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.User.RequireUniqueEmail = true;
-            })
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<DataContext>();
+            services
+                .AddIdentityCore<AppUser>(opt =>
+                {
+                    opt.Password.RequireDigit = true;
+                    opt.Password.RequireLowercase = true;
+                    opt.Password.RequireUppercase = true;
+                    opt.Password.RequireNonAlphanumeric = true;
+                    opt.Password.RequiredLength = 6;
+                    opt.User.RequireUniqueEmail = true;
+                })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt => 
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -37,12 +45,15 @@ namespace API.Extensions
                     };
                 });
 
-            services.AddAuthorization(opt => 
+            services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("IsCreator", policy => 
-                {
-                    policy.Requirements.Add(new IsCreatorRequirement());
-                });
+                opt.AddPolicy(
+                    "IsCreator",
+                    policy =>
+                    {
+                        policy.Requirements.Add(new IsCreatorRequirement());
+                    }
+                );
             });
             services.AddTransient<IAuthorizationHandler, IsCreatorRequirementHandler>();
             services.AddScoped<TokenService>();
