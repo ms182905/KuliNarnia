@@ -31,6 +31,7 @@ namespace Application.Measurements
             {
                 return Result<List<MeasurementDTO>>.Success(
                     await _context.Measurements
+                        .Where(m => m.Name != "Unknown")
                         .ProjectTo<MeasurementDTO>(_mapper.ConfigurationProvider)
                         .ToListAsync()
                 );

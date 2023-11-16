@@ -69,7 +69,7 @@ namespace Application.Recipes
             {
                 var categoryIds = recipes.Select(r => r.CategoryId).Distinct();
                 var userSelectionStastics = await _context.UserSelectionStastics
-                    .Where(u => u.UserId == userId && categoryIds.Contains(u.CategoryId))
+                    .Where(u => u.UserId == userId)
                     .ToListAsync();
 
                 if (userSelectionStastics == null)
@@ -77,22 +77,32 @@ namespace Application.Recipes
                     return new List<RecipeDetailsDTO>();
                 }
 
-                var sumOfTagSelections = userSelectionStastics.Sum(x => x.Counter);
+                var numberOfSelections = userSelectionStastics.Sum(x => x.Counter);
 
                 var recipeDistionary = new Dictionary<RecipeDetailsDTO, float>();
                 foreach (var recipe in recipes)
                 {
-                    var userSelection = userSelectionStastics.Where(
-                        x =>
-                            x.CategoryId == recipe.CategoryId
-                            || recipe.Tags.Any(t => t.Id == x.TagId)
+                    var userTagSelection = userSelectionStastics.Where(
+                        x => recipe.Tags.Any(t => t.Id == x.TagId)
                     );
+
+                    var userCategorySelection = userSelectionStastics.Where(
+                        x => x.CategoryId == recipe.CategoryId
+                    );
+
                     recipeDistionary.Add(
                         recipe,
-                        (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
+                        (
+                            (float)userTagSelection.Sum(u => u.Counter)
+                            + (float)userCategorySelection.Sum(u => u.Counter)
+                        ) / numberOfSelections
                     );
+                    System.Console.WriteLine(recipe.Title);
                     Console.WriteLine(
-                        (float)userSelection.Sum(u => u.Counter) / sumOfTagSelections
+                        (
+                            (float)userTagSelection.Sum(u => u.Counter)
+                            + (float)userCategorySelection.Sum(u => u.Counter)
+                        ) / numberOfSelections
                     );
                 }
 

@@ -1,0 +1,58 @@
+using Application.Core;
+using Application.DTOs;
+using FluentValidation;
+using MediatR;
+using Persistence;
+
+namespace Application.Tags
+{
+    public class Edit
+    {
+        public class Command : IRequest<Result<Unit>>
+        {
+            public Guid TagId { get; set; }
+            public TagDTO TagDTO { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                // RuleFor(x => x.RecipeDetailsDTO).SetValidator(new RecipeDetailsDTOValidator());
+            }
+        }
+
+        public class Handler : IRequestHandler<Command, Result<Unit>>
+        {
+            private readonly DataContext _context;
+
+            public Handler(DataContext context)
+            {
+                _context = context;
+            }
+
+            public async Task<Result<Unit>> Handle(
+                Command request,
+                CancellationToken cancellationToken
+            )
+            {
+                var tag = await _context.Tags.FindAsync(request.TagId);
+
+                if (tag == null)
+                {
+                    return null;
+                }
+
+                tag.Name = request.TagDTO.Name;
+
+                var result = await _context.SaveChangesAsync() > 0;
+                if (!result)
+                {
+                    return Result<Unit>.Failure("Failed to update tag");
+                }
+
+                return Result<Unit>.Success(Unit.Value);
+            }
+        }
+    }
+}

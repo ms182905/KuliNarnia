@@ -31,6 +31,7 @@ namespace Application.Categories
             {
                 return Result<List<CategoryDTO>>.Success(
                     await _context.Categories
+                        .Where(c => c.Name != "Unknown")
                         .ProjectTo<CategoryDTO>(_mapper.ConfigurationProvider)
                         .ToListAsync()
                 );

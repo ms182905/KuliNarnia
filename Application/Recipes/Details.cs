@@ -44,7 +44,7 @@ namespace Application.Recipes
                         x => x.UserName == _userAccessor.GetUsername()
                     );
 
-                    if (user!= null)
+                    if (user != null)
                     {
                         userId = user.Id;
                     }
@@ -57,7 +57,10 @@ namespace Application.Recipes
 
                 if (!userId.IsNullOrEmpty())
                 {
-                    var inFavourites = await _context.FavouriteRecipes.FirstOrDefaultAsync(r => r.AppUserId == userId && r.RecipeId == request.Id) != null;
+                    var inFavourites =
+                        await _context.FavouriteRecipes.FirstOrDefaultAsync(
+                            r => r.AppUserId == userId && r.RecipeId == request.Id
+                        ) != null;
                     recipe.InFavourites = inFavourites;
                 }
                 else

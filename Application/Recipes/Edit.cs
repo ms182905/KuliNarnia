@@ -1,15 +1,9 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces;
-using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Recipes
@@ -40,7 +34,10 @@ namespace Application.Recipes
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(
+                Command request,
+                CancellationToken cancellationToken
+            )
             {
                 var oldRecipe = await _context.Recipes.FindAsync(request.RecipeDetailsDTO.Id);
 
@@ -118,24 +115,30 @@ namespace Application.Recipes
                     .ToList();
 
                 var instructions = detailsDTO.Instructions
-                    .Select(instruction => new Instruction
-                    {
-                        Id = instruction.Id,
-                        Text = instruction.Text,
-                        Position = instruction.Position,
-                        RecipeId = detailsDTO.Id
-                    })
+                    .Select(
+                        instruction =>
+                            new Instruction
+                            {
+                                Id = instruction.Id,
+                                Text = instruction.Text,
+                                Position = instruction.Position,
+                                RecipeId = detailsDTO.Id
+                            }
+                    )
                     .ToList();
 
                 var ingredients = detailsDTO.Ingredients
-                    .Select(ingredient => new Ingredient
-                    {
-                        Id = ingredient.Id,
-                        Name = ingredient.Name,
-                        Amount = ingredient.Amount,
-                        RecipeId = detailsDTO.Id,
-                        MeasurementId = ingredient.Measurement.Id
-                    })
+                    .Select(
+                        ingredient =>
+                            new Ingredient
+                            {
+                                Id = ingredient.Id,
+                                Name = ingredient.Name,
+                                Amount = ingredient.Amount,
+                                RecipeId = detailsDTO.Id,
+                                MeasurementId = ingredient.Measurement.Id
+                            }
+                    )
                     .ToList();
 
                 _context.RecipeTags.AddRange(recipeTags);

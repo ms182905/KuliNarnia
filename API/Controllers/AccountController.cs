@@ -81,7 +81,6 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "PortalUser");
@@ -100,6 +99,7 @@ namespace API.Controllers
             return await CreateUserObject(user);
         }
 
+        [AllowAnonymous]
         [HttpGet("profilePhoto/{userName}")]
         public async Task<ActionResult<string>> GetUserPhotoUrl(string userName)
         {

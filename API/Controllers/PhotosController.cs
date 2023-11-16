@@ -20,7 +20,9 @@ namespace API.Controllers
         [HttpPost("changeUserProfilePhoto")]
         public async Task<IActionResult> ChangeUserProfilePhoto(IFormFile File)
         {
-            return HandleResult(await Mediator.Send(new ChangeUserProfilePhoto.Command { File = File }));
+            return HandleResult(
+                await Mediator.Send(new ChangeUserProfilePhoto.Command { File = File })
+            );
         }
     }
 }

@@ -38,11 +38,19 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Details.Querry { Id = id }));
         }
 
+        [AllowAnonymous]
         [HttpGet("userRecipes")]
         public async Task<IActionResult> GetRecipesByUser(string username, int from = 0, int to = 7)
         {
             return HandleResult(
-                await Mediator.Send(new ListByUser.Querry { UserName = username, From = from, To = to })
+                await Mediator.Send(
+                    new ListByUser.Querry
+                    {
+                        UserName = username,
+                        From = from,
+                        To = to
+                    }
+                )
             );
         }
 
