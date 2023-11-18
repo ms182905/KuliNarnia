@@ -4,13 +4,14 @@ import { Header, Icon, Segment, Image as Img, Button, Divider } from 'semantic-u
 import { useStore } from '../../../app/stores/store';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
 import AnotherUserRecipeList from './AnotherUserRecipeList';
+import DeleteUserAccount from '../../../app/common/modals/DeleteUserAccount';
 
 interface Props {
     username: string;
 }
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
-    const { userRecipesStore, userStore } = useStore();
+    const { userRecipesStore, userStore, modalStore } = useStore();
     const { anotherUserProfilePhotoUrl } = userRecipesStore;
 
     const [editPhotoMode, setEditPhotoMode] = useState(false);
@@ -62,6 +63,15 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                     </>
                 ) : (
                     <></>
+                )}
+                {userStore.user?.role === 'Administrator' && (
+                    <Button
+                        content="Delete user account"
+                        color="red"
+                        fluid
+                        loading={userStore.loading}
+                        onClick={() => modalStore.openModal(<DeleteUserAccount userName={username} />)}
+                    />
                 )}
             </Segment>
             <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>

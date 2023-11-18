@@ -38,6 +38,11 @@ namespace Application.Recipes
                     x => x.UserName == request.UserName
                 );
 
+                if (user == null)
+                {
+                    return null;
+                }
+
                 var recipes = await _context.Recipes
                     .Where(x => x.CreatorId == user.Id)
                     .OrderByDescending(r => r.Date)

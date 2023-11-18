@@ -79,6 +79,7 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
                         }}
                     />
                 )}
+
                 {editable && userStore.user?.displayName === recipe.creatorName ? (
                     <Button as={Link} to={`/manage/${recipe.id}`} color="orange" floated="right">
                         Manage Recipe

@@ -12,7 +12,7 @@ import FavouriteRecipesDashboard from '../../features/recipes/favouriteRecipes/F
 import UserRecipesDashboard from '../../features/recipes/userRecipes/UserRecipesDashboard';
 import RecommendedRecipesDashboard from '../../features/recipes/recommendedRecipes/RecommendedRecipesDashboard';
 import UserPage from '../../features/portalUser/userPage/UserPage';
-import LastActivity from '../../features/administrator/lastActivity/LastActivity';
+import LastActivity from '../../features/administrator/lastActivity/ActivityDashboard';
 import Tags from '../../features/administrator/tags/Tags';
 import Categories from '../../features/administrator/categories/Categories';
 import Measurements from '../../features/administrator/measurements/Measurements';

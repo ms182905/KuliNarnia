@@ -7,6 +7,7 @@ import { router } from '../router/Routes';
 export default class UserStore {
     user: User | null = null;
     photoUploading = false;
+    loading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -19,11 +20,11 @@ export default class UserStore {
     login = async (creds: UserFormValues) => {
         try {
             const user = await agent.Account.login(creds);
-            console.log("User role: ")
-            console.log(user.role)
+            console.log('User role: ');
+            console.log(user.role);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));
-            if (user.role === "Administrator") {
+            if (user.role === 'Administrator') {
                 store.recipeStore.reset();
                 store.recipeStore.resetFilters();
                 store.recipeStore.resetSearchQuerry();
@@ -71,6 +72,18 @@ export default class UserStore {
         }
     };
 
+    deleteUserAccount = async (userName: string) => {
+        this.setLoading(true);
+        try {
+            await agent.Account.delete(userName);
+            this.setLoading(false);
+            router.navigate('/lastActivity');
+        } catch (error) {
+            this.setLoading(false);
+            console.log(error);
+        }
+    };
+
     uploadPhoto = async (file: Blob) => {
         this.photoUploading = true;
         try {
@@ -88,10 +101,14 @@ export default class UserStore {
     };
 
     changeUserProfilePhotoUrl = (photoUrl: string) => {
-        if (this.user){
+        if (this.user) {
             console.log(photoUrl);
             this.user.photoUrl = photoUrl;
             store.userRecipesStore.setAnotherUserProfilePhotoUrl(photoUrl);
         }
-    }
+    };
+
+    setLoading = (state: boolean) => {
+        this.loading = state;
+    };
 }

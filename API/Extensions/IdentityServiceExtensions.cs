@@ -4,6 +4,7 @@ using Domain;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
@@ -61,10 +62,18 @@ namespace API.Extensions
                         policy.Requirements.Add(new IsCreatorOrAdministratorRequirement());
                     }
                 );
+                opt.AddPolicy(
+                    "IsAdministrator",
+                    policy =>
+                    {
+                        policy.Requirements.Add(new IsAdministratorRequirement());
+                    }
+                );
             });
 
             services.AddTransient<IAuthorizationHandler, IsCreatorRequirementHandler>();
             services.AddTransient<IAuthorizationHandler, IsCreatorOrAdministratorRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsAdministratorRequirementHandler>();
             services.AddScoped<TokenService>();
 
             return services;

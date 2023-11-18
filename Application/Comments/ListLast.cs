@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Core;
 using Application.DTOs;
 using Application.Interfaces;
@@ -41,6 +37,11 @@ namespace Application.Comments
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == request.UserName
                 );
+
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var comments = await _context.Comments
                     .Where(x => x.AppUserId == user.Id)

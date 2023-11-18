@@ -11,6 +11,7 @@ import { RecipeComment } from '../models/comment';
 import { UserSelection as UserSelectionDTO } from '../models/userSelection';
 import { Measurement } from '../models/measurement';
 import { Photo } from '../models/photo';
+import { Activities } from '../models/activities';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -106,7 +107,8 @@ const FavouriteRecipes = {
 };
 
 const UserRecipes = {
-    list: (username: string, from: number, to: number) => requests.get<RecipesDTO>(`/recipes/userRecipes?username=${username}&from=${from}&to=${to}`),
+    list: (username: string, from: number, to: number) =>
+        requests.get<RecipesDTO>(`/recipes/userRecipes?username=${username}&from=${from}&to=${to}`),
 };
 
 const RecommendedRecipes = {
@@ -125,6 +127,7 @@ const Account = {
             headers: { 'Content-Type': 'multipart/form-data' },
         });
     },
+    delete: (userName: string) => axios.delete<void>(`/account/${userName}`),
 };
 
 const Categories = {
@@ -154,6 +157,10 @@ const Comments = {
     getLast: (username: string) => requests.get<RecipeComment[]>(`/comments/userComments/${username}`),
 };
 
+const Activity = {
+    list: (from: number, to: number) => requests.get<Activities>(`/activity?from=${from}&to=${to}`),
+};
+
 const UserSelection = {
     post: (userSelection: UserSelectionDTO) => axios.post<void>('/userSelection', userSelection),
 };
@@ -168,6 +175,7 @@ const agent = {
     Tags,
     Measurements,
     Comments,
+    Activity,
     UserSelection,
 };
 

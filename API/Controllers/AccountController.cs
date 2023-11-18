@@ -1,11 +1,13 @@
 using System.Security.Claims;
 using API.DTOs;
 using API.Services;
+using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace API.Controllers
 {
@@ -16,16 +18,19 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenService _tokenService;
+        private readonly DataContext _context;
 
         public AccountController(
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            TokenService tokenService
+            TokenService tokenService,
+            DataContext context
         )
         {
             _tokenService = tokenService;
             _roleManager = roleManager;
             _userManager = userManager;
+            _context = context;
         }
 
         [AllowAnonymous]
@@ -88,6 +93,47 @@ namespace API.Controllers
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [Authorize(Policy = "IsAdministrator")]
+        [HttpDelete("{userName}")]
+        public async Task<IActionResult> DeleteUser(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var comments = await _context.Comments.Where(c => c.AppUserId == user.Id).ToListAsync();
+            var selectionStatistics = await _context.UserSelectionStastics
+                .Where(c => c.UserId == user.Id)
+                .ToListAsync();
+            var favourites = await _context.FavouriteRecipes
+                .Where(c => c.AppUserId == user.Id)
+                .ToListAsync();
+            var recipes = await _context.Recipes.Where(c => c.CreatorId == user.Id).ToListAsync();
+
+            _context.Comments.RemoveRange(comments);
+            _context.UserSelectionStastics.RemoveRange(selectionStatistics);
+            _context.FavouriteRecipes.RemoveRange(favourites);
+            _context.Recipes.RemoveRange(recipes);
+
+            var result = await _context.SaveChangesAsync() > 0;
+            if (!result)
+            {
+                return BadRequest("Failed to delete user data");
+            }
+
+            _context.Users.Remove(user);
+            result = await _context.SaveChangesAsync() > 0;
+            if (!result)
+            {
+                return BadRequest("Failed to delete user");
+            }
+
+            return Ok();
         }
 
         [Authorize]
