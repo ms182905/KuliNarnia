@@ -129,14 +129,23 @@ const Account = {
 
 const Categories = {
     list: () => requests.get<Category[]>('/categories'),
+    create: (category: Category) => axios.post<void>('/categories', category),
+    update: (category: Category) => axios.put<void>(`/categories/${category.id}`, category),
+    delete: (id: string) => axios.delete<void>(`/categories/${id}`),
 };
 
 const Tags = {
     list: () => requests.get<Tag[]>('/tags'),
+    create: (tag: Tag) => axios.post<void>('/tags', tag),
+    update: (tag: Tag) => axios.put<void>(`/tags/${tag.id}`, tag),
+    delete: (id: string) => axios.delete<void>(`/tags/${id}`),
 };
 
 const Measurements = {
     list: () => requests.get<Measurement[]>(`/measurements`),
+    create: (measurement: Measurement) => axios.post<void>('/measurements', measurement),
+    update: (measurement: Measurement) => axios.put<void>(`/measurements/${measurement.id}`, measurement),
+    delete: (id: string) => axios.delete<void>(`/measurements/${id}`),
 };
 
 const Comments = {

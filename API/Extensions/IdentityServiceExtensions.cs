@@ -54,8 +54,17 @@ namespace API.Extensions
                         policy.Requirements.Add(new IsCreatorRequirement());
                     }
                 );
+                opt.AddPolicy(
+                    "IsCreatorOrAdministrator",
+                    policy =>
+                    {
+                        policy.Requirements.Add(new IsCreatorOrAdministratorRequirement());
+                    }
+                );
             });
+
             services.AddTransient<IAuthorizationHandler, IsCreatorRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsCreatorOrAdministratorRequirementHandler>();
             services.AddScoped<TokenService>();
 
             return services;

@@ -9,7 +9,7 @@ export default function RemoveUserRecipe({ recipeId }: Props) {
     const { modalStore, userRecipesStore } = useStore();
     const { deleteRecipe } = userRecipesStore;
 
-    function deleteCommentAndClose() {
+    function deleteRecipeAndClose() {
         modalStore.closeModal();
         deleteRecipe(recipeId);
     }
@@ -21,7 +21,7 @@ export default function RemoveUserRecipe({ recipeId }: Props) {
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
-                            <Button fluid className="ui positive button" onClick={() => deleteCommentAndClose()}>
+                            <Button fluid className="ui positive button" onClick={() => deleteRecipeAndClose()}>
                                 Yes
                             </Button>
                         </Table.Cell>

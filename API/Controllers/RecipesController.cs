@@ -78,7 +78,7 @@ namespace API.Controllers
             );
         }
 
-        [Authorize(Policy = "IsCreator")]
+        [Authorize(Policy = "IsCreatorOrAdministrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecipe(Guid id)
         {

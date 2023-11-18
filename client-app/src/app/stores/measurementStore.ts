@@ -5,6 +5,7 @@ import { Measurement } from '../models/measurement';
 export default class MeasurementStore {
     measurementsTable: Measurement[] = [];
     loadingInitial = false;
+    loading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -28,7 +29,58 @@ export default class MeasurementStore {
         }
     };
 
+    createMeasurement = async (measurement: Measurement) => {
+        this.setLoading(true);
+        try {
+            await agent.Measurements.create(measurement);
+            runInAction(() => {
+                this.measurementsTable.push(measurement);
+                this.loading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    };
+
+    updateMeasurement = async (measurement: Measurement) => {
+        this.setLoading(true);
+        try {
+            await agent.Measurements.update(measurement);
+            runInAction(() => {
+                this.measurementsTable = this.measurementsTable.filter((m) => m.id !== measurement.id);
+                this.measurementsTable.push(measurement);
+                this.loading = false;
+            });
+        } catch (error) {
+            console.log(error);
+            runInAction(() => {
+                this.loading = false;
+            });
+        }
+    };
+
+    deleteMeasurement = async (id: string) => {
+        this.setLoading(true);
+        try {
+            await agent.Measurements.delete(id);
+            runInAction(() => {
+                this.measurementsTable = this.measurementsTable.filter((m) => m.id !== id);
+            });
+            this.setLoading(false);
+        } catch (error) {
+            console.log(error);
+            this.setLoading(false);
+        }
+    };
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
+    };
+
+    setLoading = (state: boolean) => {
+        this.loading = state;
     };
 }

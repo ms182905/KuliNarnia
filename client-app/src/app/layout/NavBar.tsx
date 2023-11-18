@@ -29,12 +29,23 @@ export default observer(function NavBar() {
                     />
                     <Menu.Item
                         as={NavLink}
+                        to="/adminRecipes"
+                        onClick={() => window.scrollTo(0, 0)}
+                        name="Manage recipes"
+                    />
+                    <Menu.Item
+                        as={NavLink}
                         to="/categories"
                         onClick={() => window.scrollTo(0, 0)}
                         name="Manage categories"
                     />
                     <Menu.Item as={NavLink} to="/tags" onClick={() => window.scrollTo(0, 0)} name="Manage tags" />
-                    <Menu.Item as={NavLink} to="/measurements" onClick={() => window.scrollTo(0, 0)} name="Manage measurements" />
+                    <Menu.Item
+                        as={NavLink}
+                        to="/measurements"
+                        onClick={() => window.scrollTo(0, 0)}
+                        name="Manage measurements"
+                    />
 
                     <Menu.Item position="right">
                         <Image src={user?.image || '/assets/user.png'} avatar spaced="right" />

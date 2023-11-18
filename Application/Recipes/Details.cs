@@ -53,7 +53,12 @@ namespace Application.Recipes
                 var recipe = await _context.Recipes
                     .Where(r => r.Id == request.Id)
                     .ProjectTo<RecipeDetailsDTO>(_mapper.ConfigurationProvider)
-                    .FirstAsync();
+                    .FirstOrDefaultAsync();
+
+                if (recipe == null)
+                {
+                    return null;
+                }
 
                 if (!userId.IsNullOrEmpty())
                 {

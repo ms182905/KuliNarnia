@@ -16,6 +16,8 @@ import LastActivity from '../../features/administrator/lastActivity/LastActivity
 import Tags from '../../features/administrator/tags/Tags';
 import Categories from '../../features/administrator/categories/Categories';
 import Measurements from '../../features/administrator/measurements/Measurements';
+import AdminRecipeDashboard from '../../features/administrator/recipes/dashboard/AdminRecipeDashboard';
+import AdminRecipeDetails from '../../features/administrator/recipes/details/AdminRecipeDetails';
 
 export const routes: RouteObject[] = [
     {
@@ -25,11 +27,13 @@ export const routes: RouteObject[] = [
             { path: '', element: <HomePage /> },
             { path: 'recipes', element: <RecipeDashboard /> },
             { path: 'lastActivity', element: <LastActivity /> },
+            { path: 'adminRecipes', element: <AdminRecipeDashboard /> },
             { path: 'tags', element: <Tags /> },
             { path: 'categories', element: <Categories /> },
             { path: 'measurements', element: <Measurements /> },
             { path: 'userPage/:userName', element: <UserPage /> },
             { path: 'recipes/:recipeId/:byUser?', element: <RecipeDetails /> },
+            { path: 'adminRecipes/:recipeId', element: <AdminRecipeDetails /> },
             { path: 'favouriteRecipes', element: <FavouriteRecipesDashboard /> },
             { path: 'userRecipes', element: <UserRecipesDashboard /> },
             { path: 'recommendations', element: <RecommendedRecipesDashboard /> },
