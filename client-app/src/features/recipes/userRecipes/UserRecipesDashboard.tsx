@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Grid, Pagination } from 'semantic-ui-react';
 import UserRecipesList from './UserRecipesList';
 import { useStore } from '../../../app/stores/store';
@@ -10,28 +10,21 @@ export default observer(function UserRecipesDashboard() {
     const {
         loadLoggedUserRecipes,
         loggedUserRecipeRegistry,
-        loggedUserRecipesLoaded,
         loggedUserRecipesNumber,
+        handlePageChange,
         pageCapacity,
+        recipeDashboardPageNumber,
     } = userRecipesStore;
 
-    const [pageNumber, setPageNumber] = useState(1);
-
     useEffect(() => {
-        if (loggedUserRecipeRegistry.size < 1 && !loggedUserRecipesLoaded) {
-            console.log(loggedUserRecipesNumber);
-            if (pageNumber > 1 && (pageNumber - 1) * pageCapacity + 1 > loggedUserRecipesNumber) {
-                loadLoggedUserRecipes(pageNumber - 2);
-                setPageNumber(pageNumber - 1);
-                return;
-            }
-            loadLoggedUserRecipes(pageNumber - 1);
+        if (loggedUserRecipeRegistry.size < 1) {
+            loadLoggedUserRecipes(recipeDashboardPageNumber);
         }
-    }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, loggedUserRecipesLoaded, pageNumber, loggedUserRecipesNumber, pageCapacity]);
+    }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, recipeDashboardPageNumber]);
 
-    if (!loggedUserRecipesLoaded) {
+    if (userRecipesStore.loadingInitial) {
         window.scrollTo(0, 0);
-        return <LoadingComponent content="Loading user recipes..." />;
+        return <LoadingComponent content="Loading recipes..." />;
     }
 
     return (
@@ -41,21 +34,23 @@ export default observer(function UserRecipesDashboard() {
                     <UserRecipesList />
                 </Grid.Column>
             </Grid>
-            {loggedUserRecipesNumber > pageCapacity && (
-                <Pagination
-                    defaultActivePage={1}
-                    pointing
-                    secondary
-                    totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
-                    size="huge"
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        marginTop: '2em',
-                        paddingBottom: '1em',
-                    }}
-                />
-            )}
+            <Pagination
+                defaultActivePage={recipeDashboardPageNumber + 1}
+                pointing
+                secondary
+                totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
+                size="huge"
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '2em',
+                    paddingBottom: '1em',
+                }}
+                onPageChange={(event, data) => {
+                    handlePageChange(Number(data.activePage) - 1);
+                    window.scrollTo(0, 0);
+                }}
+            />
         </>
     );
 });

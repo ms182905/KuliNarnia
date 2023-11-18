@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
-import { Header, Icon, Item, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
+import { useState } from 'react';
+import { Header, Icon, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
-import { Link } from 'react-router-dom';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
+import AnotherUserRecipeList from './AnotherUserRecipeList';
 
 interface Props {
     username: string;
@@ -11,13 +11,9 @@ interface Props {
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
     const { userRecipesStore, userStore } = useStore();
-    const { loadAnotherUserRecipes, anotherUserRecipes, anotherUserProfilePhotoUrl } = userRecipesStore;
+    const { anotherUserProfilePhotoUrl } = userRecipesStore;
 
     const [editPhotoMode, setEditPhotoMode] = useState(false);
-
-    useEffect(() => {
-        if (userRecipesStore.anotherUserUsername !== username) loadAnotherUserRecipes(username);
-    }, [loadAnotherUserRecipes, userRecipesStore.anotherUserUsername, username]);
 
     function handlePhotoUpload(file: Blob) {
         userStore.uploadPhoto(file);
@@ -54,7 +50,11 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                                 Edit profile photo
                             </Header>
                         </Divider>
-                        <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={userStore.photoUploading} ratio={1}/>
+                        <PhotoUploadWidget
+                            uploadPhoto={handlePhotoUpload}
+                            loading={userStore.photoUploading}
+                            ratio={1}
+                        />
                         <Button color="red" onClick={() => setEditPhotoMode(false)} fluid style={{ marginTop: '8px' }}>
                             <Icon name="cancel" />
                             Cancel
@@ -71,43 +71,7 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                     <Header>{username}`s recently added recipes</Header>
                 )}
             </Segment>
-            <Segment attached>
-                {anotherUserRecipes.length !== 0 ? (
-                    <>
-                        <Segment.Group>
-                            {anotherUserRecipes.map((recipe) => (
-                                <>
-                                    <Segment>
-                                        <Item.Group>
-                                            <Item>
-                                                <Item.Image
-                                                    size="tiny"
-                                                    circular
-                                                    src={recipe.photos?.at(0)?.url || '/assets/placeholder.png'}
-                                                />
-                                                <Item.Content>
-                                                    <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
-                                                        {recipe.title}
-                                                    </Item.Header>
-                                                    <Item.Description>
-                                                        <span>
-                                                            <Icon name="clock" /> {recipe.date}
-                                                        </span>
-                                                    </Item.Description>
-                                                </Item.Content>
-                                            </Item>
-                                        </Item.Group>
-                                    </Segment>
-                                </>
-                            ))}
-                        </Segment.Group>
-                    </>
-                ) : (
-                    <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
-                        No recipes yet!
-                    </Header>
-                )}
-            </Segment>
+            <AnotherUserRecipeList username={username} />
         </>
     );
 });

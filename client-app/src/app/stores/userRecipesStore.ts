@@ -9,11 +9,14 @@ export default class UserRecipesStore {
     loading = false;
     loadingInitial = false;
     loggedUserRecipesLoaded = false;
+    changingAnotherUserRecipes = false;
     loadingAnotherUserRecipes = false;
     anotherUserUsername = '';
     loggedUserRecipesNumber = 0;
+    anotherUserRecipesNumber = 0;
     pageCapacity = 7;
     recipeDashboardPageNumber = 0;
+    anotherUserRecipeDashboardPageNumber = 0;
     anotherUserProfilePhotoUrl = '';
 
     constructor() {
@@ -54,32 +57,47 @@ export default class UserRecipesStore {
         }
     };
 
-    loadAnotherUserRecipes = async (username: string) => {
+    loadAnotherUserRecipes = async (username: string, pageNumber: number) => {
+        if (username !== this.anotherUserUsername) {
+            runInAction(() => {
+                this.anotherUserProfilePhotoUrl = '';
+            });
+        }
         this.setAnotherUserUsername(username);
-        this.setLoadingAnotherUserRecipes(true);
+        if (pageNumber === 0 && username !== this.anotherUserUsername) {
+            this.setLoadingAnotherUserRecipes(true);
+        }
+        this.setChangingAnotherUserRecipes(true);
         try {
-            const recipes = await agent.UserRecipes.list(username, 0, 7);
+            const recipes = await agent.UserRecipes.list(
+                username,
+                pageNumber * this.pageCapacity,
+                pageNumber * this.pageCapacity + this.pageCapacity
+            );
             runInAction(() => {
                 this.anotherUserRecipeRegistry.clear();
             });
             recipes.recipes.forEach((recipe) => {
                 this.setAnotherUserRecipe(recipe);
             });
+            this.setAnotherUserRecipesNumber(recipes.count);
             const anotherUserProfilePhotoUrl = await agent.Account.getUserProfilePhotoUrl(username);
             runInAction(() => {
-                if (anotherUserProfilePhotoUrl) {
-                    this.anotherUserProfilePhotoUrl = anotherUserProfilePhotoUrl;
-                }
+                this.anotherUserProfilePhotoUrl = anotherUserProfilePhotoUrl;
+                this.anotherUserRecipeDashboardPageNumber = pageNumber;
             });
+            this.setChangingAnotherUserRecipes(false);
             this.setLoadingAnotherUserRecipes(false);
         } catch (error) {
             console.log(error);
+            this.setChangingAnotherUserRecipes(false);
             this.setLoadingAnotherUserRecipes(false);
         }
     };
 
-    handlePageChange = async () => {
+    handlePageChange = async (pageNumber: number) => {
         this.loggedUserRecipeRegistry.clear();
+        this.recipeDashboardPageNumber = pageNumber;
         this.setLoggedUserRecipesLoaded(false);
     };
 
@@ -93,6 +111,11 @@ export default class UserRecipesStore {
         this.anotherUserRecipeRegistry.set(recipe.id, recipe);
     };
 
+    handleAnotherUserPageChange = async (pageNumber: number) => {
+        this.anotherUserRecipeRegistry.clear();
+        await this.loadAnotherUserRecipes(this.anotherUserUsername, pageNumber);
+    };
+
     setLoading = (state: boolean) => {
         this.loading = state;
     };
@@ -103,6 +126,10 @@ export default class UserRecipesStore {
 
     setLoggedUserRecipesLoaded = (state: boolean) => {
         this.loggedUserRecipesLoaded = state;
+    };
+
+    setChangingAnotherUserRecipes = (state: boolean) => {
+        this.changingAnotherUserRecipes = state;
     };
 
     setLoadingAnotherUserRecipes = (state: boolean) => {
@@ -119,6 +146,10 @@ export default class UserRecipesStore {
 
     setUserRecipesNumber = (recipesNumber: number) => {
         this.loggedUserRecipesNumber = recipesNumber;
+    };
+
+    setAnotherUserRecipesNumber = (recipesNumber: number) => {
+        this.anotherUserRecipesNumber = recipesNumber;
     };
 
     deleteRecipe = async (id: string) => {

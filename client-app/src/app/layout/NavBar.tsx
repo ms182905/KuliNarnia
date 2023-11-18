@@ -1,12 +1,14 @@
 import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
 import LoginForm from '../common/modals/LoginForm';
 import RegisterForm from '../common/modals/RegisterForm';
 import LoginOrRegister from '../common/modals/LoginOrRegister';
+import { router } from '../router/Routes';
 
 export default observer(function NavBar() {
+    const location = useLocation();
     const {
         userStore: { user, logout },
         modalStore: { openModal },
@@ -89,14 +91,14 @@ export default observer(function NavBar() {
                             onClick={() => window.scrollTo(0, 0)}
                             name="Recommendations"
                         />
-                        <Menu.Item>
+                        <Menu.Item as={NavLink} to="/createRecipe">
                             <Button
-                                as={NavLink}
-                                to="/createRecipe"
                                 onClick={() => {
                                     resetSelectedRecipe();
                                     window.scrollTo(0, 0);
+                                    router.navigate('/createRecipe');
                                 }}
+                                disabled={location.pathname === '/createRecipe'}
                                 positive
                                 content="Create Recipe"
                             />

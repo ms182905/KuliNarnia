@@ -43,13 +43,16 @@ namespace Application.Recipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
-                var category = await _context.Categories.FindAsync(request.RecipeDetailsDTO.CategoryId);
+                var category = await _context.Categories.FindAsync(
+                    request.RecipeDetailsDTO.CategoryId
+                );
 
                 var recipe = new Recipe
                 {
                     Id = request.RecipeDetailsDTO.Id,
                     Title = request.RecipeDetailsDTO.Title,
                     Date = request.RecipeDetailsDTO.Date,
+                    LastModificationDate = request.RecipeDetailsDTO.Date,
                     Description = request.RecipeDetailsDTO.Description,
                     CreatorId = user.Id,
                     CategoryId = category.Id,
@@ -64,7 +67,12 @@ namespace Application.Recipes
 
                 var recipeTags = request.RecipeDetailsDTO.Tags
                     .Select(
-                        tag => new RecipeTags { TagId = tag.Id, RecipeId = request.RecipeDetailsDTO.Id }
+                        tag =>
+                            new RecipeTags
+                            {
+                                TagId = tag.Id,
+                                RecipeId = request.RecipeDetailsDTO.Id
+                            }
                     )
                     .ToList();
                 var instructions = request.RecipeDetailsDTO.Instructions

@@ -87,6 +87,7 @@ namespace Application.Recipes
                 recipe.Title = detailsDTO.Title;
                 recipe.Description = detailsDTO.Description;
                 recipe.CategoryId = detailsDTO.CategoryId;
+                recipe.LastModificationDate = detailsDTO.Date;
             }
 
             private void RemoveExistingEntities(Guid recipeId)

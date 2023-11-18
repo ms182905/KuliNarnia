@@ -15,6 +15,16 @@ namespace Application.Core
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(x => x.CategoryName, o => o.MapFrom(s => s.Category.Name))
                 .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
+            CreateMap<Recipe, ActivityDTO>()
+                .ForMember(x => x.Type, o => o.MapFrom(s => (s.Date == s.LastModificationDate) ? "RecipeCreated" : "RecipeEdited"))
+                .ForMember(x => x.Date, o => o.MapFrom(s => s.LastModificationDate))
+                .ForMember(x => x.Text, o => o.MapFrom(s => ((s.Date == s.LastModificationDate) ? "Recipe created: " : "Recipe edited: ") + s.Title))
+                .ForMember(x => x.UserName, o => o.MapFrom(s => s.Creator.DisplayName));
+            CreateMap<Comment, ActivityDTO>()
+                .ForMember(x => x.Type, o => o.MapFrom(s => "CommentAdded"))
+                .ForMember(x => x.Date, o => o.MapFrom(s => s.Date))
+                .ForMember(x => x.Text, o => o.MapFrom(s => "Comment added: " + s.Text))
+                .ForMember(x => x.UserName, o => o.MapFrom(s => s.AppUser.DisplayName));
             CreateMap<RecipeDetailsDTO, RecipeDTO>();
             CreateMap<Instruction, InstructionDTO>();
             CreateMap<Measurement, MeasurementDTO>();
