@@ -7,8 +7,10 @@ export default class ActivityStore {
     loading = false;
     loadingInitial = false;
     activitiesNumber = 0;
+    activitiesLoaded = false;
     pageCapacity = 15;
     activityDashboardPageNumber = 1;
+    selectedUser = "";
 
     constructor() {
         makeAutoObservable(this);
@@ -22,6 +24,7 @@ export default class ActivityStore {
         this.setLoadingInitial(true);
         try {
             const activities = await agent.Activity.list(
+                this.selectedUser,
                 (pageNumber - 1) * this.pageCapacity,
                 (pageNumber - 1) * this.pageCapacity + this.pageCapacity
             );
@@ -30,9 +33,11 @@ export default class ActivityStore {
             });
             this.setActivitiesNumber(activities.count);
             this.setLoadingInitial(false);
+            this.setActivitiesLoaded(true);
         } catch (error) {
             console.log(error);
             this.setLoadingInitial(false);
+            this.setActivitiesLoaded(true);
         }
     };
 
@@ -61,11 +66,20 @@ export default class ActivityStore {
         this.activitiesNumber = activitiesNumber;
     };
 
+    setActivitiesLoaded = (state: boolean) => { 
+        this.activitiesLoaded = state; 
+    };
+
+    setSelectedUser = (username: string) => {
+        this.selectedUser = username;
+    }
+
     reset = () => {
         runInAction(() => {
             this.activityDashboardPageNumber = 1;
             this.activityTable = [];
             this.activitiesNumber = 0;
+            this.activitiesLoaded = false;
         });
     };
 }

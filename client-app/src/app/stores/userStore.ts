@@ -6,6 +6,7 @@ import { router } from '../router/Routes';
 
 export default class UserStore {
     user: User | null = null;
+    usernames: string[] = [];
     photoUploading = false;
     loading = false;
 
@@ -59,11 +60,24 @@ export default class UserStore {
         store.recipeStore.resetSearchQuerry();
         store.favouriteRecipesStore.reset();
         store.userRecipesStore.reset();
+        store.activityStore.reset();
         this.user = null;
         router.navigate('/');
     };
 
     getUser = async () => {
+        this.setLoading(true);
+        try {
+            const usernames = await agent.Account.getUsernames();
+            runInAction(() => (this.usernames = usernames));
+            this.setLoading(false);
+        } catch (error) {
+            this.setLoading(false);
+            console.log(error);
+        }
+    };
+
+    getUsernames = async () => {
         try {
             const user = await agent.Account.current();
             runInAction(() => (this.user = user));

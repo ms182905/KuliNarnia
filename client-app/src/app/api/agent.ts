@@ -117,6 +117,7 @@ const RecommendedRecipes = {
 
 const Account = {
     current: () => requests.get<User>('/account'),
+    getUsernames: () => requests.get<string[]>('/account/usernames'),
     login: (user: UserFormValues) => requests.post<User>('/account/login', user),
     register: (user: UserFormValues) => requests.post<User>('/account/register', user),
     getUserProfilePhotoUrl: (username: string) => requests.get<string>(`/account/profilePhoto/${username}`),
@@ -158,7 +159,7 @@ const Comments = {
 };
 
 const Activity = {
-    list: (from: number, to: number) => requests.get<Activities>(`/activity?from=${from}&to=${to}`),
+    list: (username: string, from: number, to: number) => requests.get<Activities>(`/activity?from=${from}&to=${to}`.concat(username.length > 0 ? `&username=${username}` : '')),
 };
 
 const UserSelection = {

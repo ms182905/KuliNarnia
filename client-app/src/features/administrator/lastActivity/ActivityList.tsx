@@ -23,7 +23,7 @@ export default function ActivityList() {
                             </Segment>
                             <Segment>
                                 <p>
-                                    User: <Link to={`/recipes/${activity.recipeId}`}>{activity.userName}</Link>
+                                    User: <Link to={`/userPage/${activity.userName}`}>{activity.userName}</Link>
                                 </p>
                             </Segment>
                         </Segment.Group>

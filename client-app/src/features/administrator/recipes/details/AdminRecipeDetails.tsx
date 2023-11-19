@@ -13,12 +13,16 @@ import AdminRecipeDetailedHeader from './components/AdminRecipeDetailedHeader';
 import { router } from '../../../../app/router/Routes';
 
 export default observer(function AdminRecipeDetails() {
-    const { recipeStore, userRecipesStore, modalStore } = useStore();
+    const { recipeStore, userRecipesStore, modalStore, userStore } = useStore();
     const { selectedRecipe: recipe, loadRecipe, loadingInitial } = recipeStore;
     const { recipeId } = useParams();
 
     const [buttonPressed, setButtonPressed] = useState(false);
     const [loadingActivated, setLoadingActivated] = useState(false);
+
+    if (userStore.user?.role !== 'Administrator') {
+        router.navigate('/not-found');
+    }
 
     useEffect(() => {
         if (recipeId) loadRecipe(recipeId);

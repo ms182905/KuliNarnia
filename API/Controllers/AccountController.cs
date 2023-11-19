@@ -96,6 +96,14 @@ namespace API.Controllers
         }
 
         [Authorize(Policy = "IsAdministrator")]
+        [HttpGet("usernames")]
+        public async Task<ActionResult<List<string>>> GetUsernames()
+        {
+            var users = await _userManager.Users.Select(u => u.UserName).ToListAsync();
+            return Ok(users);
+        }
+
+        [Authorize(Policy = "IsAdministrator")]
         [HttpDelete("{userName}")]
         public async Task<IActionResult> DeleteUser(string userName)
         {

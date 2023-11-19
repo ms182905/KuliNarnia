@@ -5,9 +5,10 @@ import { useStore } from '../../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../../app/layout/LoadingComponent';
 import { useLocation } from 'react-router-dom';
+import { router } from '../../../../app/router/Routes';
 
 export default observer(function AdminRecipeDashboard() {
-    const { recipeStore } = useStore();
+    const { recipeStore, userStore } = useStore();
     const {
         loadRecipes,
         recipeRegistry,
@@ -21,6 +22,10 @@ export default observer(function AdminRecipeDashboard() {
     } = recipeStore;
 
     console.log(useLocation().pathname);
+
+    if (userStore.user?.role !== 'Administrator') {
+        router.navigate('/not-found');
+    }
 
     useEffect(() => {
         if (recipeRegistry.size < 1) {
