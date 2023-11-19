@@ -4,7 +4,6 @@ import HomePage from '../../features/home/HomePage';
 import RecipeDashboard from '../../features/recipes/dashboard/RecipeDashboard';
 import RecipeForm from '../../features/recipes/form/RecipeForm';
 import RecipeDetails from '../../features/recipes/details/RecipeDetails';
-import TestErrors from '../../features/errors/TestErrors';
 import NotFound from '../../features/errors/NotFound';
 import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../common/modals/LoginForm';
@@ -40,7 +39,6 @@ export const routes: RouteObject[] = [
             { path: 'createRecipe', element: <RecipeForm key="create" /> },
             { path: 'manage/:id', element: <RecipeForm key="manage" /> },
             { path: 'login', element: <LoginForm key="manage" /> },
-            { path: 'errors', element: <TestErrors /> },
             { path: 'not-found', element: <NotFound /> },
             { path: 'server-error', element: <ServerError /> },
             { path: '*', element: <Navigate replace to="/not-found" /> },

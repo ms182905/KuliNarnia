@@ -1,5 +1,6 @@
 body {
-    background-color: #eaeaea !important;
+    background-color: rgba(247, 203, 0, 0.22);
+    background-attachment: fixed;
 }
 
 .ui.inverted.top.fixed.menu {
@@ -55,3 +56,160 @@ body {
     background: #efefef;
     text-align: center;
 }
+
+/* Navbar styles */
+.menu-container {
+    padding: 10px;
+}
+
+.menu-container a {
+    color: #ffffff; /* Change the text color as needed */
+}
+
+.menu-container .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.menu-container .menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu-container .menu-item {
+    margin-right: 20px;
+}
+
+.menu-container .menu-item:last-child {
+    margin-right: 0;
+}
+
+.menu-container .user-section {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.menu-container .user-section img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.menu-container .user-section .dropdown {
+    position: relative;
+}
+
+.menu-container .user-section .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9; /* Change the dropdown background color as needed */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.menu-container .user-section:hover .dropdown-content {
+    display: block;
+}
+
+.menu-container .user-section .dropdown-item {
+    padding: 10px;
+    text-decoration: none;
+    color: #333; /* Change the dropdown text color as needed */
+    display: block;
+}
+
+.menu-container .user-section .dropdown-item:hover {
+    background-color: #ddd; /* Change the hover background color as needed */
+}
+
+.ui.button.positiveButton {
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #0aa61c;
+  border-radius: 15px;
+  box-sizing: border-box;
+  color: #3B3B3B;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+  min-height: 40px;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  will-change: transform;
+}
+
+.ui.button.positiveButton:disabled {
+  pointer-events: none;
+}
+
+.ui.button.positiveButton:hover {
+  color: #fff;
+  background-color: #0aa61c;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.ui.button.positiveButton:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.ui.button.negativeButton {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid rgb(231, 42, 8);
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #3B3B3B;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 40px;
+    min-width: 0;
+    outline: none;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+    will-change: transform;
+  }
+  
+  .ui.button.negativeButton:disabled {
+    pointer-events: none;
+  }
+  
+  .ui.button.negativeButton:hover {
+    color: #fff;
+    background-color: rgb(231, 42, 8);
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+  }
+  
+  .ui.button.negativeButton:active {
+    box-shadow: none;
+    transform: translateY(0);
+  }

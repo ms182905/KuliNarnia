@@ -12,7 +12,7 @@ export default observer(function HomePage() {
         <Segment inverted textAlign="center" vertical className="masthead">
             <Container text>
                 <Header as="h1" inverted>
-                    <Image size="massive" src="/assets/logo.png" alt="logo" style={{ marginBottom: 13 }} />
+                    <Image size="massive" src="/assets/logo.png" alt="logo" />
                     KuliNarnia
                 </Header>
                 {userStore.isLoggedIn ? (

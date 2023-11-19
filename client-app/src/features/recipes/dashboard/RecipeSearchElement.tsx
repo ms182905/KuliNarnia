@@ -117,10 +117,10 @@ export default observer(function RecipeSearchElement() {
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid type="button" content="Search" color="green" onClick={handleSearch} />
+                            <Button className='positiveButton' fluid content="Search" onClick={handleSearch} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid type="button" content="Clear" color="red" onClick={handleClearSearch} />
+                            <Button fluid className='negativeButton' content="Clear" onClick={handleClearSearch} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>
@@ -153,10 +153,10 @@ export default observer(function RecipeSearchElement() {
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid type="button" content="Apply" color="green" onClick={handleApplyFilters} />
+                            <Button className='positiveButton' fluid content="Apply" onClick={handleApplyFilters} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid type="button" content="Clear" color="red" onClick={handleClearFilters} />
+                            <Button fluid className='negativeButton' content="Clear" onClick={handleClearFilters} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>

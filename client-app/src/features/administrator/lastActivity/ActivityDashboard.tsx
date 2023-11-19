@@ -33,10 +33,10 @@ export default observer(function ActivityDashboard() {
     }, [loadActivities, activityTable.length, activityDashboardPageNumber, activityStore.selectedUser, activitiesLoaded]);
 
     useEffect(() => {
-        if (usernames.length < 1) {
+        if (usernames.length < 1 && userStore.user?.role === 'Administrator') {
             getUsernames();
         }
-    }, [getUsernames, usernames.length]);
+    }, [getUsernames, usernames.length, userStore.user?.role]);
 
     useEffect(() => {
         if (usernames.length > 0) {

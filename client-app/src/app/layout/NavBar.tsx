@@ -18,7 +18,7 @@ export default observer(function NavBar() {
     if (user?.role === 'Administrator') {
         return (
             <Menu inverted fixed="top">
-                <Container>
+                <Container className='menu-container'>
                     <Menu.Item as={NavLink} to="/" header>
                         <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
                         KuliNarnia
@@ -70,13 +70,12 @@ export default observer(function NavBar() {
 
     return (
         <Menu inverted fixed="top">
-            <Container>
+            <Container className='menu-container'>
                 <Menu.Item as={NavLink} to="/" header>
                     <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
                     KuliNarnia
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />
-                <Menu.Item as={NavLink} to="/errors" name="Errors" />
                 {user ? (
                     <>
                         <Menu.Item

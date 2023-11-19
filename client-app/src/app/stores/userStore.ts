@@ -65,7 +65,7 @@ export default class UserStore {
         router.navigate('/');
     };
 
-    getUser = async () => {
+    getUsernames = async () => {
         this.setLoading(true);
         try {
             const usernames = await agent.Account.getUsernames();
@@ -77,7 +77,7 @@ export default class UserStore {
         }
     };
 
-    getUsernames = async () => {
+    getUser = async () => {
         try {
             const user = await agent.Account.current();
             runInAction(() => (this.user = user));
