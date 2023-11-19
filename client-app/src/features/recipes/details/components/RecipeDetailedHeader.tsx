@@ -29,7 +29,7 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
 
     return (
         <Segment.Group>
-            <Segment basic attached="top" style={{ padding: '0' }}>
+            <Segment basic attached="top">
                 <Slide>
                     {recipe.photos?.length ? (
                         recipe.photos.map((photo, index) => (

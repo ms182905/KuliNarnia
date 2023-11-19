@@ -1,16 +1,29 @@
 body {
-    background-color: rgba(247, 203, 0, 0.22);
+    --s: 55px;
+    --b: 15px;
+
+    --_r: calc(1.28 * var(--s) + var(--b) / 2) at top 50%;
+    --_f: calc(99.5% - var(--b)), #f9f2e7 calc(101% - var(--b)) 99.5%, #0000 101%;
+    --_g0: calc(-0.8 * var(--s)), #88a65e var(--_f);
+    --_g1: calc(-0.8 * var(--s)), #bfb35a var(--_f);
+    --_s: calc(1.8 * var(--s) + var(--b));
+    background: radial-gradient(var(--_r) right var(--_g0)) calc(-1 * var(--_s)) var(--s),
+        radial-gradient(var(--_r) left var(--_g1)) var(--_s) calc(-1 * var(--s)),
+        radial-gradient(var(--_r) right var(--_g1)) calc(var(--_s) / -2) calc(-1 * var(--s)),
+        radial-gradient(var(--_r) left var(--_g0)) calc(var(--_s) / 2) var(--s),
+        linear-gradient(90deg, #88a65e 50%, #bfb35a 0);
+    background-size: var(--_s) calc(4 * var(--s));
     background-attachment: fixed;
 }
 
-.ui.inverted.top.fixed.menu {
+/* .ui.inverted.top.fixed.menu {
     background-image: linear-gradient(
         135deg,
         rgb(219, 12, 12) 0%,
         rgb(17, 235, 9) 69%,
         rgb(33, 117, 212) 89%
     ) !important;
-}
+} */
 
 .masthead {
     display: flex;
@@ -43,7 +56,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-size: contain; /* Set background-size to contain */
+    background-size: contain; 
     background-repeat: no-repeat;
     background-position: center center;
     height: 500px;
@@ -57,129 +70,17 @@ body {
     text-align: center;
 }
 
-/* Navbar styles */
-.menu-container {
-    padding: 10px;
-}
-
-.menu-container a {
-    color: #ffffff; /* Change the text color as needed */
-}
-
-.menu-container .logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-.menu-container .menu {
-    display: flex;
-    align-items: center;
-}
-
-.menu-container .menu-item {
-    margin-right: 20px;
-}
-
-.menu-container .menu-item:last-child {
-    margin-right: 0;
-}
-
-.menu-container .user-section {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}
-
-.menu-container .user-section img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.menu-container .user-section .dropdown {
-    position: relative;
-}
-
-.menu-container .user-section .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9; /* Change the dropdown background color as needed */
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.menu-container .user-section:hover .dropdown-content {
-    display: block;
-}
-
-.menu-container .user-section .dropdown-item {
-    padding: 10px;
-    text-decoration: none;
-    color: #333; /* Change the dropdown text color as needed */
-    display: block;
-}
-
-.menu-container .user-section .dropdown-item:hover {
-    background-color: #ddd; /* Change the hover background color as needed */
-}
-
 .ui.button.positiveButton {
-  appearance: none;
-  background-color: transparent;
-  border: 2px solid #0aa61c;
-  border-radius: 15px;
-  box-sizing: border-box;
-  color: #3B3B3B;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  font-size: 14px;
-  font-weight: 600;
-  line-height: normal;
-  margin: 0;
-  min-height: 40px;
-  min-width: 0;
-  outline: none;
-  padding: 0;
-  text-align: center;
-  text-decoration: none;
-  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 100%;
-  will-change: transform;
-}
-
-.ui.button.positiveButton:disabled {
-  pointer-events: none;
-}
-
-.ui.button.positiveButton:hover {
-  color: #fff;
-  background-color: #0aa61c;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-  transform: translateY(-2px);
-}
-
-.ui.button.positiveButton:active {
-  box-shadow: none;
-  transform: translateY(0);
-}
-
-.ui.button.negativeButton {
     appearance: none;
     background-color: transparent;
-    border: 2px solid rgb(231, 42, 8);
+    border: 2px solid #0aa61c;
     border-radius: 15px;
     box-sizing: border-box;
-    color: #3B3B3B;
+    color: #3b3b3b;
     cursor: pointer;
     display: inline-block;
-    font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     font-size: 14px;
     font-weight: 600;
     line-height: normal;
@@ -190,26 +91,91 @@ body {
     padding: 0;
     text-align: center;
     text-decoration: none;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
     width: 100%;
     will-change: transform;
-  }
-  
-  .ui.button.negativeButton:disabled {
+}
+
+.ui.button.positiveButton:disabled {
     pointer-events: none;
-  }
-  
-  .ui.button.negativeButton:hover {
+}
+
+.ui.button.positiveButton:hover {
+    color: #fff;
+    background-color: #0aa61c;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+.ui.button.positiveButton:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.ui.button.negativeButton {
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid rgb(231, 42, 8);
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: #3b3b3b;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0;
+    min-height: 40px;
+    min-width: 0;
+    outline: none;
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 100%;
+    will-change: transform;
+}
+
+.ui.button.negativeButton:disabled {
+    pointer-events: none;
+}
+
+.ui.button.negativeButton:hover {
     color: #fff;
     background-color: rgb(231, 42, 8);
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
-  }
-  
-  .ui.button.negativeButton:active {
+}
+
+.ui.button.negativeButton:active {
     box-shadow: none;
     transform: translateY(0);
-  }
+}
+
+.segment.even {
+    background-color: #f9f9f9;
+}
+
+.segment.odd {
+    background-color: #ffffff;
+}
+
+.recipe-column {
+    padding: 0;
+}
+
+.recipe-info-column {
+    padding: 20px;
+}
+
+.recipe-description {
+    margin-top: 10px;
+}

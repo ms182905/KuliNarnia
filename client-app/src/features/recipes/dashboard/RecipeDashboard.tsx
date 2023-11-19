@@ -46,8 +46,6 @@ export default observer(function RecipeDashboard() {
             </Grid>
             <Pagination
                 defaultActivePage={recipeDashboardPageNumber}
-                pointing
-                secondary
                 totalPages={Math.ceil(recipesNumber / pageCapacity)}
                 size="huge"
                 style={{

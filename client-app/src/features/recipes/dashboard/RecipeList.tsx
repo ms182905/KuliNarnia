@@ -1,28 +1,16 @@
-import { Header } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import RecipeListItem from './RecipeListItem';
 import { Fragment } from 'react';
 
 export default function RecipeList() {
     const { recipeStore } = useStore();
-    const { groupedRecipes } = recipeStore;
+    const { recipes } = recipeStore;
 
     return (
         <>
-            {groupedRecipes
-                .sort((a, b) => {
-                    return new Date(b[0]).getTime() - new Date(a[0]).getTime();
-                })
-                .map(([group, recipes]) => (
-                    <Fragment key={group}>
-                        <Header sub color="teal">
-                            {group}
-                        </Header>
-                        {recipes.map((recipe) => (
-                            <RecipeListItem key={recipe.id} recipe={recipe} />
-                        ))}
-                    </Fragment>
-                ))}
+            {recipes.map((recipe, index) => (
+                <RecipeListItem key={index} recipe={recipe} index={index} />
+            ))}
         </>
     );
 }
