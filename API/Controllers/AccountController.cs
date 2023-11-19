@@ -2,6 +2,7 @@ using System.Security.Claims;
 using API.DTOs;
 using API.Services;
 using Application.Core;
+using Application.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,18 +20,21 @@ namespace API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly TokenService _tokenService;
         private readonly DataContext _context;
+        private readonly IPhotoAccessor _photoAccessor;
 
         public AccountController(
             UserManager<AppUser> userManager,
             RoleManager<IdentityRole> roleManager,
             TokenService tokenService,
-            DataContext context
+            DataContext context,
+            IPhotoAccessor photoAccessor
         )
         {
             _tokenService = tokenService;
             _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
+            _photoAccessor = photoAccessor;
         }
 
         [AllowAnonymous]
@@ -122,10 +126,28 @@ namespace API.Controllers
                 .Where(c => c.AppUserId == user.Id)
                 .ToListAsync();
             var recipes = await _context.Recipes.Where(c => c.CreatorId == user.Id).ToListAsync();
+            var photos = await _context.Photos.Where(c => recipes.Any(r => r.Id == c.RecipeId)).ToListAsync();
+            var photoIds = photos.Select(p => p.Id).ToList();
+
+            if (user.PhotoId != null)
+            {
+                photoIds.Add(user.PhotoId);
+            }
+
+            foreach (var photoId in photoIds)
+            {
+                var photoDeletingResult = await _photoAccessor.DeletePhoto(photoId);
+
+                if (photoDeletingResult == null)
+                {
+                    return BadRequest("Problem deleting photo");
+                }
+            }
 
             _context.Comments.RemoveRange(comments);
             _context.UserSelectionStastics.RemoveRange(selectionStatistics);
             _context.FavouriteRecipes.RemoveRange(favourites);
+            _context.Photos.RemoveRange(photos);
             _context.Recipes.RemoveRange(recipes);
 
             var result = await _context.SaveChangesAsync() > 0;
