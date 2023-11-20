@@ -1,7 +1,6 @@
-import { Container, Header, Segment } from 'semantic-ui-react';
-import NavBar from './NavBar';
+import { Header, Segment } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import { ToastContainer } from 'react-toastify';
 import { useStore } from '../stores/store';
@@ -42,12 +41,20 @@ function App() {
             />
             {location.pathname !== '/' ? (
                 <>
-                    <SideBar />
-                    {/* <NavBar />
+                    <Segment className="title-header-container">
+                        <Header>
+                            {'Kuli '} <img src="/assets/strawberry.png" alt="logo" style={{ marginLeft: '20px' }} />{' '}
+                            {'Narnia'}
+                        </Header>
+                    </Segment>
+                    <div className="app-container">
+                        <SideBar />
+                        {/* <NavBar />
                     <Container style={{ marginTop: '5em' }}>
-                        <Outlet />
-                    </Container> */}
-                    <MenuButton />
+                    <Outlet />
+                </Container> */}
+                        <MenuButton />
+                    </div>
                 </>
             ) : (
                 <HomePage />

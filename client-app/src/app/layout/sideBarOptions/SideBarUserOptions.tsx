@@ -1,5 +1,5 @@
-import { Button, Container, Menu, Image, Dropdown, Checkbox, Grid, Header, Icon, Segment, Sidebar } from 'semantic-ui-react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Button, Container, Menu, Image, Dropdown, Sidebar } from 'semantic-ui-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import LoginForm from '../../common/modals/LoginForm';
 import LoginOrRegister from '../../common/modals/LoginOrRegister';
@@ -16,13 +16,11 @@ export default observer(function SideBarUserOptions() {
         menuHideStore: { state },
     } = useStore();
 
-
-
     return (
-        <Sidebar as={Menu} animation='overlay' visible={state} vertical inverted fixed="left" >
-        <Container className='menu-container'>
-                <Menu.Item as={NavLink} to="/" header>
-                    <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px' }} />
+        <Sidebar as={Menu} animation="slide along" visible={state} vertical inverted fixed="left">
+            
+                <Menu.Item header>
+                    <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px', paddingTop: '5em' }} />
                     KuliNarnia
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />
@@ -88,7 +86,7 @@ export default observer(function SideBarUserOptions() {
                         )}
                     </Dropdown>
                 </Menu.Item>
-            </Container>
+            
         </Sidebar>
-  )
+    );
 });

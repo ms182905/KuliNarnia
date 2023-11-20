@@ -5,20 +5,20 @@ body {
     --_r: calc(1.28 * var(--s) + var(--b) / 2) at top 50%;
     --_f: calc(99.5% - var(--b)), #f9f2e7 calc(101% - var(--b)) 99.5%, #0000 101%;
     --_g0: calc(-0.8 * var(--s)), #88a65e var(--_f);
-    --_g1: calc(-0.8 * var(--s)), #bfb35a var(--_f);
+    --_g1: calc(-0.8 * var(--s)), #dac421 var(--_f);
     --_s: calc(1.8 * var(--s) + var(--b));
     background: radial-gradient(var(--_r) right var(--_g0)) calc(-1 * var(--_s)) var(--s),
         radial-gradient(var(--_r) left var(--_g1)) var(--_s) calc(-1 * var(--s)),
         radial-gradient(var(--_r) right var(--_g1)) calc(var(--_s) / -2) calc(-1 * var(--s)),
         radial-gradient(var(--_r) left var(--_g0)) calc(var(--_s) / 2) var(--s),
-        linear-gradient(90deg, #88a65e 50%, #bfb35a 0);
+        linear-gradient(90deg, #88a65e 50%, #dac421 0);
     background-size: var(--_s) calc(4 * var(--s));
     background-attachment: fixed;
 }
 
 .pusher {
     background: #2a2a2a;
-  }
+}
 
 /* .ui.inverted.top.fixed.menu {
     background-image: linear-gradient(
@@ -60,7 +60,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-size: contain; 
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
     height: 500px;
@@ -193,42 +193,67 @@ body {
     z-index: 999;
     border: none !important;
     transition: all 0.2s ease-in-out !important;
-  }
+}
 
-  .menuButton:hover {
+.menuButton:hover {
     transform: scale(1.1) !important;
-  }
-  
-  .rotatedbars {
-    transform:  rotate(90deg) !important;
+}
+
+.rotatedbars {
+    transform: rotate(90deg) !important;
     transform-origin: center center !important;
     transition: all 0.2s ease-in-out !important;
-  }
+}
 
-  .rotatedbars:hover {
+.rotatedbars:hover {
     transform: scale(1.1) !important;
-  }
+}
 
-  .trele {
+.trele {
     padding: 0px !important;
-    margin: 0px !important
-  }
+    margin: 0px !important;
+}
 
-  .title-header-container {
+.title-header-container {
     text-align: center;
-    font-weight: 600 !important;
+    border-radius: 0px !important;
     margin-bottom: 0px !important;
     background-color: rgb(32, 28, 28) !important;
     outline: none !important;
     width: 100% !important;
-    position: absolute;
+    height: 80px !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    position: fixed !important;
     top: 0;
-    z-index: 100; /* Add z-index to ensure the element stays on top */
-  }
+    z-index: 997;
+}
 
-  .title-header-container .ui.header {
-    font-family: "Andale Mono", monospace !important;
-    color: rgb(250,243,226);
-    font-size: 3em !important;
+.title-header-container .ui.header {
+    font-family: 'Andale Mono', monospace !important;
+    color: rgb(250, 243, 226);
+    font-size: 2.5em !important;
     text-decoration-line: underline !important;
-  }
+}
+
+.app-container {
+    width: 100%;
+    height: 100vh;
+}
+
+.sidebar.menu > a.active.item {
+    background: rgb(51, 58, 54) !important;
+    color: #fff !important;
+}
+
+.sidebar.menu > a.item:hover {
+    background: rgb(82, 71, 71) !important;
+}
+
+.sidebar.menu {
+    background: rgb(32, 28, 28) !important;
+}
+
+.main-content {
+    padding-top: 5em !important;
+}
