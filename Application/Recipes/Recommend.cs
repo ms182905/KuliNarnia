@@ -78,6 +78,7 @@ namespace Application.Recipes
                 }
 
                 var numberOfSelections = userSelectionStastics.Sum(x => x.Counter);
+                System.Console.WriteLine(userId);
 
                 var recipeDistionary = new Dictionary<RecipeDetailsDTO, float>();
                 foreach (var recipe in recipes)

@@ -20,7 +20,7 @@ export default observer(function NavBar() {
             <Menu inverted fixed="top">
                 <Container className='menu-container'>
                     <Menu.Item as={NavLink} to="/" header>
-                        <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
+                        <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px' }} />
                         KuliNarnia
                     </Menu.Item>
                     <Menu.Item
@@ -72,7 +72,7 @@ export default observer(function NavBar() {
         <Menu inverted fixed="top">
             <Container className='menu-container'>
                 <Menu.Item as={NavLink} to="/" header>
-                    <img src="/assets/logo.png" alt="logo" style={{ marginRight: '10px' }} />
+                    <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px' }} />
                     KuliNarnia
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />

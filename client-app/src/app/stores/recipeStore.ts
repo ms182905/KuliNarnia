@@ -89,12 +89,11 @@ export default class RecipeStore {
                 if (
                     recipe.creatorName &&
                     recipe.creatorName !== store.userStore.user?.displayName &&
-                    recipe.tagIds.length > 0
+                    recipe.tagIds.length > 0 &&
+                    recipe.categoryName !== 'Unknown'
                 ) {
-                    if (recipe.categoryName !== "Unknown" && tagIds.length > 0) {
-                        const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
-                        await agent.UserSelection.post(userSelection);
-                    }
+                    const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
+                    await agent.UserSelection.post(userSelection);
                 }
             });
 

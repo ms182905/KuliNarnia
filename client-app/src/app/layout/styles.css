@@ -16,6 +16,10 @@ body {
     background-attachment: fixed;
 }
 
+.pusher {
+    background: #2a2a2a;
+  }
+
 /* .ui.inverted.top.fixed.menu {
     background-image: linear-gradient(
         135deg,
