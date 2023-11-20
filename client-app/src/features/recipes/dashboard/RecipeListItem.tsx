@@ -13,7 +13,7 @@ const IMAGE_HEIGHT = 400;
 export default observer(function RecipeListItem({ recipe, index }: Props) {
     console.log(index);
     return (
-        <Segment clearing attached="bottom" className={index % 2 === 0 ? 'even' : 'odd'}>
+        <Segment clearing className={index % 2 === 0 ? 'even' : 'odd'}>
             <Grid>
                 {index % 2 === 0 && (
                     <Grid.Column width={11} className="recipe-column">

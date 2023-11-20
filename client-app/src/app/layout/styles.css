@@ -183,3 +183,52 @@ body {
 .recipe-description {
     margin-top: 10px;
 }
+
+.menuButton {
+    background-color: black !important;
+    color: white;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 999;
+    border: none !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  .menuButton:hover {
+    transform: scale(1.1) !important;
+  }
+  
+  .rotatedbars {
+    transform:  rotate(90deg) !important;
+    transform-origin: center center !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  .rotatedbars:hover {
+    transform: scale(1.1) !important;
+  }
+
+  .trele {
+    padding: 0px !important;
+    margin: 0px !important
+  }
+
+  .title-header-container {
+    text-align: center;
+    font-weight: 600 !important;
+    margin-bottom: 0px !important;
+    background-color: rgb(32, 28, 28) !important;
+    outline: none !important;
+    width: 100% !important;
+    position: absolute;
+    top: 0;
+    z-index: 100; /* Add z-index to ensure the element stays on top */
+  }
+
+  .title-header-container .ui.header {
+    font-family: "Andale Mono", monospace !important;
+    color: rgb(250,243,226);
+    font-size: 3em !important;
+    text-decoration-line: underline !important;
+  }

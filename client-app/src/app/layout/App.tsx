@@ -1,4 +1,4 @@
-import { Container } from 'semantic-ui-react';
+import { Container, Header, Segment } from 'semantic-ui-react';
 import NavBar from './NavBar';
 import { observer } from 'mobx-react-lite';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -8,6 +8,8 @@ import { useStore } from '../stores/store';
 import { useEffect } from 'react';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
+import SideBar from './SideBar';
+import MenuButton from './MenuButton';
 
 function App() {
     const location = useLocation();
@@ -40,10 +42,12 @@ function App() {
             />
             {location.pathname !== '/' ? (
                 <>
-                    <NavBar />
+                    <SideBar />
+                    {/* <NavBar />
                     <Container style={{ marginTop: '5em' }}>
                         <Outlet />
-                    </Container>
+                    </Container> */}
+                    <MenuButton />
                 </>
             ) : (
                 <HomePage />
