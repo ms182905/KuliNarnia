@@ -172,7 +172,7 @@ export default observer(function RecipeForm() {
                 )}
             </Segment>
             <Segment>
-                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} ratio={1.4}/>
+                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} ratio={1.33}/>
             </Segment>
             <Segment>
                 <Button

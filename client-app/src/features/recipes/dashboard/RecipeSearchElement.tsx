@@ -103,8 +103,8 @@ export default observer(function RecipeSearchElement() {
 
     return (
         <>
-            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 12 }}>
-                <Header icon="wordpress simple" attached color="teal" content="Search by phrase" />
+            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 5, marginBottom: 5 }}>
+                <Header className='filter-header' icon="wordpress simple" attached color="black" content="Search by phrase" />
                 <Menu.Item>
                     <Grid columns={2}>
                         <Grid.Column width={12}>
@@ -126,8 +126,8 @@ export default observer(function RecipeSearchElement() {
                 </Menu.Item>
             </Menu>
 
-            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 12 }}>
-                <Header icon="filter" attached color="teal" content="Filters" />
+            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 12, marginBottom: 5 }}>
+                <Header className='filter-header' icon="filter" attached content="Filters"/>
                 <Menu.Item>
                     <Grid columns={2}>
                         <Grid.Column width={6}>
@@ -159,9 +159,8 @@ export default observer(function RecipeSearchElement() {
                             <Button fluid className='negativeButton' content="Clear" onClick={handleClearFilters} />
                         </Grid.Column>
                     </Grid>
-                </Menu.Item>
-            </Menu>
-            <Header />
+                    </Menu.Item>
+                    </Menu>
         </>
     );
 });

@@ -1,6 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { Grid, Icon, Item, Image, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
 
 interface Props {
@@ -8,71 +6,53 @@ interface Props {
     index: number;
 }
 
-const IMAGE_HEIGHT = 400;
-
 export default observer(function RecipeListItem({ recipe, index }: Props) {
     console.log(index);
+
     return (
-        <Segment clearing className={index % 2 === 0 ? 'even' : 'odd'}>
-            <Grid>
-                {index % 2 === 0 && (
-                    <Grid.Column width={11} className="recipe-column">
-                        {recipe.photos?.length ? (
-                            <Image
-                                src={recipe.photos[0].url}
-                                fluid
-                                style={{ height: `${IMAGE_HEIGHT}px` }}
-                            />
-                        ) : (
-                            <Image
-                                src={'/assets/placeholder.png'}
-                                fluid
-                                style={{ height: `${IMAGE_HEIGHT}px` }}
-                            />
-                        )}
-                    </Grid.Column>
-                )}
-
-                <Grid.Column width={5} className="recipe-info-column">
-                    <Item.Group>
-                        <Item>
-                            <Item.Content>
-                                <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
-                                    {recipe.title}
-                                </Item.Header>
-                                <Item.Description>
-                                    Created by{' '}
-                                    <Link to={`/userPage/${recipe.creatorName}`}>{recipe.creatorName}</Link>
-                                </Item.Description>
-                            </Item.Content>
-                        </Item>
-                    </Item.Group>
-
-                    <span>
-                        <Icon name="clock" /> {recipe.date}
-                    </span>
-
-                    <div className="recipe-description">{recipe.description}</div>
-                </Grid.Column>
-
-                {index % 2 !== 0 && (
-                    <Grid.Column width={11} className="recipe-column">
-                        {recipe.photos?.length ? (
-                            <Image
-                                src={recipe.photos[0].url}
-                                fluid
-                                style={{ height: `${IMAGE_HEIGHT}px` }}
-                            />
-                        ) : (
-                            <Image
-                                src={'/assets/placeholder.png'}
-                                fluid
-                                style={{ height: `${IMAGE_HEIGHT}px` }}
-                            />
-                        )}
-                    </Grid.Column>
-                )}
-            </Grid>
-        </Segment>
+        <div id='index' style={{gridTemplateAreas: index % 2 === 0 ? "'text img'" : "'img text'",}} className="card__content">
+            <div>
+                <h2>{recipe.title}</h2>
+                <p>{recipe.description}</p>
+                <p className="category-and-tags">{formatRecipeInfo(recipe)}</p>
+                <p>
+                    <a href={`/recipes/${recipe.id}`} className="read-more-button">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <figure>
+                <img
+                    src={recipe.photos?.at(0) ? recipe.photos.at(0)?.url : '/assets/placeholder.png'}
+                    alt="Description"
+                />
+            </figure>
+        </div>
     );
 });
+
+function formatRecipeInfo(recipe: Recipe) {
+    if (!recipe || typeof recipe !== 'object') {
+        return '';
+    }
+
+    let categoryName = recipe.categoryName || '';
+    if (categoryName === 'Unknown') {
+        categoryName = '';
+    }
+
+    const tags = recipe.tags || [];
+
+    const allWords = [categoryName, ...tags];
+
+    const formattedWords = allWords.map((word) => {
+        if (typeof word === 'string') {
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        }
+        return word.name.charAt(0).toUpperCase() + word.name.slice(1);
+    });
+
+    const resultString = formattedWords.join(', ');
+
+    return resultString;
+}

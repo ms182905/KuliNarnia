@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Grid, Pagination } from 'semantic-ui-react';
+import { Grid, Pagination, Segment } from 'semantic-ui-react';
 import RecipeList from './RecipeList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
@@ -38,9 +38,9 @@ export default observer(function RecipeDashboard() {
         <>
             <Grid>
                 <Grid.Column width="16">
-                    {/* </Grid.Column>
-            <Grid.Column width='6'> */}
+                    <Segment className='filter-segment'>
                     <RecipeSearchElement />
+                    </Segment>
                     <RecipeList />
                 </Grid.Column>
             </Grid>
@@ -51,10 +51,10 @@ export default observer(function RecipeDashboard() {
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    marginTop: '2em',
-                    paddingBottom: '1em',
+                    marginTop: '0.5em',
+                    fontFamily: 'Andale Mono, monospace'
                 }}
-                onPageChange={(event, data) => {
+                onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage));
                     window.scrollTo(0, 0);
                 }}

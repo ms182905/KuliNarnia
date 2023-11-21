@@ -41,20 +41,19 @@ function App() {
             />
             {location.pathname !== '/' ? (
                 <>
-                    <Segment className="title-header-container">
+                    <Segment className="title-header-container" >
                         <Header>
                             {'Kuli '} <img src="/assets/strawberry.png" alt="logo" style={{ marginLeft: '20px' }} />{' '}
                             {'Narnia'}
                         </Header>
                     </Segment>
-                    <div className="app-container">
-                        <SideBar />
-                        {/* <NavBar />
+
+                    <SideBar />
+                    {/* <NavBar />
                     <Container style={{ marginTop: '5em' }}>
                     <Outlet />
                 </Container> */}
-                        <MenuButton />
-                    </div>
+                    <MenuButton />
                 </>
             ) : (
                 <HomePage />
