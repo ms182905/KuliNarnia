@@ -9,6 +9,7 @@ import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
 import SideBar from './SideBar';
 import MenuButton from './MenuButton';
+import PageOptionButton from './PageOptionButton';
 
 function App() {
     const location = useLocation();
@@ -41,7 +42,7 @@ function App() {
             />
             {location.pathname !== '/' ? (
                 <>
-                    <Segment className="title-header-container" >
+                    <Segment className="title-header-container">
                         <Header>
                             {'Kuli '} <img src="/assets/strawberry.png" alt="logo" style={{ marginLeft: '20px' }} />{' '}
                             {'Narnia'}
@@ -49,11 +50,8 @@ function App() {
                     </Segment>
 
                     <SideBar />
-                    {/* <NavBar />
-                    <Container style={{ marginTop: '5em' }}>
-                    <Outlet />
-                </Container> */}
                     <MenuButton />
+                    <PageOptionButton />
                 </>
             ) : (
                 <HomePage />

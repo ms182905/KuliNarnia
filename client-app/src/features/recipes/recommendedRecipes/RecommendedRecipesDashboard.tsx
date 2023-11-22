@@ -6,12 +6,17 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecommendedRecipesList from './RecommendedRecipesList';
 
 export default observer(function RecommendedRecipesDashboard() {
-    const { recommendedRecipesStore } = useStore();
+    const { recommendedRecipesStore, pageOptionButtonStore } = useStore();
     const {
         loadRecommendedRecipes,
         recommendedRecipeRegistry,
         recommendedRecipesLoaded
     } = recommendedRecipesStore;
+
+    if (pageOptionButtonStore.visible) {
+        pageOptionButtonStore.setVisible(false);
+        pageOptionButtonStore.setLoading(false);
+    }
 
     useEffect(() => {
         if (recommendedRecipeRegistry.size < 1 && !recommendedRecipesLoaded) {

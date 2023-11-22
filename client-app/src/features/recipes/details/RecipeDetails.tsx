@@ -5,7 +5,6 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 import RecipeDetailedHeader from './components/RecipeDetailedHeader';
-import RecipeDetailedInfo from './components/RecipeDetailedInfo';
 import RecipeDetailedComments from './components/RecipeDetailedComments';
 import RecipeDetailedIngredients from './components/RecipeDetailedIngredients';
 import RecipeDetailedInstructions from './components/RecipeDetailedInstructions';
@@ -25,7 +24,6 @@ export default observer(function RecipeDetails() {
         <Grid>
             <Grid.Column width={16}>
                 <RecipeDetailedHeader recipe={recipe} editable={byUser !== undefined} />
-                <RecipeDetailedInfo recipe={recipe} />
                 <RecipeDetailedIngredients recipe={recipe} />
                 <RecipeDetailedInstructions recipe={recipe} />
                 <RecipeDetailedComments recipe={recipe} />

@@ -1,18 +1,15 @@
-import { Button, Menu, Image, Dropdown, Sidebar } from 'semantic-ui-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Menu, Image, Dropdown, Sidebar } from 'semantic-ui-react';
+import { Link, NavLink } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import LoginForm from '../../common/modals/LoginForm';
 import LoginOrRegister from '../../common/modals/LoginOrRegister';
 import RegisterForm from '../../common/modals/RegisterForm';
-import { router } from '../../router/Routes';
 import { useStore } from '../../stores/store';
 
 export default observer(function SideBarUserOptions() {
-    const location = useLocation();
     const {
         userStore: { user, logout },
         modalStore: { openModal },
-        recipeStore: { resetSelectedRecipe },
         menuHideStore: { state },
     } = useStore();
 
@@ -44,29 +41,14 @@ export default observer(function SideBarUserOptions() {
                         onClick={() => window.scrollTo(0, 0)}
                         name="Recommendations"
                     />
-                    <Menu.Item as={NavLink} to="/createRecipe">
-                        <Button
-                            onClick={() => {
-                                resetSelectedRecipe();
-                                window.scrollTo(0, 0);
-                                router.navigate('/createRecipe');
-                            }}
-                            disabled={location.pathname === '/createRecipe'}
-                            positive
-                            content="Create Recipe"
-                        />
-                    </Menu.Item>
                 </>
             ) : (
                 <>
                     <Menu.Item name="Favourites" onClick={() => openModal(<LoginOrRegister />)} />
                     <Menu.Item name="Recommendations" onClick={() => openModal(<LoginOrRegister />)} />
-                    <Menu.Item>
-                        <Button onClick={() => openModal(<LoginOrRegister />)} positive content="Create Recipe" />
-                    </Menu.Item>
                 </>
             )}
-            <Menu.Item header>
+            <Menu.Item header style={{ padding: '20px' }}>
                 <Image src={user?.photoUrl ? user.photoUrl : '/assets/user.png'} avatar spaced="right" />
                 <Dropdown pointing="top left" text={user?.displayName}>
                     {user ? (

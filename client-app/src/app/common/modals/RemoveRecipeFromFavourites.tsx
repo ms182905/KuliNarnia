@@ -1,6 +1,5 @@
 import { Button, Header, Table } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
-import { toast } from 'react-toastify';
 import { Recipe } from '../../models/recipe';
 
 interface Props {
@@ -30,7 +29,6 @@ export default function RemoveRecipeFromFavourites({ recipe, recipeId }: Props) 
                                 className="ui positive button"
                                 onClick={() => {
                                     removeRecipeFromFavouritesAndClose();
-                                    toast.success('Recipe removed from favourites!');
                                 }}
                             >
                                 Yes

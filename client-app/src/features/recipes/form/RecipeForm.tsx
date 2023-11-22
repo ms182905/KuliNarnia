@@ -11,7 +11,7 @@ import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget
 import RecipeFormValidation from './RecipeFormValidation';
 
 export default observer(function RecipeForm() {
-    const { recipeStore, categoryStore, tagStore, measurementStore } = useStore();
+    const { recipeStore, categoryStore, tagStore, measurementStore, pageOptionButtonStore } = useStore();
     const { loadRecipe, uploadPhoto, uploading, updateRecipe, createRecipe, loading } = recipeStore;
     const { loadCategories } = categoryStore;
     const { loadTags } = tagStore;
@@ -22,6 +22,11 @@ export default observer(function RecipeForm() {
     const [isValid, setValid] = useState(false);
     const [isSaved, setSaved] = useState(false);
     const [recipePhotos, setRecipePhotos] = useState(recipeStore.selectedRecipe?.photos);
+
+    if (pageOptionButtonStore.visible) {
+        pageOptionButtonStore.setVisible(false);
+        pageOptionButtonStore.setLoading(false);
+    }
 
     useEffect(() => {
         if (recipeStore.selectedRecipe) setRecipePhotos(recipeStore.selectedRecipe.photos);
@@ -53,12 +58,9 @@ export default observer(function RecipeForm() {
 
     function handleFormSubmit() {
         if (id) {
-            //recipe.id = uuid();
-            //createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
             updateRecipe();
         } else {
             createRecipe();
-            //updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
         }
     }
 
@@ -104,7 +106,6 @@ export default observer(function RecipeForm() {
                 <RecipeFormValidation setValid={setValid} />
 
                 <Segment>
-                    {/* <Button as={Link} to={`/recipes/${recipeStore.selectedRecipe.id}`} color="teal" floated="right" content="View" /> */}
                     <Button
                         color="green"
                         size="huge"
@@ -172,7 +173,7 @@ export default observer(function RecipeForm() {
                 )}
             </Segment>
             <Segment>
-                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} ratio={1.33}/>
+                <PhotoUploadWidget uploadPhoto={handlePhotoUpload} loading={uploading} ratio={1.33} />
             </Segment>
             <Segment>
                 <Button
@@ -182,7 +183,6 @@ export default observer(function RecipeForm() {
                     fluid
                     content="View"
                 />
-                {/* <Button color="green" size="huge" fluid content="Save changes" onClick={() => setDataEditMode(false)} /> */}
                 <Button color="blue" size="huge" fluid content="Back" onClick={() => setDataEditMode(true)} />
             </Segment>
         </>

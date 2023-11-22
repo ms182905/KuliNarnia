@@ -3,5 +3,6 @@ export interface RecipeComment {
     text: string;
     date: string;
     appUserDisplayName: string;
+    appUserPhotoUrl?: string;
     recipeId: string;
 }

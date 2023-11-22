@@ -7,6 +7,7 @@ namespace Application.DTOs
         public DateTime Date { get; set; }
         public string AppUserId { get; set; }
         public string AppUserDisplayName { get; set; }
+        public string AppUserPhotoUrl { get; set; }
         public Guid RecipeId { get; set; }
     }
 }

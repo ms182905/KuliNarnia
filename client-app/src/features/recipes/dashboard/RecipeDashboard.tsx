@@ -6,9 +6,11 @@ import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeSearchElement from './RecipeSearchElement';
 import { useLocation } from 'react-router-dom';
+import { router } from '../../../app/router/Routes';
+import LoginOrRegister from '../../../app/common/modals/LoginOrRegister';
 
 export default observer(function RecipeDashboard() {
-    const { recipeStore } = useStore();
+    const { recipeStore, pageOptionButtonStore, userStore, modalStore } = useStore();
     const {
         loadRecipes,
         recipeRegistry,
@@ -34,12 +36,26 @@ export default observer(function RecipeDashboard() {
         return <LoadingComponent content="Loading recipes..." />;
     }
 
+    if (pageOptionButtonStore.text !== 'Add new recipe' || !pageOptionButtonStore.visible) {
+        pageOptionButtonStore.setText('Add new recipe');
+        pageOptionButtonStore.setVisible(true);
+        pageOptionButtonStore.setLoading(false);
+        if (userStore.user) {
+            pageOptionButtonStore.setCallback(() => {
+                window.scrollTo(0, 0);
+                router.navigate('/createRecipe');
+            });
+        } else {
+            pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
+        }
+    }
+
     return (
         <>
             <Grid>
                 <Grid.Column width="16">
-                    <Segment className='filter-segment'>
-                    <RecipeSearchElement />
+                    <Segment className="filter-segment">
+                        <RecipeSearchElement />
                     </Segment>
                     <RecipeList />
                 </Grid.Column>
@@ -52,7 +68,7 @@ export default observer(function RecipeDashboard() {
                     display: 'flex',
                     justifyContent: 'center',
                     marginTop: '0.5em',
-                    fontFamily: 'Andale Mono, monospace'
+                    fontFamily: 'Andale Mono, monospace',
                 }}
                 onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage));

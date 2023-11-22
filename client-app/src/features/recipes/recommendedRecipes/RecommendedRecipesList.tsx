@@ -11,7 +11,6 @@ export default function RecommendedRecipesList() {
     return (
         <>
             <div
-                id="index"
                 style={{ gridTemplateAreas: "'text'", textAlign: 'center', gridTemplateColumns: '1fr' }}
                 className="card__content"
             >
