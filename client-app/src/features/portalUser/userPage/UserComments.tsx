@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import { Segment, Header, Comment } from 'semantic-ui-react';
+import { Segment, Comment as Com } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { Link } from 'react-router-dom';
 
@@ -17,44 +17,58 @@ export default observer(function RecipeDetailedComments({ username }: Props) {
     }, [userCommentsLoaded, loadUserComments, commentStore.username, username]);
 
     return (
-        <>
-            <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
-                {userStore.user?.username === username ? (
-                    <Header>Your recently added comments</Header>
-                ) : (
-                    <Header>{username}`s recently added comments</Header>
-                )}
-            </Segment>
-            <Segment attached>
-                {userComments.length !== 0 ? (
-                    <Comment.Group size="large">
-                        {userComments
-                            .slice()
-                            .sort((a, b) => {
-                                return new Date(a.date).getTime() - new Date(b.date).getTime();
-                            })
-                            .map((s) => (
-                                <Comment as={Link} to={`/recipes/${s.recipeId}`} key={s.id}>
-                                    <Comment.Avatar src="/assets/user.png" />
-                                    <Comment.Content>
-                                        <Comment.Author >{s.appUserDisplayName}</Comment.Author>
+        <div className="card__content" style={{ display: 'block', padding: '14px', marginTop: '0.5em' }}>
+            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>
+                {userStore.user?.username === username
+                    ? 'Your recently added comments'
+                    : `${username}s recently added comments`}
+            </h2>
+            <div
+                className="card__content"
+                style={{
+                    gridTemplateAreas: "'text'",
+                    textAlign: 'center',
+                    gridTemplateColumns: '1fr',
+                    width: '100%',
+                }}
+            >
+                <Segment
+                    attached
+                    style={{
+                        border: 'none',
+                        boxShadow: 'none',
+                        width: '90%',
+                        fontFamily: 'Andale Mono, monospace',
+                    }}
+                >
+                    {userComments !== undefined && userComments.length !== 0 ? (
+                        <Com.Group size="large">
+                            {userComments
+                                .slice()
+                                .sort((a, b) => {
+                                    return new Date(a.date).getTime() - new Date(b.date).getTime();
+                                })
+                                .map((s, index) => (
+                                    <Com as={Link} to={`/recipes/${s.recipeId}`} key={index}>
+                                        <Com.Avatar src={s.appUserPhotoUrl ? s.appUserPhotoUrl : '/assets/user.png'} />
+                                        <Com.Content style={{ paddingBottom: '0.5em' }}>
+                                            <Com.Author style={{}}>{s.appUserDisplayName}</Com.Author>
 
-                                        <Comment.Metadata>
-                                            <div>
-                                                {s.date.substring(0, 10)} at {s.date.substring(11, 16)}
-                                            </div>
-                                        </Comment.Metadata>
-                                        <Comment.Text>{s.text}</Comment.Text>
-                                    </Comment.Content>
-                                </Comment>
-                            ))}
-                    </Comment.Group>
-                ) : (
-                    <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
-                        No comments yet!
-                    </Header>
-                )}
-            </Segment>
-        </>
+                                            <Com.Metadata>
+                                                <div>
+                                                    {s.date.substring(0, 10)} at {s.date.substring(11, 16)}
+                                                </div>
+                                            </Com.Metadata>
+                                            <Com.Text>{s.text}</Com.Text>
+                                        </Com.Content>
+                                    </Com>
+                                ))}
+                        </Com.Group>
+                    ) : (
+                        <h2 style={{ textAlign: 'center', width: '100%' }}>No comments yet!</h2>
+                    )}
+                </Segment>
+            </div>
+        </div>
     );
 });

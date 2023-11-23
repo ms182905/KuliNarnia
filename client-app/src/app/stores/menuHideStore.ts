@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 export default class MenuHideStore {
-    state: boolean =  true
+    state: boolean = false;
 
     constructor() {
         makeAutoObservable(this);

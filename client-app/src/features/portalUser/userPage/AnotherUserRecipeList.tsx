@@ -1,15 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { Header, Icon, Item, Segment, Pagination } from 'semantic-ui-react';
+import { Segment, Pagination } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
-import { Link } from 'react-router-dom';
 
 interface Props {
     username: string;
 }
 
 export default observer(function AnotherUserRecipeList({ username }: Props) {
-    const { userRecipesStore } = useStore();
+    const { userRecipesStore, userStore } = useStore();
     const {
         loadAnotherUserRecipes,
         anotherUserRecipes,
@@ -24,34 +23,55 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
     }, [loadAnotherUserRecipes, userRecipesStore.anotherUserUsername, username]);
 
     return (
-        <Segment attached loading={changingAnotherUserRecipes}>
-            {anotherUserRecipes.length !== 0 || { changingAnotherUserRecipes } ? (
+        <div className="card__content" style={{ display: 'block', padding: '14px', marginTop: '0.5em' }}>
+            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>
+                {userStore.user?.username === username
+                    ? 'Your recently added recipes'
+                    : `${username}s recently added recipes`}
+            </h2>
+
+            <Segment
+                loading={changingAnotherUserRecipes}
+                style={{
+                    border: 'none',
+                    boxShadow: 'none',
+                    width: '100%',
+                    fontFamily: 'Andale Mono, monospace',
+                }}
+            >
                 <>
-                    <Segment.Group>
-                        {anotherUserRecipes.map((recipe) => (
-                            <Segment key={recipe.id}>
-                                <Item.Group>
-                                    <Item>
-                                        <Item.Image
-                                            size="tiny"
-                                            circular
-                                            src={recipe.photos?.at(0)?.url || '/assets/placeholder.png'}
-                                        />
-                                        <Item.Content>
-                                            <Item.Header as={Link} to={`/recipes/${recipe.id}`}>
-                                                {recipe.title}
-                                            </Item.Header>
-                                            <Item.Description>
-                                                <span>
-                                                    <Icon name="clock" /> {recipe.date}
-                                                </span>
-                                            </Item.Description>
-                                        </Item.Content>
-                                    </Item>
-                                </Item.Group>
-                            </Segment>
-                        ))}
-                    </Segment.Group>
+                    {anotherUserRecipes.map((recipe, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                gridTemplateAreas: "'text img'",
+                                width: '70%',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                            }}
+                            className="card__content"
+                        >
+                            <div>
+                                <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
+                                <p>
+                                    <a
+                                        href={`/recipes/${recipe.id}`}
+                                        className="read-more-button"
+                                        style={{ fontSize: '1.6em' }}
+                                    >
+                                        View
+                                    </a>
+                                </p>
+                            </div>
+                            <figure>
+                                <img
+                                    src={recipe.photos?.at(0) ? recipe.photos.at(0)?.url : '/assets/placeholder.png'}
+                                    alt="Description"
+                                />
+                            </figure>
+                        </div>
+                    ))}
+
                     {Math.ceil(anotherUserRecipesNumber / userRecipesStore.pageCapacity) > 1 && (
                         <Pagination
                             activePage={anotherUserRecipeDashboardPageNumber + 1}
@@ -70,11 +90,7 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
                         />
                     )}
                 </>
-            ) : (
-                <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
-                    No recipes yet!
-                </Header>
-            )}
-        </Segment>
+            </Segment>
+        </div>
     );
 });
