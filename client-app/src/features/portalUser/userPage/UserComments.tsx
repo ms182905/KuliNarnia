@@ -65,7 +65,16 @@ export default observer(function RecipeDetailedComments({ username }: Props) {
                                 ))}
                         </Com.Group>
                     ) : (
-                        <h2 style={{ textAlign: 'center', width: '100%' }}>No comments yet!</h2>
+                        <h2
+                            style={{
+                                textAlign: 'center',
+                                width: '100%',
+                                fontSize: '2em',
+                                fontFamily: 'Andale Mono, monospace',
+                            }}
+                        >
+                            No comments yet!
+                        </h2>
                     )}
                 </Segment>
             </div>

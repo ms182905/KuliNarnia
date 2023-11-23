@@ -34,12 +34,12 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
 
     return (
         <>
-            <Segment textAlign="center">
+            <Segment>
                 {userStore.user?.username === username ? (
                     <Button
                         color="teal"
                         onClick={() => setEditPhotoMode(true)}
-                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}
+                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 200 }}
                     >
                         <Icon name="edit" style={{ marginRight: '8px' }} />
                         Edit Photo
@@ -47,31 +47,57 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                 ) : (
                     <></>
                 )}
-
+            </Segment>
+            <div
+                className="card__content"
+                style={{ display: 'block', padding: '14px', marginTop: '0.5em', textAlign: 'center' }}
+            >
                 <Img
                     size="medium"
                     circular
                     centered
                     src={anotherUserProfilePhotoUrl ? anotherUserProfilePhotoUrl : '/assets/user.png'}
+                    style={{ paddingTop: '1em' }}
                 />
-                <Header as="h1">{username}</Header>
+                <Header as="h1" style={{ paddingBottom: '1em', fontSize: '2em', fontFamily: 'Andale Mono, monospace' }}>
+                    {username}
+                </Header>
+
                 {editPhotoMode ? (
                     <>
-                        <Divider horizontal>
-                            <Header as="h4">
-                                <Icon name="edit" />
-                                Edit profile photo
-                            </Header>
-                        </Divider>
-                        <PhotoUploadWidget
-                            uploadPhoto={handlePhotoUpload}
-                            loading={userStore.photoUploading}
-                            ratio={1}
-                        />
-                        <Button color="red" onClick={() => setEditPhotoMode(false)} fluid style={{ marginTop: '8px' }}>
-                            <Icon name="cancel" />
-                            Cancel
-                        </Button>
+                        <div
+                            className="card__content"
+                            style={{
+                                display: 'block',
+                                width: '80%',
+                                padding: '14px',
+                                marginTop: '0.5em',
+                                textAlign: 'center',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                            }}
+                        >
+                            <Divider horizontal>
+                                <Header as="h4">
+                                    <Icon name="edit" />
+                                    Edit profile photo
+                                </Header>
+                            </Divider>
+                            <PhotoUploadWidget
+                                uploadPhoto={handlePhotoUpload}
+                                loading={userStore.photoUploading}
+                                ratio={1}
+                            />
+                            <Button
+                                onClick={() => setEditPhotoMode(false)}
+                                fluid
+                                style={{ marginTop: '8px' }}
+                                className="negativeButton"
+                            >
+                                <Icon name="cancel" />
+                                Cancel
+                            </Button>
+                        </div>
                     </>
                 ) : (
                     <></>
@@ -85,14 +111,7 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                         onClick={() => modalStore.openModal(<DeleteUserAccount userName={username} />)}
                     />
                 )}
-            </Segment>
-            <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
-                {userStore.user?.username === username ? (
-                    <Header>Your recently added recipes</Header>
-                ) : (
-                    <Header>{username}`s recently added recipes</Header>
-                )}
-            </Segment>
+            </div>
             <AnotherUserRecipeList username={username} />
         </>
     );
