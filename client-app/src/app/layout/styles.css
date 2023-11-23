@@ -299,7 +299,6 @@ body {
     margin-bottom: 1em;
 
     align-items: stretch;
-    outline: var(--outline-width) solid lime;
 }
 
 .card__content > div {
@@ -323,6 +322,63 @@ body {
     height: 100%;
     object-fit: cover;
     max-height: 16em;
+}
+
+.card__instruction-ingredient {
+    box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
+    background: rgb(255, 255, 255);
+    color: rgb(10, 5, 7);
+    border-radius: 1em;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-columns: 55% 1fr;
+    margin-bottom: 1em;
+
+    grid-template-areas: 'a b';
+    gap: 1em;
+}
+
+@media (max-width: 1300px) {
+    .card__instruction-ingredient {
+        grid-template-columns: 100%;
+        grid-template-areas: 'a' 'b';
+        gap: 0;
+    }
+}
+
+.a {
+    grid-area: a;
+}
+
+.a > .column-container > ol {
+    font-family: 'Andale Mono', monospace;
+    word-wrap: break-word;
+    padding: 1em 1em 1em 1em;
+}
+
+.column-container {
+    box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
+    background: rgb(255, 255, 255);
+    color: rgb(10, 5, 7);
+    border-radius: 1em;
+    padding-left: 1em !important;
+}
+
+.b {
+    grid-area: b;
+}
+
+.b > .column-container > ul {
+    font-family: 'Andale Mono', monospace;
+    word-wrap: break-word;
+    padding: 1em 1em 1em 1em;
+}
+
+.b > .column-container > ul {
+    font-family: 'Andale Mono', monospace;
+    word-wrap: break-word;
+    padding-left: 1em;
 }
 
 h2 {

@@ -6,8 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 import RecipeDetailedHeader from './components/RecipeDetailedHeader';
 import RecipeDetailedComments from './components/RecipeDetailedComments';
-import RecipeDetailedIngredients from './components/RecipeDetailedIngredients';
-import RecipeDetailedInstructions from './components/RecipeDetailedInstructions';
+import RecipeDetailedInstructionsAndIngredients from './components/RecipeDetailedInstructionsAndIngredients';
 
 export default observer(function RecipeDetails() {
     const { recipeStore } = useStore();
@@ -24,8 +23,7 @@ export default observer(function RecipeDetails() {
         <Grid>
             <Grid.Column width={16}>
                 <RecipeDetailedHeader recipe={recipe} editable={byUser !== undefined} />
-                <RecipeDetailedIngredients recipe={recipe} />
-                <RecipeDetailedInstructions recipe={recipe} />
+                <RecipeDetailedInstructionsAndIngredients recipe={recipe} />
                 <RecipeDetailedComments recipe={recipe} />
             </Grid.Column>
         </Grid>

@@ -55,17 +55,16 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
                     {Math.ceil(anotherUserRecipesNumber / userRecipesStore.pageCapacity) > 1 && (
                         <Pagination
                             activePage={anotherUserRecipeDashboardPageNumber + 1}
-                            pointing
-                            secondary
                             totalPages={Math.ceil(anotherUserRecipesNumber / userRecipesStore.pageCapacity)}
                             size="huge"
                             style={{
                                 display: 'flex',
                                 justifyContent: 'center',
-                                marginTop: '2em',
-                                paddingBottom: '1em',
+                                marginTop: '0.5em',
+                                fontFamily: 'Andale Mono, monospace',
+                                borderRadius: '1em',
                             }}
-                            onPageChange={(event, data) => {
+                            onPageChange={(_event, data) => {
                                 handleAnotherUserPageChange(Number(data.activePage) - 1);
                             }}
                         />

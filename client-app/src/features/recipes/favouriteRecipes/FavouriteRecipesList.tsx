@@ -19,7 +19,7 @@ export default function FavouriteRecipesList() {
                 </h2>
             </div>
             {favouriteRecipes.map((recipe, index) => (
-                <RecipeListItem index={index} recipe={recipe} />
+                <RecipeListItem index={index} recipe={recipe} key={index} />
             ))}
         </>
     );

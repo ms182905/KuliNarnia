@@ -47,15 +47,14 @@ export default observer(function AdminRecipeDashboard() {
             </Grid>
             <Pagination
                 defaultActivePage={recipeDashboardPageNumber}
-                pointing
-                secondary
                 totalPages={Math.ceil(recipesNumber / pageCapacity)}
                 size="huge"
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    marginTop: '2em',
-                    paddingBottom: '1em',
+                    marginTop: '0.5em',
+                    fontFamily: 'Andale Mono, monospace',
+                    borderRadius: '1em',
                 }}
                 onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage));

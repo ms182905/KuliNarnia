@@ -36,17 +36,16 @@ export default observer(function UserRecipesDashboard() {
             </Grid>
             <Pagination
                 defaultActivePage={recipeDashboardPageNumber + 1}
-                pointing
-                secondary
                 totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
                 size="huge"
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    marginTop: '2em',
-                    paddingBottom: '1em',
+                    marginTop: '0.5em',
+                    fontFamily: 'Andale Mono, monospace',
+                    borderRadius: '1em',
                 }}
-                onPageChange={(event, data) => {
+                onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage) - 1);
                     window.scrollTo(0, 0);
                 }}

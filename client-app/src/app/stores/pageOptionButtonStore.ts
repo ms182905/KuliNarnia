@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 export default class PageOptionButtonStore {
     visible = true;
@@ -11,7 +11,9 @@ export default class PageOptionButtonStore {
     }
 
     setVisible = (visible: boolean) => {
-        this.visible = visible;
+        runInAction(() => {
+            this.visible = visible;
+        });
     };
 
     setText = (text: string) => {

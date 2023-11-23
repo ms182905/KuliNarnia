@@ -23,7 +23,7 @@ export default function RecommendedRecipesList() {
                 )}
             </div>
             {recommendedRecipes.map((recipe, index) => (
-                <RecipeListItem index={index} recipe={recipe} />
+                <RecipeListItem index={index} recipe={recipe} key={index} />
             ))}
         </>
     );

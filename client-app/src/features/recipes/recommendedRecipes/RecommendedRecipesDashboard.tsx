@@ -7,16 +7,14 @@ import RecommendedRecipesList from './RecommendedRecipesList';
 
 export default observer(function RecommendedRecipesDashboard() {
     const { recommendedRecipesStore, pageOptionButtonStore } = useStore();
-    const {
-        loadRecommendedRecipes,
-        recommendedRecipeRegistry,
-        recommendedRecipesLoaded
-    } = recommendedRecipesStore;
+    const { loadRecommendedRecipes, recommendedRecipeRegistry, recommendedRecipesLoaded } = recommendedRecipesStore;
 
-    if (pageOptionButtonStore.visible) {
-        pageOptionButtonStore.setVisible(false);
-        pageOptionButtonStore.setLoading(false);
-    }
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     useEffect(() => {
         if (recommendedRecipeRegistry.size < 1 && !recommendedRecipesLoaded) {

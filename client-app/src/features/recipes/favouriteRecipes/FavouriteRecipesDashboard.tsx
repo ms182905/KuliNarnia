@@ -30,10 +30,12 @@ export default observer(function FavouriteRecipesDashboard() {
         }
     }, [loadFavouriteRecipes, favouriteRecipeRegistry.size, favouriteRecipesLoaded, pageNumber, favouriteRecipesNumber, pageCapacity]);
 
-    if (pageOptionButtonStore.visible) {
-        pageOptionButtonStore.setVisible(false);
-        pageOptionButtonStore.setLoading(false);
-    }
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     if (!favouriteRecipesLoaded) {
         window.scrollTo(0, 0);
@@ -51,15 +53,14 @@ export default observer(function FavouriteRecipesDashboard() {
             {favouriteRecipesNumber > pageCapacity && (
                 <Pagination
                     defaultActivePage={pageNumber}
-                    pointing
-                    secondary
                     totalPages={Math.ceil(favouriteRecipesNumber / pageCapacity)}
                     size="huge"
                     style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        marginTop: '2em',
-                        paddingBottom: '1em',
+                        marginTop: '0.5em',
+                        fontFamily: 'Andale Mono, monospace',
+                        borderRadius: '1em',
                     }}
                     onPageChange={(_, data) => {
                         handlePageChange();

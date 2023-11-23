@@ -1,5 +1,5 @@
 import { Segment, Header } from 'semantic-ui-react';
-import { Recipe } from '../../../../app/models/recipe';
+import { Recipe } from '../../../../../app/models/recipe';
 
 interface Props {
     recipe: Recipe;
@@ -18,7 +18,8 @@ export default function RecipeDetailedIngredients({ recipe }: Props) {
             {recipe.ingredients.map((ingredient, index) => (
                 <Segment key={index}>
                     <span>
-                        <b>{capitalizeFirstLetter(ingredient.name)}:&emsp;</b>{ingredient.amount}&emsp;{ingredient.measurement.name}{' '}
+                        <b>{capitalizeFirstLetter(ingredient.name)}:&emsp;</b>
+                        {ingredient.amount}&emsp;{ingredient.measurement.name}{' '}
                     </span>
                 </Segment>
             ))}

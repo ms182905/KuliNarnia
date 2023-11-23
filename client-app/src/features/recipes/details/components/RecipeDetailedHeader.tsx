@@ -20,20 +20,25 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
     const { loading, addRecipeToFavourites } = favouriteRecipesStore;
     const [editOption] = useState(editable && userStore.user?.displayName === recipe.creatorName);
 
-    if (!recipe && !pageOptionButtonStore.visible) {
-        pageOptionButtonStore.setVisible(false);
-    }
+    useEffect(() => {
+        if (!recipe && pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+        }
+    }, [pageOptionButtonStore, recipe]);
 
-    if (
-        recipe && !pageOptionButtonStore.visible &&
-        (pageOptionButtonStore.text === 'Add to favourites' ||
-            pageOptionButtonStore.text === 'Remove from favourites' ||
-            pageOptionButtonStore.text === 'Manage recipe')
-    ) {
-        pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
-        pageOptionButtonStore.setVisible(true);
-        pageOptionButtonStore.setLoading(false);
-    }
+    useEffect(() => {
+        if (
+            recipe &&
+            !pageOptionButtonStore.visible &&
+            (pageOptionButtonStore.text === 'Add to favourites' ||
+                pageOptionButtonStore.text === 'Remove from favourites' ||
+                pageOptionButtonStore.text === 'Manage recipe')
+        ) {
+            pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
+            pageOptionButtonStore.setVisible(true);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore, editOption, recipe]);
 
     useEffect(() => {
         if (loading !== pageOptionButtonStore.loading && !editOption) {
@@ -104,8 +109,13 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
                         <p style={{ fontSize: '1.3em' }}>{recipe.description}</p>
                         {recipe.categoryName && recipe.categoryName !== 'Unknown' && (
                             <p style={{ paddingBottom: '1.5em', fontSize: '1.4em' }}>
-                                Category: {formatWords(recipe.categoryName)} { (recipe.tags && recipe.tags.length > 0) && (<><br />
-                                Tags: {formatWords(recipe.tags)}</>)}
+                                Category: {formatWords(recipe.categoryName)}{' '}
+                                {recipe.tags && recipe.tags.length > 0 && (
+                                    <>
+                                        <br />
+                                        Tags: {formatWords(recipe.tags)}
+                                    </>
+                                )}
                             </p>
                         )}
                     </div>

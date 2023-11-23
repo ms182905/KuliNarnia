@@ -31,23 +31,25 @@ export default observer(function RecipeDashboard() {
         }
     }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber, searchQuery, selectedCategory, selectedTags]);
 
+    useEffect(() => {
+        if (pageOptionButtonStore.text !== 'Add new recipe' || !pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setText('Add new recipe');
+            pageOptionButtonStore.setVisible(true);
+            pageOptionButtonStore.setLoading(false);
+            if (userStore.user) {
+                pageOptionButtonStore.setCallback(() => {
+                    window.scrollTo(0, 0);
+                    router.navigate('/createRecipe');
+                });
+            } else {
+                pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
+            }
+        }
+    }, [pageOptionButtonStore, modalStore, userStore.user]);
+
     if (recipeStore.loadingInitial) {
         window.scrollTo(0, 0);
         return <LoadingComponent content="Loading recipes..." />;
-    }
-
-    if (pageOptionButtonStore.text !== 'Add new recipe' || !pageOptionButtonStore.visible) {
-        pageOptionButtonStore.setText('Add new recipe');
-        pageOptionButtonStore.setVisible(true);
-        pageOptionButtonStore.setLoading(false);
-        if (userStore.user) {
-            pageOptionButtonStore.setCallback(() => {
-                window.scrollTo(0, 0);
-                router.navigate('/createRecipe');
-            });
-        } else {
-            pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
-        }
     }
 
     return (
@@ -69,6 +71,7 @@ export default observer(function RecipeDashboard() {
                     justifyContent: 'center',
                     marginTop: '0.5em',
                     fontFamily: 'Andale Mono, monospace',
+                    borderRadius: '1em',
                 }}
                 onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage));

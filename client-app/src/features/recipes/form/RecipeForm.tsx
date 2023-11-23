@@ -23,10 +23,12 @@ export default observer(function RecipeForm() {
     const [isSaved, setSaved] = useState(false);
     const [recipePhotos, setRecipePhotos] = useState(recipeStore.selectedRecipe?.photos);
 
-    if (pageOptionButtonStore.visible) {
-        pageOptionButtonStore.setVisible(false);
-        pageOptionButtonStore.setLoading(false);
-    }
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     useEffect(() => {
         if (recipeStore.selectedRecipe) setRecipePhotos(recipeStore.selectedRecipe.photos);

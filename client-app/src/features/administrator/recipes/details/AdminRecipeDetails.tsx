@@ -4,9 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 import { useStore } from '../../../../app/stores/store';
 import LoadingComponent from '../../../../app/layout/LoadingComponent';
-import RecipeDetailedInfo from '../../../recipes/details/components/RecipeDetailedInfo';
-import RecipeDetailedIngredients from '../../../recipes/details/components/RecipeDetailedIngredients';
-import RecipeDetailedInstructions from '../../../recipes/details/components/RecipeDetailedInstructions';
+import RecipeDetailedInfo from './components/AdminRecipeDetailedInfo';
+import RecipeDetailedIngredients from './components/AdminRecipeDetailedIngredients';
+import RecipeDetailedInstructionsAndIngredients from '../../../recipes/details/components/RecipeDetailedInstructionsAndIngredients';
 import AdminRecipeDetailedComments from './components/AdminRecipeDetailedComments';
 import RemoveUserRecipe from '../../../../app/common/modals/RemoveUserRecipe';
 import AdminRecipeDetailedHeader from './components/AdminRecipeDetailedHeader';
@@ -56,7 +56,7 @@ export default observer(function AdminRecipeDetails() {
                     color="red"
                 />
                 <RecipeDetailedIngredients recipe={recipe} />
-                <RecipeDetailedInstructions recipe={recipe} />
+                <RecipeDetailedInstructionsAndIngredients recipe={recipe} />
                 <AdminRecipeDetailedComments recipe={recipe} />
             </Grid.Column>
         </Grid>
