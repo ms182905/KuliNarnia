@@ -1,18 +1,24 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Icon, Item, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { Recipe } from '../../../app/models/recipe';
-import { SyntheticEvent, useState } from 'react';
-import RemoveUserRecipe from '../../../app/common/modals/RemoveUserRecipe';
 import { useStore } from '../../../app/stores/store';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import RemoveUserRecipe from '../../../app/common/modals/RemoveUserRecipe';
 
 interface Props {
     recipe: Recipe;
 }
 
 export default observer(function UserRecipesListItem({ recipe }: Props) {
-    const { modalStore, userRecipesStore } = useStore();
-    const { loading } = userRecipesStore;
+    const { pageOptionButtonStore, modalStore, userRecipesStore } = useStore();
+    const [loading] = useState(userRecipesStore.loading);
+
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
+
     const [target, setTarget] = useState('');
 
     function handleRecipeDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
@@ -21,39 +27,28 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
     }
 
     return (
-        <Segment.Group>
-            <Segment>
-                <Item.Group>
-                    <Item>
-                        <Item.Image size="tiny" circular src="/assets/placeholder.png" />
-                        <Item.Content>
-                            <Item.Header as={Link} to={`/recipes/${recipe.id}/${true}`}>
-                                {recipe.title}
-                            </Item.Header>
-                        </Item.Content>
-                    </Item>
-                </Item.Group>
-            </Segment>
-            <Segment>
-                <span>
-                    <Icon name="clock" /> {recipe.date}
-                </span>
-            </Segment>
-            {/* <Segment secondary>
-                {recipe.description}
-            </Segment> */}
-            <Segment clearing>
-                {recipe.description}
-                <Button as={Link} to={`/recipes/${recipe.id}/true`} color="teal" floated="right" content="View" />
-                <Button
-                    name={recipe.id}
-                    loading={loading && target === recipe.id}
-                    onClick={(e) => handleRecipeDelete(e, recipe.id)}
-                    floated="right"
-                    content="Delete recipe"
-                    color="red"
+        <div style={{ gridTemplateAreas: "'text img'" }} className="card__content">
+            <div>
+                <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
+                <p>
+                    <a href={`/recipes/${recipe.id}`} className="read-more-button">
+                        View
+                    </a>
+                    <button
+                        className="delete-recipe-button"
+                        onClick={(e) => handleRecipeDelete(e, recipe.id)}
+                        disabled={target === recipe.id}
+                    >
+                        {target === recipe.id && loading ? 'Deleting...' : 'Delete'}
+                    </button>
+                </p>
+            </div>
+            <figure>
+                <img
+                    src={recipe.photos?.at(0) ? recipe.photos.at(0)?.url : '/assets/placeholder.png'}
+                    alt="Description"
                 />
-            </Segment>
-        </Segment.Group>
+            </figure>
+        </div>
     );
 });

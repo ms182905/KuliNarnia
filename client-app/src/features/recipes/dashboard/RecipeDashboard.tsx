@@ -38,6 +38,7 @@ export default observer(function RecipeDashboard() {
             pageOptionButtonStore.setLoading(false);
             if (userStore.user) {
                 pageOptionButtonStore.setCallback(() => {
+                    recipeStore.resetSelectedRecipe();
                     window.scrollTo(0, 0);
                     router.navigate('/createRecipe');
                 });
@@ -45,7 +46,7 @@ export default observer(function RecipeDashboard() {
                 pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
             }
         }
-    }, [pageOptionButtonStore, modalStore, userStore.user]);
+    }, [pageOptionButtonStore, modalStore, userStore.user, recipeStore]);
 
     if (recipeStore.loadingInitial) {
         window.scrollTo(0, 0);
