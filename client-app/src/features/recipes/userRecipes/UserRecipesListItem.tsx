@@ -9,8 +9,7 @@ interface Props {
 }
 
 export default observer(function UserRecipesListItem({ recipe }: Props) {
-    const { pageOptionButtonStore, modalStore, userRecipesStore } = useStore();
-    const [loading] = useState(userRecipesStore.loading);
+    const { pageOptionButtonStore, modalStore } = useStore();
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {
@@ -21,8 +20,8 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
 
     const [target, setTarget] = useState('');
 
-    function handleRecipeDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
-        setTarget(e.currentTarget.name);
+    function handleRecipeDelete(_e: SyntheticEvent<HTMLButtonElement>, id: string) {
+        setTarget(id);
         modalStore.openModal(<RemoveUserRecipe recipeId={id} />);
     }
 
@@ -39,7 +38,7 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
                         onClick={(e) => handleRecipeDelete(e, recipe.id)}
                         disabled={target === recipe.id}
                     >
-                        {target === recipe.id && loading ? 'Deleting...' : 'Delete'}
+                        Delete
                     </button>
                 </p>
             </div>

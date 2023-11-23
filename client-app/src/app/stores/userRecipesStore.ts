@@ -169,12 +169,20 @@ export default class UserRecipesStore {
 
     reset = () => {
         this.loggedUserRecipeRegistry.clear();
+        this.anotherUserRecipeRegistry.clear();
         this.loggedUserRecipesLoaded = false;
+        this.recipeDashboardPageNumber = 0;
+        this.anotherUserRecipeDashboardPageNumber = 0;
+        this.anotherUserUsername = '';
     };
 
     resetUserRecipesRegistry = () => {
         runInAction(() => {
             this.loggedUserRecipeRegistry.clear();
+            this.anotherUserRecipeRegistry.clear();
+            this.recipeDashboardPageNumber = 0;
+            this.anotherUserRecipeDashboardPageNumber = 0;
+            this.anotherUserUsername = '';
         });
         this.setLoggedUserRecipesLoaded(false);
     };

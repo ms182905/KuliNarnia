@@ -11,18 +11,19 @@ export default observer(function UserRecipesDashboard() {
         loadLoggedUserRecipes,
         loggedUserRecipeRegistry,
         loggedUserRecipesNumber,
+        loggedUserRecipesLoaded,
         handlePageChange,
         pageCapacity,
         recipeDashboardPageNumber,
     } = userRecipesStore;
 
     useEffect(() => {
-        if (loggedUserRecipeRegistry.size < 1) {
+        if (loggedUserRecipeRegistry.size < 1 || !loggedUserRecipesLoaded) {
             loadLoggedUserRecipes(recipeDashboardPageNumber);
         }
-    }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, recipeDashboardPageNumber]);
+    }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, loggedUserRecipeRegistry, loggedUserRecipesLoaded, recipeDashboardPageNumber]);
 
-    if (userRecipesStore.loadingInitial) {
+    if (userRecipesStore.loadingInitial || userRecipesStore.loading) {
         window.scrollTo(0, 0);
         return <LoadingComponent content="Loading recipes..." />;
     }

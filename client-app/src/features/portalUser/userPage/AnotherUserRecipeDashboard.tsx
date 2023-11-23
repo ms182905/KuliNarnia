@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header, Icon, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
@@ -11,14 +11,26 @@ interface Props {
 }
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
-    const { userRecipesStore, userStore, modalStore } = useStore();
+    const { userRecipesStore, userStore, modalStore, pageOptionButtonStore } = useStore();
     const { anotherUserProfilePhotoUrl } = userRecipesStore;
+    const { loadAnotherUserRecipes } = userRecipesStore;
 
     const [editPhotoMode, setEditPhotoMode] = useState(false);
+
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     function handlePhotoUpload(file: Blob) {
         userStore.uploadPhoto(file);
     }
+
+    useEffect(() => {
+        if (userRecipesStore.anotherUserUsername !== username) loadAnotherUserRecipes(username, 0);
+    }, [loadAnotherUserRecipes, userRecipesStore.anotherUserUsername, username]);
 
     return (
         <>

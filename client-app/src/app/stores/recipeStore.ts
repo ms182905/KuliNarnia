@@ -243,7 +243,7 @@ export default class RecipeStore {
             await agent.Recipes.create(this.selectedRecipe);
             runInAction(() => {
                 this.reset();
-                store.userRecipesStore.reset();
+                store.userRecipesStore.resetUserRecipesRegistry();
                 this.reset();
                 this.loading = false;
             });

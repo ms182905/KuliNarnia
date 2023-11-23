@@ -1,5 +1,4 @@
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
 import { Segment, Pagination } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 
@@ -10,17 +9,12 @@ interface Props {
 export default observer(function AnotherUserRecipeList({ username }: Props) {
     const { userRecipesStore, userStore } = useStore();
     const {
-        loadAnotherUserRecipes,
         anotherUserRecipes,
         handleAnotherUserPageChange,
         anotherUserRecipeDashboardPageNumber,
         changingAnotherUserRecipes,
         anotherUserRecipesNumber,
     } = userRecipesStore;
-
-    useEffect(() => {
-        if (userRecipesStore.anotherUserUsername !== username) loadAnotherUserRecipes(username, 0);
-    }, [loadAnotherUserRecipes, userRecipesStore.anotherUserUsername, username]);
 
     return (
         <div className="card__content" style={{ display: 'block', padding: '14px', marginTop: '0.5em' }}>
@@ -31,6 +25,7 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
             </h2>
 
             <Segment
+                clearing
                 loading={changingAnotherUserRecipes}
                 style={{
                     border: 'none',
