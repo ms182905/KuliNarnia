@@ -7,8 +7,6 @@ interface Props {
 }
 
 export default observer(function RecipeListItem({ recipe, index }: Props) {
-    console.log(index);
-
     return (
         <div style={{ gridTemplateAreas: index % 2 === 0 ? "'text img'" : "'img text'" }} className="card__content">
             <div>

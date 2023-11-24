@@ -4,7 +4,6 @@ import AdminRecipeList from './AdminRecipeList';
 import { useStore } from '../../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../../app/layout/LoadingComponent';
-import { useLocation } from 'react-router-dom';
 import { router } from '../../../../app/router/Routes';
 
 export default observer(function AdminRecipeDashboard() {
@@ -20,8 +19,6 @@ export default observer(function AdminRecipeDashboard() {
         selectedCategory,
         selectedTags,
     } = recipeStore;
-
-    console.log(useLocation().pathname);
 
     if (userStore.user?.role !== 'Administrator') {
         router.navigate('/not-found');

@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { Header, Icon, Segment, Image as Img, Button, Divider } from 'semantic-ui-react';
+import { Header, Icon, Image as Img, Button, Divider } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
 import AnotherUserRecipeList from './AnotherUserRecipeList';

@@ -4,9 +4,10 @@ import UserRecipesList from './UserRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { router } from '../../../app/router/Routes';
 
 export default observer(function UserRecipesDashboard() {
-    const { userRecipesStore } = useStore();
+    const { userRecipesStore, userStore } = useStore();
     const {
         loadLoggedUserRecipes,
         loggedUserRecipeRegistry,
@@ -16,6 +17,12 @@ export default observer(function UserRecipesDashboard() {
         pageCapacity,
         recipeDashboardPageNumber,
     } = userRecipesStore;
+
+    useEffect(() => {
+        if (!userStore.user) {
+            router.navigate('/');
+        }
+    }, [userStore.user]);
 
     useEffect(() => {
         if (loggedUserRecipeRegistry.size < 1 || !loggedUserRecipesLoaded) {

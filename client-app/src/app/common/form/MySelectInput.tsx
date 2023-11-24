@@ -14,14 +14,25 @@ export default function MySelectInput(props: Props) {
 
     return (
         <Form.Field error={meta.touched && !!meta.error}>
-            <label>{props.label}</label>
-            <Select 
+            <label
+                style={{
+                    fontFamily: 'Andale Mono, monospace',
+                    borderRadius: '1em',
+                    width: '100%',
+                    minWidth: '2em',
+                    overflow: 'hidden',
+                }}
+            >
+                {props.label}
+            </label>
+            <Select
                 clearable
                 options={props.options}
                 value={field.value || null}
                 onChange={(_, d) => helpers.setValue(d.value)}
                 onBlur={() => helpers.setTouched(true)}
                 placeholder={props.placeholder}
+                style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '100%', minWidth: '2em' }}
             />
             {meta.touched && meta.error ? (
                 <Label basic color="red">

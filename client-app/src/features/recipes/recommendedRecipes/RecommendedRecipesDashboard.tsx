@@ -4,10 +4,17 @@ import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecommendedRecipesList from './RecommendedRecipesList';
+import { router } from '../../../app/router/Routes';
 
 export default observer(function RecommendedRecipesDashboard() {
-    const { recommendedRecipesStore, pageOptionButtonStore } = useStore();
+    const { recommendedRecipesStore, pageOptionButtonStore, userStore } = useStore();
     const { loadRecommendedRecipes, recommendedRecipeRegistry, recommendedRecipesLoaded } = recommendedRecipesStore;
+
+    useEffect(() => {
+        if (!userStore.user) {
+            router.navigate('/');
+        }
+    }, [userStore.user]);
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {

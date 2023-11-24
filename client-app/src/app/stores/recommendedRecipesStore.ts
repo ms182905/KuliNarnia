@@ -21,7 +21,6 @@ export default class RecommendedRecipesStore {
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.RecommendedRecipes.list();
-            console.log(recipes);
             recipes.recipes.forEach((recipe) => {
                 this.setRecommendedRecipe(recipe);
             });

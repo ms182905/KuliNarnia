@@ -5,7 +5,6 @@ import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import RecipeSearchElement from './RecipeSearchElement';
-import { useLocation } from 'react-router-dom';
 import { router } from '../../../app/router/Routes';
 import LoginOrRegister from '../../../app/common/modals/LoginOrRegister';
 
@@ -22,8 +21,6 @@ export default observer(function RecipeDashboard() {
         selectedCategory,
         selectedTags,
     } = recipeStore;
-
-    console.log(useLocation().pathname);
 
     useEffect(() => {
         if (recipeRegistry.size < 1) {

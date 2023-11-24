@@ -16,18 +16,20 @@ export default function DeleteUserAccount({ userName }: Props) {
 
     return (
         <>
-            <Header textAlign="center">Delete user account?</Header>
+            <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
+                Delete user account?
+            </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
-                            <Button fluid className="ui positive button" onClick={() => deleteUserAccountAndClose()}>
+                            <Button fluid className="positiveButton" onClick={() => deleteUserAccountAndClose()}>
                                 Yes
                             </Button>
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign="center" width={6}>
-                            <Button fluid className="ui negative button" onClick={() => modalStore.closeModal()}>
+                            <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
                                 No
                             </Button>
                         </Table.Cell>

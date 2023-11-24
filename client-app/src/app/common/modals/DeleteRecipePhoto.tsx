@@ -2,28 +2,30 @@ import { Button, Header, Table } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
 
 interface Props {
-    recipeCommentId: string;
+    photoId: string;
+    setPhotoId: (photoId: string) => void;
 }
 
-export default function DeleteRecipeComment({ recipeCommentId }: Props) {
+export default function DeleteRecipePhoto({ photoId, setPhotoId }: Props) {
     const { modalStore, recipeStore } = useStore();
-    const { deleteRecipeComment } = recipeStore;
+    const { deletePhoto } = recipeStore;
 
-    function deleteCommentAndClose() {
+    function deletePhotoAndClose() {
         modalStore.closeModal();
-        deleteRecipeComment(recipeCommentId);
+        setPhotoId(photoId);
+        deletePhoto(photoId);
     }
 
     return (
         <>
             <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                Delete this comment?
+                Delete this photo?
             </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
-                            <Button fluid className="positiveButton" onClick={() => deleteCommentAndClose()}>
+                            <Button fluid className="positiveButton" onClick={() => deletePhotoAndClose()}>
                                 Yes
                             </Button>
                         </Table.Cell>

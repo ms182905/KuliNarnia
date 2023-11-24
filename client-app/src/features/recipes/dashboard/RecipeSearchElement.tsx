@@ -46,7 +46,6 @@ export default observer(function RecipeSearchElement() {
     }, [categoriesList, loadCategories, tagsList, loadTags]);
 
     const handleSearch = () => {
-        console.log('Searching for:', searchQuery);
         if (searchQuery.length !== 0 || recipeStore.recipeRegistry.size === 0) {
             setSearchQuerry(searchQuery);
             reset();
@@ -62,8 +61,6 @@ export default observer(function RecipeSearchElement() {
     };
 
     const handleApplyFilters = () => {
-        console.log(selectedTags);
-        console.log(selectedCategory);
         if (
             selectedTags.length > 0 ||
             selectedCategory.length > 0 ||
@@ -71,7 +68,6 @@ export default observer(function RecipeSearchElement() {
             (recipeStore.selectedCategory.length > 0 && recipeStore.selectedCategory !== selectedCategory) ||
             (recipeStore.selectedTags.length > 0 && recipeStore.selectedTags !== selectedTags)
         ) {
-            console.log();
             setFilters(selectedCategory, selectedTags);
             reset();
         }
@@ -103,12 +99,25 @@ export default observer(function RecipeSearchElement() {
 
     return (
         <>
-            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 5, marginBottom: 5 }}>
-                <Header className='filter-header' icon="wordpress simple" attached color="black" content="Search by phrase" />
+            <Menu
+                fluid
+                vertical
+                size="small"
+                style={{ width: '100%', marginTop: '0.5em', marginBottom: '1em', borderRadius: '1em' }}
+            >
+                <Header
+                    className="filter-header"
+                    icon="wordpress simple"
+                    attached
+                    color="black"
+                    content="Search by phrase"
+                    style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
+                />
                 <Menu.Item>
                     <Grid columns={2}>
                         <Grid.Column width={12}>
                             <Input
+                                className="userSearchInput"
                                 fluid
                                 icon="search"
                                 placeholder="Search name..."
@@ -117,17 +126,28 @@ export default observer(function RecipeSearchElement() {
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button className='positiveButton' fluid content="Search" onClick={handleSearch} />
+                            <Button className="positiveButton" fluid content="Search" onClick={handleSearch} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid className='negativeButton' content="Clear" onClick={handleClearSearch} />
+                            <Button fluid className="negativeButton" content="Clear" onClick={handleClearSearch} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>
             </Menu>
 
-            <Menu fluid vertical size="small" style={{ width: '100%', marginTop: 12, marginBottom: 5 }}>
-                <Header className='filter-header' icon="filter" attached content="Filters"/>
+            <Menu
+                fluid
+                vertical
+                size="small"
+                style={{ width: '100%', marginTop: '0.5em', marginBottom: '1em', borderRadius: '1em' }}
+            >
+                <Header
+                    className="filter-header"
+                    icon="filter"
+                    attached
+                    content="Filters"
+                    style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
+                />
                 <Menu.Item>
                     <Grid columns={2}>
                         <Grid.Column width={6}>
@@ -140,6 +160,7 @@ export default observer(function RecipeSearchElement() {
                                 placeholder="Select tags"
                                 multiple
                                 selection
+                                style={{ borderRadius: '1em' }}
                             />
                         </Grid.Column>
                         <Grid.Column width={6}>
@@ -150,17 +171,18 @@ export default observer(function RecipeSearchElement() {
                                 placeholder="Select category"
                                 value={selectedCategory}
                                 onChange={handleCategorySelectChange}
+                                style={{ borderRadius: '1em' }}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button className='positiveButton' fluid content="Apply" onClick={handleApplyFilters} />
+                            <Button className="positiveButton" fluid content="Apply" onClick={handleApplyFilters} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid className='negativeButton' content="Clear" onClick={handleClearFilters} />
+                            <Button fluid className="negativeButton" content="Clear" onClick={handleClearFilters} />
                         </Grid.Column>
                     </Grid>
-                    </Menu.Item>
-                    </Menu>
+                </Menu.Item>
+            </Menu>
         </>
     );
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, Header } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import PhotoWidgetDropzone from './PhotoWidgetDropzone';
 import PhotoWidgetCropper from './PhotoWidgetCropper';
 
@@ -64,7 +64,7 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
                                 icon="check"
                                 content="Apply"
                                 className="positiveButton"
-                                style={{ width: '40%', marginRight: '4%' }}
+                                style={{ width: '40%', marginRight: 'auto', marginLeft: 'auto' }}
                             />
                             <Button
                                 disabled={loading}
@@ -75,7 +75,7 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
                                 className="negativeButton"
                                 icon="close"
                                 content="Reset"
-                                style={{ width: '40%', marginBottom: '1em' }}
+                                style={{ width: '40%', marginRight: 'auto', marginLeft: 'auto' }}
                             />
                         </>
                     )}

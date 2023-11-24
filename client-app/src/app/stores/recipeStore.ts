@@ -44,7 +44,6 @@ export default class RecipeStore {
     loadRecipes = async (pageNumber: number) => {
         this.setLoadingInitial(true);
         try {
-            console.log(this.selectedCategory);
             const recipes = await agent.Recipes.list(
                 (pageNumber - 1) * this.pageCapacity,
                 (pageNumber - 1) * this.pageCapacity + this.pageCapacity,
@@ -72,7 +71,6 @@ export default class RecipeStore {
         this.setLoadingInitial(true);
         try {
             var recipe = await agent.Recipes.details(id);
-            console.log(recipe);
             const tagIds: string[] = [];
             recipe.instructions.sort((a, b) => a.position - b.position);
             runInAction(async () => {

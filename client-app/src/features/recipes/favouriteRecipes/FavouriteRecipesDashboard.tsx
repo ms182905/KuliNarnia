@@ -4,9 +4,10 @@ import FavouriteRecipesList from './FavouriteRecipesList';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { router } from '../../../app/router/Routes';
 
 export default observer(function FavouriteRecipesDashboard() {
-    const { favouriteRecipesStore, pageOptionButtonStore } = useStore();
+    const { favouriteRecipesStore, pageOptionButtonStore, userStore } = useStore();
     const {
         loadFavouriteRecipes,
         favouriteRecipeRegistry,
@@ -19,8 +20,13 @@ export default observer(function FavouriteRecipesDashboard() {
     const [pageNumber, setPageNumber] = useState(1);
 
     useEffect(() => {
+        if (!userStore.user) {
+            router.navigate('/');
+        }
+    }, [userStore.user]);
+
+    useEffect(() => {
         if (favouriteRecipeRegistry.size < 1 && !favouriteRecipesLoaded) {
-            console.log(favouriteRecipesNumber);
             if (pageNumber > 1 && (pageNumber - 1) * pageCapacity + 1 > favouriteRecipesNumber) {
                 loadFavouriteRecipes(pageNumber - 2);
                 setPageNumber(pageNumber - 1);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
+import { Button, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import { Recipe } from '../../../app/models/recipe';
@@ -65,46 +65,72 @@ export default observer(function RecipeFormBaseInfo() {
     });
 
     function handleFormSubmit(recipe: Recipe) {
-        console.log(recipe);
         if (!recipe.id) recipe.id = uuid();
-        //     createRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
-        // } else {
-        //     updateRecipe(recipe).then(() => navigate(`/recipes/${recipe.id}`));
-        // }
         updateRecipeData(recipe);
     }
 
     return (
         <>
-            <Segment clearing>
-                <Header content="Recipe Details" sub color="teal" />
-                <Formik
-                    validationSchema={primaryDataValidationSchema}
-                    enableReinitialize
-                    initialValues={recipe}
-                    onSubmit={(values, { resetForm }) => {
-                        resetForm();
-                        handleFormSubmit(values);
+            <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Base info</h2>
+                <div
+                    className="card__content"
+                    style={{
+                        gridTemplateAreas: "'text'",
+                        textAlign: 'center',
+                        gridTemplateColumns: '1fr',
+                        width: '100%',
+                        overflow: 'visible',
                     }}
                 >
-                    {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-                        <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-                            <MyTextInput placeholder="Title" name="title" />
-                            <MyTextArea placeholder="Description" name="description" rows={3} />
-                            <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
-                            <MyMultipleChoiceDropdownInput placeholder="Tags" name="tagIds" options={tagsList} />
-                            <Button
-                                disabled={isSubmitting || !dirty || !isValid}
-                                floated="right"
-                                positive
-                                type="submit"
-                                content="Submit"
-                            />
-                            {/* <Button as={Link} to="/recipes" floated="right" type="button" content="Cancel" /> */}
-                        </Form>
-                    )}
-                </Formik>
-            </Segment>
+                    <Segment
+                        attached
+                        style={{
+                            border: 'none',
+                            boxShadow: 'none',
+                            width: '90%',
+                            fontFamily: 'Andale Mono, monospace',
+                            overflow: 'visible',
+                        }}
+                    >
+                        <Formik
+                            validationSchema={primaryDataValidationSchema}
+                            enableReinitialize
+                            initialValues={recipe}
+                            onSubmit={(values, { resetForm }) => {
+                                resetForm();
+                                handleFormSubmit(values);
+                            }}
+                        >
+                            {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                                <Form
+                                    className="ui form"
+                                    onSubmit={handleSubmit}
+                                    autoComplete="off"
+                                    style={{ width: '100%' }}
+                                >
+                                    <MyTextInput placeholder="Title" name="title" />
+                                    <MyTextArea placeholder="Description" name="description" rows={3} />
+                                    <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
+                                    <MyMultipleChoiceDropdownInput
+                                        placeholder="Tags"
+                                        name="tagIds"
+                                        options={tagsList}
+                                    />
+                                    <Button
+                                        disabled={isSubmitting || !dirty || !isValid}
+                                        positive
+                                        type="submit"
+                                        content="Submit"
+                                        fluid
+                                        className="positiveButton"
+                                    />
+                                </Form>
+                            )}
+                        </Formik>
+                    </Segment>
+                </div>
+            </div>
         </>
     );
 });

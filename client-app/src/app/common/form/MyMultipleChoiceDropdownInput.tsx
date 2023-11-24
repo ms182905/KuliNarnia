@@ -15,7 +15,7 @@ export default function MyMultipleChoiceDropdownInput(props: Props) {
     return (
         <Form.Field error={meta.touched && !!meta.error}>
             <label>{props.label}</label>
-            <Dropdown 
+            <Dropdown
                 clearable
                 options={props.options}
                 value={field.value || []}
@@ -24,6 +24,7 @@ export default function MyMultipleChoiceDropdownInput(props: Props) {
                 placeholder={props.placeholder}
                 multiple
                 selection
+                style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em' }}
             />
             {meta.touched && meta.error ? (
                 <Label basic color="red">

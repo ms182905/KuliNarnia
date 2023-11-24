@@ -30,7 +30,7 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
             <div>
                 <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
                 <p>
-                    <a href={`/recipes/${recipe.id}`} className="read-more-button">
+                    <a href={`/recipes/${recipe.id}/true`} className="read-more-button">
                         View
                     </a>
                     <button

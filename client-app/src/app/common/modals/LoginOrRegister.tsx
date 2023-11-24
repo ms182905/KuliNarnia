@@ -8,21 +8,31 @@ export default function LoginOrRegister() {
 
     return (
         <>
-            <Header as="h2" textAlign="center">
+            <Header as="h2" textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
                 To proceed login or register
             </Header>
-            <Table style={{ border: 'none' }}>
+            <Table style={{ border: 'none', fontFamily: 'Andale Mono, monospace' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center">
-                            <Button primary fluid onClick={() => modalStore.openModal(<LoginForm />)}>
+                            <Button
+                                className="positiveButton"
+                                primary
+                                fluid
+                                onClick={() => modalStore.openModal(<LoginForm />)}
+                            >
                                 Login
                             </Button>
                         </Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell textAlign="center">
-                            <Button secondary fluid onClick={() => modalStore.openModal(<RegisterForm />)}>
+                            <Button
+                                className="editPhotoButton"
+                                secondary
+                                fluid
+                                onClick={() => modalStore.openModal(<RegisterForm />)}
+                            >
                                 Register
                             </Button>
                         </Table.Cell>
@@ -33,7 +43,7 @@ export default function LoginOrRegister() {
                 <tbody>
                     <TableRow>
                         <TableCell textAlign="center" width={12}>
-                            <Button fluid className="ui negative button" onClick={() => modalStore.closeModal()}>
+                            <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
                                 Cancel
                             </Button>
                         </TableCell>
