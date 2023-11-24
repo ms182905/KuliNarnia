@@ -30,7 +30,7 @@ export default observer(function RecommendedRecipesDashboard() {
     }, [recommendedRecipeRegistry, recommendedRecipesLoaded, loadRecommendedRecipes]);
 
     if (!recommendedRecipesLoaded) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading recommended recipes..." />;
     }
 

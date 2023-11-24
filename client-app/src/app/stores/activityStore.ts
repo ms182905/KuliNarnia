@@ -10,7 +10,7 @@ export default class ActivityStore {
     activitiesLoaded = false;
     pageCapacity = 15;
     activityDashboardPageNumber = 1;
-    selectedUser = "";
+    selectedUser = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -44,6 +44,7 @@ export default class ActivityStore {
     handlePageChange = async (pageNumber: number) => {
         this.activityTable = [];
         this.activityDashboardPageNumber = pageNumber;
+        await this.loadActivities(pageNumber);
     };
 
     private setActivity = (activity: Activity) => {
@@ -66,13 +67,13 @@ export default class ActivityStore {
         this.activitiesNumber = activitiesNumber;
     };
 
-    setActivitiesLoaded = (state: boolean) => { 
-        this.activitiesLoaded = state; 
+    setActivitiesLoaded = (state: boolean) => {
+        this.activitiesLoaded = state;
     };
 
     setSelectedUser = (username: string) => {
         this.selectedUser = username;
-    }
+    };
 
     reset = () => {
         runInAction(() => {

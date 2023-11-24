@@ -33,8 +33,14 @@ namespace Application.FavouriteRecipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
+                if (user == null)
+                {
+                    return null;
+                }
 
-                var recipe = await _context.FavouriteRecipes.FirstOrDefaultAsync(x => x.AppUserId == user.Id && x.RecipeId == request.Id);
+                var recipe = await _context.FavouriteRecipes.FirstOrDefaultAsync(
+                    x => x.AppUserId == user.Id && x.RecipeId == request.Id
+                );
                 if (recipe != null)
                 {
                     return Result<Unit>.Failure("Recipe already in favourites");

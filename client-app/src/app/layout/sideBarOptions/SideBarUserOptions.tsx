@@ -26,19 +26,24 @@ export default observer(function SideBarUserOptions() {
                 <div style={{ fontSize: '2em', fontFamily: 'Andale Mono, monospace' }}> KuliNarnia</div>
             </Menu.Item>
 
-            <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />
+            <Menu.Item
+                as={NavLink}
+                to="/recipes"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                name="Recipes"
+            />
             {user ? (
                 <>
                     <Menu.Item
                         as={NavLink}
                         to="/favouriteRecipes"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Favourites"
                     />
                     <Menu.Item
                         as={NavLink}
                         to="/recommendations"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Recommendations"
                     />
                 </>
@@ -49,7 +54,13 @@ export default observer(function SideBarUserOptions() {
                 </>
             )}
             <Menu.Item header style={{ padding: '20px' }}>
-                <Image src={user?.photoUrl ? user.photoUrl : '/assets/user.png'} avatar size="mini" spaced="right" style={{ marginRight: "2em" }} />
+                <Image
+                    src={user?.photoUrl ? user.photoUrl : '/assets/user.png'}
+                    avatar
+                    size="mini"
+                    spaced="right"
+                    style={{ marginRight: '2em' }}
+                />
                 <Dropdown
                     pointing="top left"
                     text={user?.displayName}

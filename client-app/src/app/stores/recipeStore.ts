@@ -88,7 +88,8 @@ export default class RecipeStore {
                     recipe.creatorName &&
                     recipe.creatorName !== store.userStore.user?.displayName &&
                     recipe.tagIds.length > 0 &&
-                    recipe.categoryName !== 'Unknown'
+                    recipe.categoryName !== 'Unknown' &&
+                    store.userStore.user?.role !== 'Administrator'
                 ) {
                     const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };
                     await agent.UserSelection.post(userSelection);
@@ -236,8 +237,7 @@ export default class RecipeStore {
                 };
                 this.selectedRecipe?.tags.push(newTag);
             });
-            const date = new Date();
-            this.selectedRecipe.date = date.toISOString().split('T')[0];
+            this.selectedRecipe.date = new Date().toISOString();
             await agent.Recipes.create(this.selectedRecipe);
             runInAction(() => {
                 this.reset();
@@ -266,8 +266,7 @@ export default class RecipeStore {
                 };
                 this.selectedRecipe?.tags.push(newTag);
             });
-            const date = new Date();
-            this.selectedRecipe.date = date.toISOString().split('T')[0];
+            this.selectedRecipe.date = new Date().toISOString();
             await agent.Recipes.update(this.selectedRecipe);
             runInAction(() => {
                 this.reset();

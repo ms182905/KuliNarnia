@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default observer(function RecipeDetailedComments({ recipe: rec }: Props) {
-    const { recipeStore, userStore, modalStore } = useStore();
+    const { recipeStore, userStore, modalStore, activityStore } = useStore();
     const { addRecipeComment } = recipeStore;
     const { openModal } = modalStore;
     const { user } = userStore;
@@ -62,7 +62,9 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                     })
                                     .map((s) => (
                                         <Com key={s.id}>
-                                            <Com.Avatar src={s.appUserPhotoUrl? s.appUserPhotoUrl : "/assets/user.png"} />
+                                            <Com.Avatar
+                                                src={s.appUserPhotoUrl ? s.appUserPhotoUrl : '/assets/user.png'}
+                                            />
                                             <Com.Content>
                                                 {s.appUserDisplayName === user?.displayName && (
                                                     <Com.Author as="a" style={{ color: 'red' }}>
@@ -79,15 +81,17 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                                     </div>
                                                 </Com.Metadata>
                                                 <Com.Text>{s.text}</Com.Text>
-                                                {s.appUserDisplayName === user?.displayName && (
+                                                {(user?.role === 'Administrator' ||
+                                                    s.appUserDisplayName === user?.displayName) && (
                                                     <Com.Actions>
                                                         <Com.Action
                                                             value={s.id}
-                                                            onClick={() =>
+                                                            onClick={() => {
                                                                 modalStore.openModal(
                                                                     <DeleteRecipeComment recipeCommentId={s.id} />
-                                                                )
-                                                            }
+                                                                );
+                                                                activityStore.reset();
+                                                            }}
                                                         >
                                                             Delete
                                                         </Com.Action>

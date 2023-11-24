@@ -44,15 +44,27 @@ export default observer(function HomePage() {
                     </>
                 )}
                 <Header as="h2">
-                    <Button
-                        as={Link}
-                        to="/recipes"
-                        size="huge"
-                        inverted
-                        style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
-                    >
-                        Go to recipes!
-                    </Button>
+                    {userStore.user?.role === 'Administrator' ? (
+                        <Button
+                            as={Link}
+                            to="/lastActivity"
+                            size="huge"
+                            inverted
+                            style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
+                        >
+                            Welcome, Administrator!
+                        </Button>
+                    ) : (
+                        <Button
+                            as={Link}
+                            to="/recipes"
+                            size="huge"
+                            inverted
+                            style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
+                        >
+                            Go to recipes!
+                        </Button>
+                    )}
                 </Header>
             </Container>
         </Segment>

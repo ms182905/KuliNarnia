@@ -8,16 +8,16 @@ export default function ActivityList() {
 
     return (
         <>
-            <Segment clearing>
+            <Segment clearing style={{ borderRadius: '1em' }}>
                 {activities.map((activity, index) => (
-                    <Segment key={index} raised>
-                        <Header as={Link} to={`/recipes/${activity.recipeId}`} color="teal">
+                    <Segment key={index} raised style={{ borderRadius: '1em' }}>
+                        <Header as={Link} to={`/recipes/${activity.recipeId}`} color="black">
                             {activity.type === 'CommentAdded' && <Icon name="comment" color="teal" />}
                             {activity.type === 'RecipeCreated' && <Icon name="add" color="green" />}
                             {activity.type === 'RecipeEdited' && <Icon name="edit" color="blue" />}
                             {activity.text}
                         </Header>
-                        <Segment.Group horizontal>
+                        <Segment.Group horizontal style={{ borderRadius: '1em' }}>
                             <Segment>
                                 <p>Date: {activity.date}</p>
                             </Segment>

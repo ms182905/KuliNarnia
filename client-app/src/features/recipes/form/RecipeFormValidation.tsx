@@ -176,7 +176,7 @@ export default observer(function RecipeFormValidation({
                         setSaved(true);
                     }}
                     className="positiveButton"
-                    style={{ marginTop: '1em', fontSize: '1.2em', width: '100%' }}
+                    style={{ marginTop: '1em', fontSize: '1.2em', width: '100%', padding: '0.2em' }}
                 >
                     Save changes
                 </Button>
@@ -184,6 +184,7 @@ export default observer(function RecipeFormValidation({
                 <Button
                     disabled={loading || (!isSaved && !id)}
                     onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                         setDataEditMode(false);
                     }}
                     className="editPhotoButton"

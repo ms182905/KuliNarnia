@@ -16,7 +16,7 @@ namespace Application.Comments
             public CommentDTO CommentDTO { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command> 
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -26,17 +26,27 @@ namespace Application.Comments
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-        private readonly DataContext _context;
-        private readonly IUserAccessor _userAccessor;
+            private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
+
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _context = context;
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(
+                Command request,
+                CancellationToken cancellationToken
+            )
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                var user = await _context.Users.FirstOrDefaultAsync(
+                    x => x.UserName == _userAccessor.GetUsername()
+                );
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var comment = new Comment
                 {

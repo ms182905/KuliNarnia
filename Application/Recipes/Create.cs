@@ -43,9 +43,18 @@ namespace Application.Recipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
+                if (user == null)
+                {
+                    return null;
+                }
+
                 var category = await _context.Categories.FindAsync(
                     request.RecipeDetailsDTO.CategoryId
                 );
+                if (category == null)
+                {
+                    return Result<Unit>.Failure("Category not found");
+                }
 
                 var recipe = new Recipe
                 {

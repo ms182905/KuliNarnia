@@ -34,6 +34,10 @@ namespace Application.Recipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var selectedRecipes = await _context.Recipes
                     .Where(
@@ -78,7 +82,6 @@ namespace Application.Recipes
                 }
 
                 var numberOfSelections = userSelectionStastics.Sum(x => x.Counter);
-                System.Console.WriteLine(userId);
 
                 var recipeDistionary = new Dictionary<RecipeDetailsDTO, float>();
                 foreach (var recipe in recipes)
@@ -95,14 +98,7 @@ namespace Application.Recipes
                         recipe,
                         (
                             (float)userTagSelection.Sum(u => u.Counter)
-                            + (float)userCategorySelection.Sum(u => u.Counter)
-                        ) / numberOfSelections
-                    );
-                    System.Console.WriteLine(recipe.Title);
-                    Console.WriteLine(
-                        (
-                            (float)userTagSelection.Sum(u => u.Counter)
-                            + (float)userCategorySelection.Sum(u => u.Counter)
+                            + userCategorySelection.Sum(u => u.Counter)
                         ) / numberOfSelections
                     );
                 }

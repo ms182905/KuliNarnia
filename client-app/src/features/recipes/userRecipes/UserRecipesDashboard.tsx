@@ -31,7 +31,7 @@ export default observer(function UserRecipesDashboard() {
     }, [loadLoggedUserRecipes, loggedUserRecipeRegistry.size, loggedUserRecipeRegistry, loggedUserRecipesLoaded, recipeDashboardPageNumber]);
 
     if (userRecipesStore.loadingInitial || userRecipesStore.loading) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading recipes..." />;
     }
 
@@ -55,7 +55,7 @@ export default observer(function UserRecipesDashboard() {
                 }}
                 onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage) - 1);
-                    window.scrollTo(0, 0);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
             />
         </>

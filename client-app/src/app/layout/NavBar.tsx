@@ -18,7 +18,7 @@ export default observer(function NavBar() {
     if (user?.role === 'Administrator') {
         return (
             <Menu inverted fixed="top">
-                <Container className='menu-container'>
+                <Container className="menu-container">
                     <Menu.Item as={NavLink} to="/" header>
                         <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px' }} />
                         KuliNarnia
@@ -26,26 +26,31 @@ export default observer(function NavBar() {
                     <Menu.Item
                         as={NavLink}
                         to="/lastActivity"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Last activity"
                     />
                     <Menu.Item
                         as={NavLink}
                         to="/adminRecipes"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Manage recipes"
                     />
                     <Menu.Item
                         as={NavLink}
                         to="/categories"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Manage categories"
                     />
-                    <Menu.Item as={NavLink} to="/tags" onClick={() => window.scrollTo(0, 0)} name="Manage tags" />
+                    <Menu.Item
+                        as={NavLink}
+                        to="/tags"
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        name="Manage tags"
+                    />
                     <Menu.Item
                         as={NavLink}
                         to="/measurements"
-                        onClick={() => window.scrollTo(0, 0)}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         name="Manage measurements"
                     />
 
@@ -70,31 +75,36 @@ export default observer(function NavBar() {
 
     return (
         <Menu inverted fixed="top">
-            <Container className='menu-container'>
+            <Container className="menu-container">
                 <Menu.Item as={NavLink} to="/" header>
                     <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px' }} />
                     KuliNarnia
                 </Menu.Item>
-                <Menu.Item as={NavLink} to="/recipes" onClick={() => window.scrollTo(0, 0)} name="Recipes" />
+                <Menu.Item
+                    as={NavLink}
+                    to="/recipes"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    name="Recipes"
+                />
                 {user ? (
                     <>
                         <Menu.Item
                             as={NavLink}
                             to="/favouriteRecipes"
-                            onClick={() => window.scrollTo(0, 0)}
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             name="Favourites"
                         />
                         <Menu.Item
                             as={NavLink}
                             to="/recommendations"
-                            onClick={() => window.scrollTo(0, 0)}
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             name="Recommendations"
                         />
                         <Menu.Item as={NavLink} to="/createRecipe">
                             <Button
                                 onClick={() => {
                                     resetSelectedRecipe();
-                                    window.scrollTo(0, 0);
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
                                     router.navigate('/createRecipe');
                                 }}
                                 disabled={location.pathname === '/createRecipe'}

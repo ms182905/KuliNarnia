@@ -4,25 +4,17 @@ import { Header, Icon, Image as Img, Button, Divider } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import PhotoUploadWidget from '../../../app/common/imageUpload/PhotoUploadWidget';
 import AnotherUserRecipeList from './AnotherUserRecipeList';
-import DeleteUserAccount from '../../../app/common/modals/DeleteUserAccount';
 
 interface Props {
     username: string;
 }
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
-    const { userRecipesStore, userStore, modalStore, pageOptionButtonStore, commentStore } = useStore();
+    const { userRecipesStore, userStore, commentStore } = useStore();
     const { anotherUserProfilePhotoUrl } = userRecipesStore;
     const { loadAnotherUserRecipes } = userRecipesStore;
 
     const [editPhotoMode, setEditPhotoMode] = useState(false);
-
-    useEffect(() => {
-        if (pageOptionButtonStore.visible) {
-            pageOptionButtonStore.setVisible(false);
-            pageOptionButtonStore.setLoading(false);
-        }
-    }, [pageOptionButtonStore]);
 
     function handlePhotoUpload(file: Blob) {
         userStore.uploadPhoto(file);
@@ -111,15 +103,6 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                     </>
                 ) : (
                     <></>
-                )}
-                {userStore.user?.role === 'Administrator' && (
-                    <Button
-                        content="Delete user account"
-                        color="red"
-                        fluid
-                        loading={userStore.loading}
-                        onClick={() => modalStore.openModal(<DeleteUserAccount userName={username} />)}
-                    />
                 )}
             </div>
             <AnotherUserRecipeList username={username} />

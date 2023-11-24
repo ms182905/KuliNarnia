@@ -38,6 +38,10 @@ namespace Application.FavouriteRecipes
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var favouriteRecipes = await _context.Recipes
                     .Where(x => x.FavouriteRecipes.Any(x => x.AppUserId == user.Id))

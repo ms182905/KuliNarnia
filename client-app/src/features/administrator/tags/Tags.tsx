@@ -11,9 +11,16 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 import { Tag } from '../../../app/models/tag';
 
 export default observer(function Tags() {
-    const { userStore, tagStore } = useStore();
+    const { userStore, tagStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
     const { tagsTable, loadTags, createTag, updateTag, deleteTag, loading } = tagStore;
+
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     const [tag, setTag] = useState<Tag>({
         id: '',
@@ -33,7 +40,7 @@ export default observer(function Tags() {
     }, [tagsTable, loadTags]);
 
     if (tagStore.loadingInitial) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading tags..." />;
     }
 
@@ -52,8 +59,8 @@ export default observer(function Tags() {
 
     return (
         <>
-            <Segment clearing>
-                <Header content="Tags" sub color="teal" />
+            <Segment clearing style={{ borderRadius: '1em' }}>
+                <Header content="Create or Edit" sub color="black" />
                 <Formik
                     validationSchema={tagValidationSchema}
                     enableReinitialize
@@ -67,49 +74,67 @@ export default observer(function Tags() {
                         handleFormSubmit(values);
                     }}
                 >
-                    {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                    {({ handleSubmit, isValid, isSubmitting, dirty, resetForm }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                             <MyTextInput placeholder="Name" name="name" />
                             <Button
+                                className="positiveButton"
                                 disabled={isSubmitting || !dirty || !isValid}
-                                floated="right"
-                                positive
+                                floated="left"
                                 type="submit"
                                 content="Submit"
                                 loading={loading}
+                                style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             />
                             <Button
-                                disabled={tag.name.length === 0}
+                                className="negativeButton"
                                 floated="right"
-                                positive
-                                color="red"
-                                content="Cancel"
+                                type="button"
                                 onClick={() => {
                                     setTag({
                                         id: '',
                                         name: '',
                                     });
+                                    resetForm();
                                 }}
-                            />
+                                style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
+                            >
+                                Cancel
+                            </Button>
                         </Form>
                     )}
                 </Formik>
             </Segment>
 
-            <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
+            <Segment
+                textAlign="center"
+                attached="top"
+                color="black"
+                style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
+            >
                 <Header>Existing tags</Header>
             </Segment>
-            <Segment attached>
+            <Segment attached style={{ borderBottomLeftRadius: '1em', borderBottomRightRadius: '1em' }}>
                 {tagsTable
                     .slice()
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .map((tag) => (
-                        <Segment key={tag.id}>
+                        <Segment key={tag.id} style={{ borderRadius: '1em' }}>
                             <strong>ID:</strong> {tag.id} <br />
                             <strong>Name:</strong> {capitalizeFirstLetter(tag.name)} <br />
-                            <Button.Group style={{ position: 'absolute', top: 10, right: 10 }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-end',
+                                    position: 'absolute',
+                                    top: '0',
+                                    right: '0',
+                                    width: '20%',
+                                }}
+                            >
                                 <Button
-                                    color="red"
+                                    className="negativeButton"
                                     content="Delete"
                                     onClick={() => {
                                         setTarget(tag.id);
@@ -117,8 +142,13 @@ export default observer(function Tags() {
                                     }}
                                     loading={loading && target === tag.id}
                                 />
-                                <Button color="blue" content="Edit" onClick={() => setTag(tag)} />
-                            </Button.Group>
+                                <Button
+                                    className="editPhotoButton"
+                                    content="Edit"
+                                    onClick={() => setTag(tag)}
+                                    style={{ width: '100%', padding: '0', marginTop: '5px' }}
+                                />
+                            </div>
                         </Segment>
                     ))}
             </Segment>

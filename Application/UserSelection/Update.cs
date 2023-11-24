@@ -16,7 +16,7 @@ namespace Application.UserSelection
             public UserSelectionPoint UserSelectionPoint { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command> 
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -26,21 +26,36 @@ namespace Application.UserSelection
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-        private readonly DataContext _context;
-        private readonly IUserAccessor _userAccessor;
+            private readonly DataContext _context;
+            private readonly IUserAccessor _userAccessor;
+
             public Handler(DataContext context, IUserAccessor userAccessor)
             {
                 _context = context;
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(
+                Command request,
+                CancellationToken cancellationToken
+            )
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+                var user = await _context.Users.FirstOrDefaultAsync(
+                    x => x.UserName == _userAccessor.GetUsername()
+                );
+                if (user == null)
+                {
+                    return null;
+                }
 
                 foreach (var TagId in request.UserSelectionPoint.TagIds)
                 {
-                    var userSelection = await _context.UserSelectionStastics.FirstOrDefaultAsync(x => x.UserId == user.Id && x.CategoryId == request.UserSelectionPoint.CategoryId && x.TagId == TagId);
+                    var userSelection = await _context.UserSelectionStastics.FirstOrDefaultAsync(
+                        x =>
+                            x.UserId == user.Id
+                            && x.CategoryId == request.UserSelectionPoint.CategoryId
+                            && x.TagId == TagId
+                    );
 
                     if (userSelection != null)
                     {
@@ -59,7 +74,6 @@ namespace Application.UserSelection
                         await _context.UserSelectionStastics.AddAsync(newUserSelection);
                     }
                 }
-
 
                 var result = await _context.SaveChangesAsync() > 0;
 

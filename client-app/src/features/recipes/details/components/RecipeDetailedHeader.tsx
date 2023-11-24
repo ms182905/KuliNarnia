@@ -9,6 +9,7 @@ import 'react-slideshow-image/dist/styles.css';
 import { router } from '../../../../app/router/Routes';
 import { Tag } from '../../../../app/models/tag';
 import { Link } from 'react-router-dom';
+import RemoveUserRecipe from '../../../../app/common/modals/RemoveUserRecipe';
 
 interface Props {
     recipe: Recipe;
@@ -17,55 +18,54 @@ interface Props {
 
 export default observer(function RecipeDetailedHeader({ recipe, editable }: Props) {
     const { modalStore, favouriteRecipesStore, userStore, pageOptionButtonStore } = useStore();
-    const { loading, addRecipeToFavourites } = favouriteRecipesStore;
+    const { addRecipeToFavourites } = favouriteRecipesStore;
     const [editOption] = useState(editable && userStore.user?.displayName === recipe.creatorName);
 
     useEffect(() => {
-        if (!recipe && pageOptionButtonStore.visible) {
-            pageOptionButtonStore.setVisible(false);
-        }
-    }, [pageOptionButtonStore, recipe]);
-
-    useEffect(() => {
-        if (
-            recipe &&
-            !pageOptionButtonStore.visible &&
-            (pageOptionButtonStore.text === 'Add to favourites' ||
-                pageOptionButtonStore.text === 'Remove from favourites' ||
-                pageOptionButtonStore.text === 'Manage recipe')
-        ) {
-            pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
-            pageOptionButtonStore.setVisible(true);
-            pageOptionButtonStore.setLoading(false);
-        }
-    }, [pageOptionButtonStore, editOption, recipe]);
-
-    useEffect(() => {
-        if (loading !== pageOptionButtonStore.loading && !editOption) {
-            pageOptionButtonStore.setLoading(loading);
-        } else if (editOption) {
-            pageOptionButtonStore.setLoading(false);
-        }
-    }, [loading, pageOptionButtonStore.setLoading, pageOptionButtonStore, editOption]);
-
-    useEffect(() => {
-        if (!editOption) {
-            if (recipe.inFavourites) {
-                pageOptionButtonStore.setCallback(() =>
-                    modalStore.openModal(<RemoveRecipeFromFavourites recipe={recipe} />)
-                );
-                pageOptionButtonStore.setText('Remove from favourites');
-            } else {
-                pageOptionButtonStore.setCallback(() => {
-                    addRecipeToFavourites(recipe);
-                });
-                pageOptionButtonStore.setText('Add to favourites');
+        if (userStore.user?.role !== 'Administrator') {
+            if (
+                recipe &&
+                !pageOptionButtonStore.visible &&
+                (pageOptionButtonStore.text === 'Add to favourites' ||
+                    pageOptionButtonStore.text === 'Remove from favourites' ||
+                    pageOptionButtonStore.text === 'Manage recipe')
+            ) {
+                pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
+                pageOptionButtonStore.setVisible(true);
+                pageOptionButtonStore.setLoading(false);
             }
         } else {
-            pageOptionButtonStore.setCallback(() => router.navigate(`/manage/${recipe.id}`));
-            pageOptionButtonStore.setText('Manage recipe');
+            if (recipe && (!pageOptionButtonStore.visible || pageOptionButtonStore.text !== 'Delete recipe')) {
+                pageOptionButtonStore.setCallback(() =>
+                    modalStore.openModal(<RemoveUserRecipe recipeId={recipe.id} />)
+                );
+                pageOptionButtonStore.setText('Delete recipe');
+                pageOptionButtonStore.setVisible(true);
+                pageOptionButtonStore.setLoading(false);
+            }
         }
-    }, [recipe.inFavourites, editOption, addRecipeToFavourites, pageOptionButtonStore, modalStore, recipe]);
+    }, [pageOptionButtonStore, editOption, recipe, modalStore, userStore.user?.role]);
+
+    useEffect(() => {
+        if (userStore.user?.role !== 'Administrator') {
+            if (!editOption) {
+                if (recipe.inFavourites) {
+                    pageOptionButtonStore.setCallback(() =>
+                        modalStore.openModal(<RemoveRecipeFromFavourites recipe={recipe} />)
+                    );
+                    pageOptionButtonStore.setText('Remove from favourites');
+                } else {
+                    pageOptionButtonStore.setCallback(() => {
+                        addRecipeToFavourites(recipe);
+                    });
+                    pageOptionButtonStore.setText('Add to favourites');
+                }
+            } else {
+                pageOptionButtonStore.setCallback(() => router.navigate(`/manage/${recipe.id}`));
+                pageOptionButtonStore.setText('Manage recipe');
+            }
+        }
+    }, [recipe.inFavourites, editOption, addRecipeToFavourites, pageOptionButtonStore, modalStore, recipe, userStore.user?.role]);
 
     return (
         <Segment.Group style={{ border: 'none', boxShadow: 'none' }}>

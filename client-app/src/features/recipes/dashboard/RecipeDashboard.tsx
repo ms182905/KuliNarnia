@@ -29,24 +29,28 @@ export default observer(function RecipeDashboard() {
     }, [loadRecipes, recipeRegistry.size, recipeDashboardPageNumber, searchQuery, selectedCategory, selectedTags]);
 
     useEffect(() => {
-        if (pageOptionButtonStore.text !== 'Add new recipe' || !pageOptionButtonStore.visible) {
-            pageOptionButtonStore.setText('Add new recipe');
-            pageOptionButtonStore.setVisible(true);
-            pageOptionButtonStore.setLoading(false);
-            if (userStore.user) {
-                pageOptionButtonStore.setCallback(() => {
-                    recipeStore.resetSelectedRecipe();
-                    window.scrollTo(0, 0);
-                    router.navigate('/createRecipe');
-                });
-            } else {
-                pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
+        if (userStore.user?.role !== 'Administrator') {
+            if (pageOptionButtonStore.text !== 'Add new recipe' || !pageOptionButtonStore.visible) {
+                pageOptionButtonStore.setText('Add new recipe');
+                pageOptionButtonStore.setVisible(true);
+                pageOptionButtonStore.setLoading(false);
+                if (userStore.user) {
+                    pageOptionButtonStore.setCallback(() => {
+                        recipeStore.resetSelectedRecipe();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        router.navigate('/createRecipe');
+                    });
+                } else {
+                    pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
+                }
             }
+        } else {
+            pageOptionButtonStore.setVisible(false);
         }
     }, [pageOptionButtonStore, modalStore, userStore.user, recipeStore]);
 
     if (recipeStore.loadingInitial) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading recipes..." />;
     }
 
@@ -73,7 +77,7 @@ export default observer(function RecipeDashboard() {
                 }}
                 onPageChange={(_event, data) => {
                     handlePageChange(Number(data.activePage));
-                    window.scrollTo(0, 0);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
             />
         </>

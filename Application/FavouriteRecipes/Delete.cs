@@ -24,18 +24,28 @@ namespace Application.FavouriteRecipes
                 _userAccessor = userAccessor;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(
+                Command request,
+                CancellationToken cancellationToken
+            )
             {
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.UserName == _userAccessor.GetUsername()
                 );
-                var recipe = await _context.FavouriteRecipes.FirstOrDefaultAsync(x => x.AppUserId == user.Id && x.RecipeId == request.Id);
-                
-                if (recipe == null) 
+                if (user == null)
+                {
+                    return null;
+                }
+
+                var recipe = await _context.FavouriteRecipes.FirstOrDefaultAsync(
+                    x => x.AppUserId == user.Id && x.RecipeId == request.Id
+                );
+
+                if (recipe == null)
                 {
                     return Result<Unit>.Failure("No such recipe in favourites");
                 }
-                
+
                 _context.FavouriteRecipes.Remove(recipe);
 
                 var result = await _context.SaveChangesAsync() > 0;

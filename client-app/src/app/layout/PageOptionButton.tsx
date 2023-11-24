@@ -46,6 +46,12 @@ function getIconFromText(text: string): SemanticICONS {
     if (text === 'Manage recipe') {
         return 'cog';
     }
+    if (text === 'Delete recipe') {
+        return 'delete';
+    }
+    if (text === 'Delete user account') {
+        return 'delete';
+    }
     return 'bar';
 }
 
@@ -61,6 +67,12 @@ function getColorFromText(text: string): string {
     }
     if (text === 'Manage recipe') {
         return 'orange';
+    }
+    if (text === 'Delete recipe') {
+        return 'red';
+    }
+    if (text === 'Delete user account') {
+        return 'red';
     }
     return 'blue';
 }

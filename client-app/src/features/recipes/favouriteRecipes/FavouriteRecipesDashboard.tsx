@@ -44,7 +44,7 @@ export default observer(function FavouriteRecipesDashboard() {
     }, [pageOptionButtonStore]);
 
     if (!favouriteRecipesLoaded) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading favourite recipes..." />;
     }
 
@@ -71,7 +71,7 @@ export default observer(function FavouriteRecipesDashboard() {
                     onPageChange={(_, data) => {
                         handlePageChange();
                         setPageNumber(Number(data.activePage));
-                        window.scrollTo(0, 0);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                 />
             )}

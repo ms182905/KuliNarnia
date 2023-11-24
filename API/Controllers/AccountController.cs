@@ -126,7 +126,10 @@ namespace API.Controllers
                 .Where(c => c.AppUserId == user.Id)
                 .ToListAsync();
             var recipes = await _context.Recipes.Where(c => c.CreatorId == user.Id).ToListAsync();
-            var photos = await _context.Photos.Where(c => recipes.Any(r => r.Id == c.RecipeId)).ToListAsync();
+            var recipeIds = recipes.Select(r => r.Id).ToList();
+            var photos = await _context.Photos
+                .Where(c => recipeIds.Contains(c.RecipeId))
+                .ToListAsync();
             var photoIds = photos.Select(p => p.Id).ToList();
 
             if (user.PhotoId != null)
@@ -180,6 +183,10 @@ namespace API.Controllers
         public async Task<ActionResult<string>> GetUserPhotoUrl(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return "";
+            }
 
             return user.PhotoUrl;
         }

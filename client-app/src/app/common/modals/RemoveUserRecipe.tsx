@@ -1,5 +1,6 @@
 import { Button, Header, Table } from 'semantic-ui-react';
 import { useStore } from '../../stores/store';
+import { router } from '../../router/Routes';
 
 interface Props {
     recipeId: string;
@@ -12,6 +13,7 @@ export default function RemoveUserRecipe({ recipeId }: Props) {
     function deleteRecipeAndClose() {
         modalStore.closeModal();
         deleteRecipe(recipeId);
+        router.navigate('/recipes');
     }
 
     return (

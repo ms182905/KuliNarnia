@@ -78,7 +78,9 @@ export default class UserStore {
     getUser = async () => {
         try {
             const user = await agent.Account.current();
-            runInAction(() => (this.user = user));
+            runInAction(() => {
+                this.user = user;
+            });
         } catch (error) {
             console.log(error);
         }
@@ -88,6 +90,7 @@ export default class UserStore {
         this.setLoading(true);
         try {
             await agent.Account.delete(userName);
+            store.activityStore.reset();
             this.setLoading(false);
             router.navigate('/lastActivity');
         } catch (error) {

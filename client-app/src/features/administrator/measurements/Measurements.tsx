@@ -11,10 +11,17 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 import { Measurement } from '../../../app/models/measurement';
 
 export default observer(function Measurements() {
-    const { userStore, measurementStore } = useStore();
+    const { userStore, measurementStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
     const { measurementsTable, loadMeasurements, createMeasurement, updateMeasurement, deleteMeasurement, loading } =
         measurementStore;
+
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     const [measurement, setMeasurement] = useState<Measurement>({
         id: '',
@@ -34,7 +41,7 @@ export default observer(function Measurements() {
     }, [measurementsTable, loadMeasurements]);
 
     if (measurementStore.loadingInitial) {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return <LoadingComponent content="Loading measurements..." />;
     }
 
@@ -53,8 +60,8 @@ export default observer(function Measurements() {
 
     return (
         <>
-            <Segment clearing>
-                <Header content="Measurements" sub color="teal" />
+            <Segment clearing style={{ borderRadius: '1em' }}>
+                <Header content="Create or Edit" sub color="black" />
                 <Formik
                     validationSchema={measurementValidationSchema}
                     enableReinitialize
@@ -68,49 +75,67 @@ export default observer(function Measurements() {
                         handleFormSubmit(values);
                     }}
                 >
-                    {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                    {({ handleSubmit, isValid, isSubmitting, dirty, resetForm }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                             <MyTextInput placeholder="Name" name="name" />
                             <Button
+                                className="positiveButton"
                                 disabled={isSubmitting || !dirty || !isValid}
-                                floated="right"
-                                positive
+                                floated="left"
                                 type="submit"
                                 content="Submit"
                                 loading={loading}
+                                style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             />
                             <Button
-                                disabled={measurement.name.length === 0}
+                                className="negativeButton"
                                 floated="right"
-                                positive
-                                color="red"
-                                content="Cancel"
+                                type="button"
                                 onClick={() => {
                                     setMeasurement({
                                         id: '',
                                         name: '',
                                     });
+                                    resetForm();
                                 }}
-                            />
+                                style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
+                            >
+                                Cancel
+                            </Button>
                         </Form>
                     )}
                 </Formik>
             </Segment>
 
-            <Segment textAlign="center" attached="top" inverted color="teal" style={{ border: 'none' }}>
+            <Segment
+                textAlign="center"
+                attached="top"
+                color="black"
+                style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
+            >
                 <Header>Existing measurements</Header>
             </Segment>
-            <Segment attached>
+            <Segment attached style={{ borderBottomLeftRadius: '1em', borderBottomRightRadius: '1em' }}>
                 {measurementsTable
                     .slice()
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .map((measurement) => (
-                        <Segment key={measurement.id}>
+                        <Segment key={measurement.id} style={{ borderRadius: '1em' }}>
                             <strong>ID:</strong> {measurement.id} <br />
                             <strong>Name:</strong> {capitalizeFirstLetter(measurement.name)} <br />
-                            <Button.Group style={{ position: 'absolute', top: 10, right: 10 }}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-end',
+                                    position: 'absolute',
+                                    top: '0',
+                                    right: '0',
+                                    width: '20%',
+                                }}
+                            >
                                 <Button
-                                    color="red"
+                                    className="negativeButton"
                                     content="Delete"
                                     onClick={() => {
                                         setTarget(measurement.id);
@@ -118,8 +143,13 @@ export default observer(function Measurements() {
                                     }}
                                     loading={loading && target === measurement.id}
                                 />
-                                <Button color="blue" content="Edit" onClick={() => setMeasurement(measurement)} />
-                            </Button.Group>
+                                <Button
+                                    className="editPhotoButton"
+                                    content="Edit"
+                                    onClick={() => setMeasurement(measurement)}
+                                    style={{ width: '100%', padding: '0', marginTop: '5px' }}
+                                />
+                            </div>
                         </Segment>
                     ))}
             </Segment>

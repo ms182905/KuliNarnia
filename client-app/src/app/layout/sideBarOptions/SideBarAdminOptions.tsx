@@ -16,24 +16,34 @@ export default observer(function SideBarUserOptions() {
                     <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px', paddingTop: '5em' }} />
                     KuliNarnia
                 </Menu.Item>
-                <Menu.Item as={NavLink} to="/lastActivity" onClick={() => window.scrollTo(0, 0)} name="Last activity" />
                 <Menu.Item
                     as={NavLink}
-                    to="/adminRecipes"
-                    onClick={() => window.scrollTo(0, 0)}
+                    to="/lastActivity"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    name="Last activity"
+                />
+                <Menu.Item
+                    as={NavLink}
+                    to="/recipes"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     name="Manage recipes"
                 />
                 <Menu.Item
                     as={NavLink}
                     to="/categories"
-                    onClick={() => window.scrollTo(0, 0)}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     name="Manage categories"
                 />
-                <Menu.Item as={NavLink} to="/tags" onClick={() => window.scrollTo(0, 0)} name="Manage tags" />
+                <Menu.Item
+                    as={NavLink}
+                    to="/tags"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    name="Manage tags"
+                />
                 <Menu.Item
                     as={NavLink}
                     to="/measurements"
-                    onClick={() => window.scrollTo(0, 0)}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     name="Manage measurements"
                 />
 
