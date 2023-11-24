@@ -20,7 +20,10 @@ namespace API.Extensions
             services.AddSwaggerGen();
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("RecipeDatabaseOnline"));
+                opt.UseSqlServer(config.GetConnectionString("RecipeDatabaseOnline"), options =>
+                {
+                    options.EnableRetryOnFailure();
+                });
             });
 
             services.AddCors(opt =>

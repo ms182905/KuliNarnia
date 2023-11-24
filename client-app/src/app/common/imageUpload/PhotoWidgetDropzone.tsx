@@ -13,7 +13,7 @@ export default function PhotoWidgetDropzone({ setFiles }: Props) {
         borderRadius: '5px',
         paddingTop: '30px',
         textAlign: 'center' as 'center',
-        height: 200,
+        width: '100%',
     };
 
     const dzActive = {
@@ -37,8 +37,16 @@ export default function PhotoWidgetDropzone({ setFiles }: Props) {
     return (
         <div {...getRootProps()} style={isDragActive ? { ...dzStyles, ...dzActive } : dzStyles}>
             <input {...getInputProps()} />
-            <Icon name="upload" size="huge" />
-            <Header content="Drop image here" />
+            <Icon name="upload" size="huge" style={{ marginLeft: 'auto', marginRight: 'auto' }} />
+            <Header
+                content="Drop image here"
+                style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    marginBottom: '1em',
+                    fontFamily: 'Andale Mono, monospace',
+                }}
+            />
         </div>
     );
 }

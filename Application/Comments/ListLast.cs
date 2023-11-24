@@ -11,25 +11,23 @@ namespace Application.Comments
 {
     public class ListLast
     {
-        public class Querry : IRequest<Result<List<CommentDTO>>>
+        public class Querry : IRequest<Result<CommentsDTO>>
         {
             public string UserName { get; set; }
         }
 
-        public class Handler : IRequestHandler<Querry, Result<List<CommentDTO>>>
+        public class Handler : IRequestHandler<Querry, Result<CommentsDTO>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            private readonly IUserAccessor _userAccessor;
 
-            public Handler(DataContext context, IMapper mapper, IUserAccessor userAccessor)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _context = context;
                 _mapper = mapper;
-                _userAccessor = userAccessor;
             }
 
-            public async Task<Result<List<CommentDTO>>> Handle(
+            public async Task<Result<CommentsDTO>> Handle(
                 Querry request,
                 CancellationToken cancellationToken
             )
@@ -46,11 +44,23 @@ namespace Application.Comments
                 var comments = await _context.Comments
                     .Where(x => x.AppUserId == user.Id)
                     .OrderByDescending(c => c.Date)
-                    .Take(12)
-                    .ProjectTo<CommentDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();
 
-                return Result<List<CommentDTO>>.Success(comments);
+                var numberOfComments = comments.Count;
+
+                var lastComments = comments
+                    .AsQueryable()
+                    .Take(12)
+                    .ProjectTo<CommentDTO>(_mapper.ConfigurationProvider)
+                    .ToList();
+
+                var commentsDTO = new CommentsDTO
+                {
+                    Comments = lastComments,
+                    Count = numberOfComments
+                };
+
+                return Result<CommentsDTO>.Success(commentsDTO);
             }
         }
     }

@@ -31,30 +31,58 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
     }, [files.length]);
 
     return (
-        <Grid>
-            <Grid.Column width={4}>
-                <Header sub color="teal" content="Step 1 - Add photo" />
-                <PhotoWidgetDropzone setFiles={setFiles} />
-            </Grid.Column>
-            <Grid.Column width={1} />
-            <Grid.Column width={4}>
-                <Header sub color="teal" content="Step 2 - Resize image" />
-                {(cropperVisible)? (<PhotoWidgetCropper setCropper={setCropper} imagePreview={files[0]?.preview} ratio={ratio} />) : (<></>)}
-                
-            </Grid.Column>
-            <Grid.Column width={1} />
-            <Grid.Column width={4}>
-                <Header sub color="teal" content="Step 3 - Preview and upload" />
-                {files && files.length > 0 && (
-                    <>
-                        <div className="img-preview" style={{ minHeight: 200, overflow: 'hidden' }} />
-                        <Button.Group widths={2}>
-                            <Button loading={loading} onClick={OnCrop} positive icon="check" />
-                            <Button disabled={loading} onClick={() => {setFiles([]); setCropperVisible(false);}} icon="close" />
-                        </Button.Group>
-                    </>
-                )}
-            </Grid.Column>
-        </Grid>
+        <>
+            <Header sub content="Step 1 - Add photo" style={{ fontFamily: 'Andale Mono, monospace' }} />
+            <PhotoWidgetDropzone setFiles={setFiles} />
+
+            {cropperVisible ? (
+                <>
+                    <Header sub content="Step 2 - Resize image" style={{ fontFamily: 'Andale Mono, monospace' }} />
+                    <PhotoWidgetCropper setCropper={setCropper} imagePreview={files[0]?.preview} ratio={ratio} />
+                    <Header
+                        sub
+                        content="Step 3 - Preview and upload"
+                        style={{ fontFamily: 'Andale Mono, monospace' }}
+                    />
+                    {files && files.length > 0 && (
+                        <>
+                            <div
+                                className="img-preview"
+                                style={{
+                                    height: '18em',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
+                                    marginBottom: '1em',
+                                }}
+                            />
+                            <Button
+                                loading={loading}
+                                onClick={OnCrop}
+                                positive
+                                icon="check"
+                                content="Apply"
+                                className="positiveButton"
+                                style={{ width: '40%', marginRight: '4%' }}
+                            />
+                            <Button
+                                disabled={loading}
+                                onClick={() => {
+                                    setFiles([]);
+                                    setCropperVisible(false);
+                                }}
+                                className="negativeButton"
+                                icon="close"
+                                content="Reset"
+                                style={{ width: '40%', marginBottom: '1em' }}
+                            />
+                        </>
+                    )}
+                </>
+            ) : (
+                <></>
+            )}
+        </>
     );
 }

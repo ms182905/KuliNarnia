@@ -12,6 +12,7 @@ import { UserSelection as UserSelectionDTO } from '../models/userSelection';
 import { Measurement } from '../models/measurement';
 import { Photo } from '../models/photo';
 import { Activities } from '../models/activities';
+import { Comments as CommentsPackage } from '../models/comments';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
 
@@ -155,11 +156,14 @@ const Measurements = {
 const Comments = {
     create: (comment: RecipeComment) => axios.post<void>('/comments', comment),
     delete: (id: string) => axios.delete<void>(`/comments/${id}`),
-    getLast: (username: string) => requests.get<RecipeComment[]>(`/comments/userComments/${username}`),
+    getLast: (username: string) => requests.get<CommentsPackage>(`/comments/userComments/${username}`),
 };
 
 const Activity = {
-    list: (username: string, from: number, to: number) => requests.get<Activities>(`/activity?from=${from}&to=${to}`.concat(username.length > 0 ? `&username=${username}` : '')),
+    list: (username: string, from: number, to: number) =>
+        requests.get<Activities>(
+            `/activity?from=${from}&to=${to}`.concat(username.length > 0 ? `&username=${username}` : '')
+        ),
 };
 
 const UserSelection = {

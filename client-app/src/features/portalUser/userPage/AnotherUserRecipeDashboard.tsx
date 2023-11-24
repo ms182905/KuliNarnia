@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default observer(function AnotherUserRecipeDashboard({ username }: Props) {
-    const { userRecipesStore, userStore, modalStore, pageOptionButtonStore } = useStore();
+    const { userRecipesStore, userStore, modalStore, pageOptionButtonStore, commentStore } = useStore();
     const { anotherUserProfilePhotoUrl } = userRecipesStore;
     const { loadAnotherUserRecipes } = userRecipesStore;
 
@@ -34,12 +34,22 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
 
     return (
         <>
-            <Segment>
+            <div
+                className="card__content"
+                style={{
+                    display: 'block',
+                    position: 'relative',
+                    padding: '14px',
+                    marginTop: '0.5em',
+                    textAlign: 'center',
+                }}
+            >
                 {userStore.user?.username === username ? (
                     <Button
+                        style={{ position: 'absolute', right: '14px' }}
                         color="teal"
                         onClick={() => setEditPhotoMode(true)}
-                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 200 }}
+                        className="editPhotoButton"
                     >
                         <Icon name="edit" style={{ marginRight: '8px' }} />
                         Edit Photo
@@ -47,11 +57,6 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                 ) : (
                     <></>
                 )}
-            </Segment>
-            <div
-                className="card__content"
-                style={{ display: 'block', padding: '14px', marginTop: '0.5em', textAlign: 'center' }}
-            >
                 <Img
                     size="medium"
                     circular
@@ -59,8 +64,15 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                     src={anotherUserProfilePhotoUrl ? anotherUserProfilePhotoUrl : '/assets/user.png'}
                     style={{ paddingTop: '1em' }}
                 />
-                <Header as="h1" style={{ paddingBottom: '1em', fontSize: '2em', fontFamily: 'Andale Mono, monospace' }}>
+                <Header
+                    as="h1"
+                    style={{ paddingBottom: '14px', fontSize: '2em', fontFamily: 'Andale Mono, monospace' }}
+                >
                     {username}
+                    <p style={{ fontSize: '0.5em', margin: '0' }}>
+                        Created recipes: {userRecipesStore.anotherUserRecipesNumber}
+                    </p>
+                    <p style={{ fontSize: '0.5em' }}>Written comments: {commentStore.userCommentsNumber}</p>
                 </Header>
 
                 {editPhotoMode ? (
@@ -69,16 +81,14 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                             className="card__content"
                             style={{
                                 display: 'block',
-                                width: '80%',
+                                width: '100%',
                                 padding: '14px',
                                 marginTop: '0.5em',
                                 textAlign: 'center',
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
                             }}
                         >
-                            <Divider horizontal>
-                                <Header as="h4">
+                            <Divider horizontal style={{ width: '100%' }}>
+                                <Header as="h4" style={{ width: '100%', fontFamily: 'Andale Mono, monospace' }}>
                                     <Icon name="edit" />
                                     Edit profile photo
                                 </Header>

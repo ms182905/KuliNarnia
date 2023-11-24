@@ -12,7 +12,7 @@ export default function PhotoWidgetCropper({ imagePreview, setCropper, ratio }: 
     return (
         <Cropper
             src={imagePreview}
-            style={{ height: 200, width: '100%' }}
+            style={{ height: '18em', width: '100%' }}
             initialAspectRatio={ratio}
             aspectRatio={ratio}
             preview=".img-preview"

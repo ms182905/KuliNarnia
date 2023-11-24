@@ -21,7 +21,7 @@ export default observer(function RecipeDetailedComments({ username }: Props) {
             <h2 style={{ textAlign: 'center', padding: '0.2em' }}>
                 {userStore.user?.username === username
                     ? 'Your recently added comments'
-                    : `${username}s recently added comments`}
+                    : username + '`s recently added comments'}
             </h2>
             <div
                 className="card__content"

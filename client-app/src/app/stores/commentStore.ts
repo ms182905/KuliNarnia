@@ -4,9 +4,10 @@ import { RecipeComment } from '../models/comment';
 
 export default class CommentStore {
     userCommentsTable: RecipeComment[] = [];
+    userCommentsNumber = 0;
     loadingComments = false;
     userCommentsLoaded = false;
-    username = "";
+    username = '';
 
     constructor() {
         makeAutoObservable(this);
@@ -21,7 +22,8 @@ export default class CommentStore {
         try {
             const userComments = await agent.Comments.getLast(username);
             runInAction(() => {
-                this.userCommentsTable = userComments;
+                this.userCommentsNumber = userComments.count;
+                this.userCommentsTable = userComments.comments;
                 this.loadingComments = false;
                 this.username = username;
                 this.userCommentsLoaded = true;
