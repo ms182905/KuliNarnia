@@ -14,7 +14,7 @@ import { Photo } from '../models/photo';
 import { Activities } from '../models/activities';
 import { Comments as CommentsPackage } from '../models/comments';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'https://kulinarnia-backend.azurewebsites.net/api';
 
 axios.interceptors.response.use(
     async (response) => {
