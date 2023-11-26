@@ -6,6 +6,7 @@ export default class MeasurementStore {
     measurementsTable: Measurement[] = [];
     loadingInitial = false;
     loading = false;
+    measurementsLoaded = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,10 +22,12 @@ export default class MeasurementStore {
             const measurements = await agent.Measurements.list();
             runInAction(() => {
                 this.measurementsTable = measurements;
+                this.measurementsLoaded = true;
                 this.loadingInitial = false;
             });
         } catch (error) {
             console.log(error);
+            this.measurementsLoaded = true;
             this.setLoadingInitial(false);
         }
     };

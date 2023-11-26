@@ -7,7 +7,7 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { router } from '../../../app/router/Routes';
 
 export default observer(function UserRecipesDashboard() {
-    const { userRecipesStore, userStore } = useStore();
+    const { userRecipesStore, userStore, pageOptionButtonStore } = useStore();
     const {
         loadLoggedUserRecipes,
         loggedUserRecipeRegistry,
@@ -23,6 +23,13 @@ export default observer(function UserRecipesDashboard() {
             router.navigate('/');
         }
     }, [userStore.user]);
+
+    useEffect(() => {
+        if (pageOptionButtonStore.visible) {
+            pageOptionButtonStore.setVisible(false);
+            pageOptionButtonStore.setLoading(false);
+        }
+    }, [pageOptionButtonStore]);
 
     useEffect(() => {
         if (loggedUserRecipeRegistry.size < 1 || !loggedUserRecipesLoaded) {

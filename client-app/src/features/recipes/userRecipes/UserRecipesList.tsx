@@ -8,9 +8,27 @@ export default function UserRecipesList() {
 
     if (userRecipes.length < 1) {
         return (
-            <Header textAlign="center" attached="bottom" style={{ border: '10px' }}>
-                No recipes created by user!
-            </Header>
+            <div
+                className="card__content"
+                style={{
+                    gridTemplateAreas: "'text'",
+                    textAlign: 'center',
+                    gridTemplateColumns: '1fr',
+                    width: '100%',
+                }}
+            >
+                <h2
+                    style={{
+                        textAlign: 'center',
+                        width: '100%',
+                        fontSize: '2em',
+                        fontFamily: 'Andale Mono, monospace',
+                        paddingBottom: '0.5em',
+                    }}
+                >
+                    No recipes yet!
+                </h2>
+            </div>
         );
     }
 

@@ -13,7 +13,7 @@ import { Tag } from '../../../app/models/tag';
 export default observer(function Tags() {
     const { userStore, tagStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
-    const { tagsTable, loadTags, createTag, updateTag, deleteTag, loading } = tagStore;
+    const { tagsTable, loadTags, createTag, updateTag, deleteTag, loading, tagsLoaded } = tagStore;
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {
@@ -34,7 +34,7 @@ export default observer(function Tags() {
     }
 
     useEffect(() => {
-        if (tagsTable.length < 1) {
+        if (tagsTable.length < 1 && !tagsLoaded) {
             loadTags();
         }
     }, [tagsTable, loadTags]);

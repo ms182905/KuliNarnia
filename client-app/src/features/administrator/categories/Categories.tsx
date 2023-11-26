@@ -13,7 +13,7 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 export default observer(function Categories() {
     const { userStore, categoryStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
-    const { categoriesTable, loadCategories, createCategory, updateCategory, deleteCategory, loading } = categoryStore;
+    const { categoriesTable, loadCategories, createCategory, updateCategory, deleteCategory, loading, categoriesLoaded } = categoryStore;
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {
@@ -34,7 +34,7 @@ export default observer(function Categories() {
     }
 
     useEffect(() => {
-        if (categoriesTable.length < 1) {
+        if (categoriesTable.length < 1 && !categoriesLoaded) {
             loadCategories();
         }
     }, [categoriesTable, loadCategories]);

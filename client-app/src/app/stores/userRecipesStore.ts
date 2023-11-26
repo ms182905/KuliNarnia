@@ -36,7 +36,6 @@ export default class UserRecipesStore {
             this.setLoggedUserRecipesLoaded(true);
             return;
         }
-        this.setLoggedUserRecipesLoaded(false);
         this.setLoadingInitial(true);
         try {
             const recipes = await agent.UserRecipes.list(

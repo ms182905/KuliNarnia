@@ -6,6 +6,7 @@ export default class CategoryStore {
     categoriesTable: Category[] = [];
     loadingInitial = false;
     loading = false;
+    categoriesLoaded = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,10 +22,12 @@ export default class CategoryStore {
             const categories = await agent.Categories.list();
             runInAction(() => {
                 this.categoriesTable = categories;
+                this.categoriesLoaded = true;
                 this.loadingInitial = false;
             });
         } catch (error) {
             console.log(error);
+            this.categoriesLoaded = true;
             this.setLoadingInitial(false);
         }
     };

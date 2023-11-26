@@ -35,37 +35,62 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
                 }}
             >
                 <>
-                    {anotherUserRecipes.map((recipe, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                gridTemplateAreas: "'text img'",
-                                width: '70%',
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                            }}
-                            className="card__content"
-                        >
-                            <div>
-                                <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
-                                <p>
-                                    <a
-                                        href={`/recipes/${recipe.id}`}
-                                        className="read-more-button"
-                                        style={{ fontSize: '1.6em' }}
-                                    >
-                                        View
-                                    </a>
-                                </p>
+                    {anotherUserRecipes !== undefined && anotherUserRecipes.length !== 0 ? (
+                        anotherUserRecipes.map((recipe, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    gridTemplateAreas: "'text img'",
+                                    width: '70%',
+                                    marginLeft: 'auto',
+                                    marginRight: 'auto',
+                                }}
+                                className="card__content"
+                            >
+                                <div>
+                                    <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
+                                    <p>
+                                        <a
+                                            href={`/recipes/${recipe.id}`}
+                                            className="read-more-button"
+                                            style={{ fontSize: '1.6em' }}
+                                        >
+                                            View
+                                        </a>
+                                    </p>
+                                </div>
+                                <figure>
+                                    <img
+                                        src={
+                                            recipe.photos?.at(0) ? recipe.photos.at(0)?.url : '/assets/placeholder.png'
+                                        }
+                                        alt="Description"
+                                    />
+                                </figure>
                             </div>
-                            <figure>
-                                <img
-                                    src={recipe.photos?.at(0) ? recipe.photos.at(0)?.url : '/assets/placeholder.png'}
-                                    alt="Description"
-                                />
-                            </figure>
+                        ))
+                    ) : (
+                        <div
+                            className="card__content"
+                            style={{
+                                gridTemplateAreas: "'text'",
+                                textAlign: 'center',
+                                gridTemplateColumns: '1fr',
+                                width: '100%',
+                            }}
+                        >
+                            <h2
+                                style={{
+                                    textAlign: 'center',
+                                    width: '100%',
+                                    fontSize: '2em',
+                                    fontFamily: 'Andale Mono, monospace',
+                                }}
+                            >
+                                No recipes yet!
+                            </h2>
                         </div>
-                    ))}
+                    )}
 
                     {Math.ceil(anotherUserRecipesNumber / userRecipesStore.pageCapacity) > 1 && (
                         <Pagination

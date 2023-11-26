@@ -6,6 +6,7 @@ export default class TagStore {
     tagsTable: Tag[] = [];
     loadingInitial = false;
     loading = false;
+    tagsLoaded = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,10 +22,12 @@ export default class TagStore {
             const tags = await agent.Tags.list();
             runInAction(() => {
                 this.tagsTable = tags;
+                this.tagsLoaded = true;
                 this.loadingInitial = false;
             });
         } catch (error) {
             console.log(error);
+            this.tagsLoaded = true;
             this.setLoadingInitial(false);
         }
     };

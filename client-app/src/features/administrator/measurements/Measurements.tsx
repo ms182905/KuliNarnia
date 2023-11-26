@@ -13,7 +13,7 @@ import { Measurement } from '../../../app/models/measurement';
 export default observer(function Measurements() {
     const { userStore, measurementStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
-    const { measurementsTable, loadMeasurements, createMeasurement, updateMeasurement, deleteMeasurement, loading } =
+    const { measurementsTable, loadMeasurements, createMeasurement, updateMeasurement, deleteMeasurement, loading, measurementsLoaded } =
         measurementStore;
 
     useEffect(() => {
@@ -35,7 +35,7 @@ export default observer(function Measurements() {
     }
 
     useEffect(() => {
-        if (measurementsTable.length < 1) {
+        if (measurementsTable.length < 1 && !measurementsLoaded) {
             loadMeasurements();
         }
     }, [measurementsTable, loadMeasurements]);
