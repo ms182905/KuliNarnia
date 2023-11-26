@@ -49,22 +49,24 @@ export default observer(function UserRecipesDashboard() {
                     <UserRecipesList />
                 </Grid.Column>
             </Grid>
-            <Pagination
-                defaultActivePage={recipeDashboardPageNumber + 1}
-                totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
-                size="huge"
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: '0.5em',
-                    fontFamily: 'Andale Mono, monospace',
-                    borderRadius: '1em',
-                }}
-                onPageChange={(_event, data) => {
-                    handlePageChange(Number(data.activePage) - 1);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-            />
+            {loggedUserRecipeRegistry.size > 0 && (
+                <Pagination
+                    defaultActivePage={recipeDashboardPageNumber + 1}
+                    totalPages={Math.ceil(loggedUserRecipesNumber / pageCapacity)}
+                    size="huge"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        marginTop: '0.5em',
+                        fontFamily: 'Andale Mono, monospace',
+                        borderRadius: '1em',
+                    }}
+                    onPageChange={(_event, data) => {
+                        handlePageChange(Number(data.activePage) - 1);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                />
+            )}
         </>
     );
 });

@@ -23,7 +23,7 @@ export default function UserRecipesList() {
                         width: '100%',
                         fontSize: '2em',
                         fontFamily: 'Andale Mono, monospace',
-                        paddingBottom: '0.5em',
+                        paddingBottom: '1em',
                     }}
                 >
                     No recipes yet!
