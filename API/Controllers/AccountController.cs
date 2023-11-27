@@ -111,7 +111,7 @@ namespace API.Controllers
         [HttpDelete("{userName}")]
         public async Task<IActionResult> DeleteUser(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.DisplayName == userName);
 
             if (user == null)
             {
@@ -186,7 +186,7 @@ namespace API.Controllers
         [HttpGet("profilePhoto/{userName}")]
         public async Task<ActionResult<string>> GetUserPhotoUrl(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.DisplayName == userName);
             if (user == null)
             {
                 return "";

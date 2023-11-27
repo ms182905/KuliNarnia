@@ -35,7 +35,7 @@ namespace Application.Recipes
             )
             {
                 var user = await _context.Users.FirstOrDefaultAsync(
-                    x => x.UserName == request.UserName
+                    x => x.DisplayName == request.UserName
                 );
 
                 if (user == null)
