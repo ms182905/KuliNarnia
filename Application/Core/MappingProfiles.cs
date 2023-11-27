@@ -14,7 +14,8 @@ namespace Application.Core
                 .ForMember(x => x.Tags, o => o.MapFrom(s => s.RecipeTags));
             CreateMap<Recipe, RecipeDTO>()
                 .ForMember(x => x.CategoryName, o => o.MapFrom(s => s.Category.Name))
-                .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName));
+                .ForMember(x => x.CreatorName, o => o.MapFrom(s => s.Creator.DisplayName))
+                .ForMember(x => x.Tags, o => o.MapFrom(s => s.RecipeTags));
             CreateMap<Recipe, ActivityDTO>()
                 .ForMember(x => x.Type, o => o.MapFrom(s => (s.Date == s.LastModificationDate) ? "RecipeCreated" : "RecipeEdited"))
                 .ForMember(x => x.Date, o => o.MapFrom(s => s.LastModificationDate))

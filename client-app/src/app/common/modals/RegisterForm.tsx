@@ -14,10 +14,10 @@ export default observer(function RegisterForm() {
             initialValues={{ displayName: '', username: '', email: '', password: '', error: null }}
             onSubmit={(values, { setErrors }) => userStore.register(values).catch((error) => setErrors({ error }))}
             validationSchema={Yup.object({
-                displayName: Yup.string().required(),
-                username: Yup.string().required(),
-                email: Yup.string().required(),
-                password: Yup.string().required(),
+                displayName: Yup.string().required('Pole jest wymagane'),
+                username: Yup.string().required('Pole jest wymagane'),
+                email: Yup.string().required('Adres Email jest wymagany'),
+                password: Yup.string().required('Hasło jest wymagane'),
             })}
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) => (

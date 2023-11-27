@@ -14,7 +14,7 @@ export default class UserRecipesStore {
     anotherUserUsername = '';
     loggedUserRecipesNumber = 0;
     anotherUserRecipesNumber = 0;
-    pageCapacity = 7;
+    pageCapacity = 6;
     recipeDashboardPageNumber = 0;
     anotherUserRecipeDashboardPageNumber = 0;
     anotherUserProfilePhotoUrl = '';

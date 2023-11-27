@@ -6,9 +6,9 @@ import { Recipe } from '../../../app/models/recipe';
 import { v4 as uuid } from 'uuid';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import MyTextInput from '../../../app/common/form/MyTextInput';
 import { Instruction } from '../../../app/models/instruction';
 import DeleteRecipeInstruction from '../../../app/common/modals/DeleteRecipeInstruction';
+import MyTextArea from '../../../app/common/form/MyTextArea';
 
 export default observer(function RecipeFormInstructions() {
     const { recipeStore, modalStore } = useStore();
@@ -92,7 +92,7 @@ export default observer(function RecipeFormInstructions() {
                                     <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                                         <Grid>
                                             <Grid.Column width={14}>
-                                                <MyTextInput placeholder="Instrukcja" name="text" />
+                                                <MyTextArea placeholder="Instrukcja" name="text" rows={3} />
                                             </Grid.Column>
                                             <Grid.Column width={2}>
                                                 <Button
