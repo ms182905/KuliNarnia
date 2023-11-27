@@ -38,7 +38,13 @@ namespace Application.Comments
 
                 if (user == null)
                 {
-                    return null;
+                    user = await _context.Users.FirstOrDefaultAsync(
+                        x => x.UserName == request.UserName);
+
+                    if (user == null)
+                    {
+                        return null;
+                    }
                 }
 
                 var comments = await _context.Comments

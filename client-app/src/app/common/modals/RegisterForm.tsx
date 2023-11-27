@@ -11,10 +11,9 @@ export default observer(function RegisterForm() {
     const { userStore } = useStore();
     return (
         <Formik
-            initialValues={{ displayName: '', username: '', email: '', password: '', error: null }}
+            initialValues={{ username: '', email: '', password: '', error: null }}
             onSubmit={(values, { setErrors }) => userStore.register(values).catch((error) => setErrors({ error }))}
             validationSchema={Yup.object({
-                displayName: Yup.string().required('Pole jest wymagane'),
                 username: Yup.string().required('Pole jest wymagane'),
                 email: Yup.string().required('Adres Email jest wymagany'),
                 password: Yup.string().required('Hasło jest wymagane'),
@@ -34,7 +33,6 @@ export default observer(function RegisterForm() {
                         textAlign="center"
                         style={{ fontFamily: 'Andale Mono, monospace' }}
                     />
-                    <MyTextInput placeholder="Wyświetlana nazwa" name="displayName" />
                     <MyTextInput placeholder="Nazwa użytkownika" name="username" />
                     <MyTextInput placeholder="Email" name="email" />
                     <MyTextInput placeholder="Hasło" name="password" type="password" />

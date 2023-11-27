@@ -115,7 +115,13 @@ namespace API.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                user = await _context.Users.FirstOrDefaultAsync(
+                    x => x.UserName == userName);
+
+                if (user == null)
+                {
+                    return null;
+                }
             }
 
             var comments = await _context.Comments.Where(c => c.AppUserId == user.Id).ToListAsync();
@@ -189,7 +195,13 @@ namespace API.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.DisplayName == userName);
             if (user == null)
             {
-                return "";
+                user = await _context.Users.FirstOrDefaultAsync(
+                    x => x.UserName == userName);
+
+                if (user == null)
+                {
+                    return null;
+                }
             }
 
             return user.PhotoUrl;

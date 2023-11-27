@@ -41,6 +41,7 @@ export default class UserStore {
 
     register = async (creds: UserFormValues) => {
         try {
+            creds.displayName = creds.username;
             const user = await agent.Account.register(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => (this.user = user));

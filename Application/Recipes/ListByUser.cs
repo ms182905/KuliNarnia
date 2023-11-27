@@ -40,7 +40,13 @@ namespace Application.Recipes
 
                 if (user == null)
                 {
-                    return null;
+                    user = await _context.Users.FirstOrDefaultAsync(
+                        x => x.UserName == request.UserName);
+
+                    if (user == null)
+                    {
+                        return null;
+                    }
                 }
 
                 var recipes = await _context.Recipes
