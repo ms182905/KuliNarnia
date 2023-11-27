@@ -32,18 +32,14 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
 
     return (
         <>
-            <Header sub content="Step 1 - Add photo" style={{ fontFamily: 'Andale Mono, monospace' }} />
+            <Header sub content="Krok 1 - Dodaj zdjęcie" style={{ fontFamily: 'Andale Mono, monospace' }} />
             <PhotoWidgetDropzone setFiles={setFiles} />
 
             {cropperVisible ? (
                 <>
-                    <Header sub content="Step 2 - Resize image" style={{ fontFamily: 'Andale Mono, monospace' }} />
+                    <Header sub content="Krok 2 - Przytnij" style={{ fontFamily: 'Andale Mono, monospace' }} />
                     <PhotoWidgetCropper setCropper={setCropper} imagePreview={files[0]?.preview} ratio={ratio} />
-                    <Header
-                        sub
-                        content="Step 3 - Preview and upload"
-                        style={{ fontFamily: 'Andale Mono, monospace' }}
-                    />
+                    <Header sub content="Krok 3 - Zaakceptuj zmiany" style={{ fontFamily: 'Andale Mono, monospace' }} />
                     {files && files.length > 0 && (
                         <>
                             <div
@@ -62,7 +58,7 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
                                 onClick={OnCrop}
                                 positive
                                 icon="check"
-                                content="Apply"
+                                content="Zaaakceptuj"
                                 className="positiveButton"
                                 style={{ width: '40%', marginRight: 'auto', marginLeft: 'auto' }}
                             />
@@ -74,7 +70,7 @@ export default function PhotoUploadWidget({ loading, uploadPhoto, ratio }: Props
                                 }}
                                 className="negativeButton"
                                 icon="close"
-                                content="Reset"
+                                content="Zresetuj"
                                 style={{ width: '40%', marginRight: 'auto', marginLeft: 'auto' }}
                             />
                         </>

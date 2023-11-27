@@ -18,11 +18,7 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
 
     return (
         <div className="card__content" style={{ display: 'block', padding: '14px', marginTop: '0.5em' }}>
-            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>
-                {userStore.user?.username === username
-                    ? 'Your recently added recipes'
-                    : username + '`s recently added recipes'}
-            </h2>
+            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Ostatnio dodane przepisy</h2>
 
             <Segment
                 clearing
@@ -55,7 +51,7 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
                                             className="read-more-button"
                                             style={{ fontSize: '1.6em' }}
                                         >
-                                            View
+                                            Zobacz
                                         </a>
                                     </p>
                                 </div>
@@ -85,9 +81,10 @@ export default observer(function AnotherUserRecipeList({ username }: Props) {
                                     width: '100%',
                                     fontSize: '2em',
                                     fontFamily: 'Andale Mono, monospace',
+                                    paddingBottom: '0.5em',
                                 }}
                             >
-                                No recipes yet!
+                                Brak przepisów!
                             </h2>
                         </div>
                     )}

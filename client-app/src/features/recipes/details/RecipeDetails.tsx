@@ -17,7 +17,7 @@ export default observer(function RecipeDetails() {
         if (recipeId) loadRecipe(recipeId);
     }, [recipeId, loadRecipe]);
 
-    if (loadingInitial || !recipe) return <LoadingComponent content="Loading recipe..." />;
+    if (loadingInitial || !recipe) return <LoadingComponent content="Ładowanie przepisu..." />;
 
     return (
         <Grid>

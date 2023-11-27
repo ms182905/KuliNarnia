@@ -34,7 +34,7 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
     return (
         <>
             <div className="card__content" style={{ display: 'block', padding: '14px' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Comment this recipe</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Skomentuj ten przepis</h2>
                 <div
                     className="card__content"
                     style={{
@@ -68,7 +68,7 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                             <Com.Content>
                                                 {s.appUserDisplayName === user?.displayName && (
                                                     <Com.Author as="a" style={{ color: 'red' }}>
-                                                        {s.appUserDisplayName} (You)
+                                                        {s.appUserDisplayName} (Ty)
                                                     </Com.Author>
                                                 )}
                                                 {s.appUserDisplayName !== user?.displayName && (
@@ -93,7 +93,7 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                                                 activityStore.reset();
                                                             }}
                                                         >
-                                                            Delete
+                                                            Usuń
                                                         </Com.Action>
                                                     </Com.Actions>
                                                 )}
@@ -102,7 +102,7 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                     ))}
                             </Com.Group>
                         ) : (
-                            <h2 style={{ textAlign: 'center', width: '100%' }}>No comments yet!</h2>
+                            <h2 style={{ textAlign: 'center', width: '100%' }}>Brak komentarzy!</h2>
                         )}
 
                         <Formik
@@ -128,11 +128,11 @@ export default observer(function RecipeDetailedComments({ recipe: rec }: Props) 
                                     autoComplete="off"
                                     style={{ width: '100%' }}
                                 >
-                                    <MyTextArea placeholder="Type your comment here!" name="text" rows={2} />
+                                    <MyTextArea placeholder="Napisz swój komentarz!" name="text" rows={2} />
                                     <Button
                                         className="positiveButton"
                                         disabled={!dirty}
-                                        content="Add Comment"
+                                        content="Dodaj komentarz"
                                         icon="edit"
                                         primary
                                         fluid

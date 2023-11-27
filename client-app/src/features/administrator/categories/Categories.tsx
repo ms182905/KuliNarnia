@@ -13,7 +13,15 @@ import MyTextInput from '../../../app/common/form/MyTextInput';
 export default observer(function Categories() {
     const { userStore, categoryStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
-    const { categoriesTable, loadCategories, createCategory, updateCategory, deleteCategory, loading, categoriesLoaded } = categoryStore;
+    const {
+        categoriesTable,
+        loadCategories,
+        createCategory,
+        updateCategory,
+        deleteCategory,
+        loading,
+        categoriesLoaded,
+    } = categoryStore;
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {
@@ -41,11 +49,11 @@ export default observer(function Categories() {
 
     if (categoryStore.loadingInitial) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading categories..." />;
+        return <LoadingComponent content="Ładowanie kategorii..." />;
     }
 
     const categoryValidationSchema = Yup.object({
-        name: Yup.string().matches(/^[^\s].*$/, 'Category name cannot start with a space'),
+        name: Yup.string().matches(/^[^\s].*$/, 'Nazwa kategorii nie może zaczynać się od spacji'),
     });
 
     function handleFormSubmit(category: Category) {
@@ -60,7 +68,7 @@ export default observer(function Categories() {
     return (
         <>
             <Segment clearing style={{ borderRadius: '1em' }}>
-                <Header content="Create or Edit" sub color="black" />
+                <Header content="Stwórz lub edytuj" sub color="black" />
                 <Formik
                     validationSchema={categoryValidationSchema}
                     enableReinitialize
@@ -82,7 +90,7 @@ export default observer(function Categories() {
                                 disabled={isSubmitting || !dirty || !isValid}
                                 floated="left"
                                 type="submit"
-                                content="Submit"
+                                content="Zatwierdź"
                                 loading={loading}
                                 style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             />
@@ -99,7 +107,7 @@ export default observer(function Categories() {
                                 }}
                                 style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             >
-                                Cancel
+                                Anuluj
                             </Button>
                         </Form>
                     )}
@@ -112,7 +120,7 @@ export default observer(function Categories() {
                 color="black"
                 style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
             >
-                <Header>Existing categories</Header>
+                <Header>Istniejące kategorie</Header>
             </Segment>
             <Segment attached style={{ borderBottomLeftRadius: '1em', borderBottomRightRadius: '1em' }}>
                 {categoriesTable
@@ -121,7 +129,7 @@ export default observer(function Categories() {
                     .map((category) => (
                         <Segment key={category.id} style={{ borderRadius: '1em' }}>
                             <strong>ID:</strong> {category.id} <br />
-                            <strong>Name:</strong> {capitalizeFirstLetter(category.name)} <br />
+                            <strong>Nazwa:</strong> {capitalizeFirstLetter(category.name)} <br />
                             <div
                                 style={{
                                     display: 'flex',
@@ -135,7 +143,7 @@ export default observer(function Categories() {
                             >
                                 <Button
                                     className="negativeButton"
-                                    content="Delete"
+                                    content="Usuń"
                                     onClick={() => {
                                         setTarget(category.id);
                                         deleteCategory(category.id);
@@ -144,7 +152,7 @@ export default observer(function Categories() {
                                 />
                                 <Button
                                     className="editPhotoButton"
-                                    content="Edit"
+                                    content="Edytuj"
                                     onClick={() => setCategory(category)}
                                     style={{ width: '100%', padding: '0', marginTop: '5px' }}
                                 />

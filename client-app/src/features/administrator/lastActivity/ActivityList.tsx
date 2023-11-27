@@ -19,11 +19,11 @@ export default function ActivityList() {
                         </Header>
                         <Segment.Group horizontal style={{ borderRadius: '1em' }}>
                             <Segment>
-                                <p>Date: {activity.date}</p>
+                                <p>Data: {activity.date}</p>
                             </Segment>
                             <Segment>
                                 <p>
-                                    User: <Link to={`/userPage/${activity.userName}`}>{activity.userName}</Link>
+                                    Użytkownik: <Link to={`/userPage/${activity.userName}`}>{activity.userName}</Link>
                                 </p>
                             </Segment>
                         </Segment.Group>

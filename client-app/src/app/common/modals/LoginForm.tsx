@@ -22,13 +22,13 @@ export default observer(function LoginForm() {
                 >
                     <Header
                         as="h2"
-                        content="Login to KuliNarnia"
+                        content="Zaloguj się do KuliNarnia"
                         color="black"
                         textAlign="center"
                         style={{ fontFamily: 'Andale Mono, monospace' }}
                     />
                     <MyTextInput placeholder="Email" name="email" />
-                    <MyTextInput placeholder="Password" name="password" type="password" />
+                    <MyTextInput placeholder="Hasło" name="password" type="password" />
                     <ErrorMessage
                         name="error"
                         render={() => <Label style={{ marginBottom: 10 }} basic color="red" content={errors.error} />}
@@ -37,7 +37,7 @@ export default observer(function LoginForm() {
                         loading={isSubmitting}
                         className="positiveButton"
                         positive
-                        content="Login"
+                        content="Zaloguj"
                         type="submit"
                         fluid
                     />

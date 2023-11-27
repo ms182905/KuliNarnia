@@ -28,7 +28,7 @@ export default observer(function HomePage() {
                                 inverted
                                 style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
                             >
-                                Login
+                                Zaloguj
                             </Button>
                         </Header>
                         <Header as="h2">
@@ -38,7 +38,7 @@ export default observer(function HomePage() {
                                 inverted
                                 style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
                             >
-                                Register
+                                Zarejestruj
                             </Button>
                         </Header>
                     </>
@@ -52,7 +52,7 @@ export default observer(function HomePage() {
                             inverted
                             style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
                         >
-                            Welcome, Administrator!
+                            Witaj, Administratorze!
                         </Button>
                     ) : (
                         <Button
@@ -62,7 +62,7 @@ export default observer(function HomePage() {
                             inverted
                             style={{ fontFamily: 'Andale Mono, monospace', borderRadius: '1em', width: '60%' }}
                         >
-                            Go to recipes!
+                            Idź do przepisów!
                         </Button>
                     )}
                 </Header>

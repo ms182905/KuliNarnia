@@ -80,10 +80,10 @@ export default observer(function RecipeForm() {
         uploadPhoto(file);
     }
 
-    if (recipeStore.loadingInitial) return <LoadingComponent content="Loading recipe..." />;
-    if (categoryStore.loadingInitial) return <LoadingComponent content="Loading categories..." />;
-    if (tagStore.loadingInitial) return <LoadingComponent content="Loading tags..." />;
-    if (measurementStore.loadingInitial) return <LoadingComponent content="Loading measurements..." />;
+    if (recipeStore.loadingInitial) return <LoadingComponent content="Ładowanie przepisu..." />;
+    if (categoryStore.loadingInitial) return <LoadingComponent content="Ładowanie kategorii..." />;
+    if (tagStore.loadingInitial) return <LoadingComponent content="Ładowanie tagów..." />;
+    if (measurementStore.loadingInitial) return <LoadingComponent content="Ładowanie miar..." />;
 
     if (dataEditMode) {
         return (
@@ -111,7 +111,7 @@ export default observer(function RecipeForm() {
     return (
         <>
             <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Recipe photos</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Zdjęcia przepisu</h2>
                 <div
                     className="card__content"
                     style={{
@@ -155,7 +155,7 @@ export default observer(function RecipeForm() {
                                         <Button
                                             color="red"
                                             size="mini"
-                                            content="Delete"
+                                            content="Usuń"
                                             className="negativeButton"
                                             fluid
                                             loading={loading && photo.id === photoId}
@@ -169,14 +169,14 @@ export default observer(function RecipeForm() {
                                 ))}
                             </Grid>
                         ) : (
-                            <div>No photos available</div>
+                            <div>Brak zdjęć</div>
                         )}
                     </Segment>
                 </div>
             </div>
 
             <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Add photo</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Dodaj zdjęcie</h2>
                 <div
                     className="card__content"
                     style={{
@@ -214,7 +214,7 @@ export default observer(function RecipeForm() {
                     marginRight: 'auto',
                 }}
             >
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Manage</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Zarządzaj</h2>
                 <div
                     className="card__content"
                     style={{
@@ -237,7 +237,7 @@ export default observer(function RecipeForm() {
                             className="editPhotoButton"
                             style={{ marginTop: '1em', fontSize: '1.2em', width: '100%' }}
                         >
-                            View recipe
+                            Zobacz przepis
                         </Button>
                         <Button
                             disabled={loading || (!isSaved && !id)}
@@ -247,7 +247,7 @@ export default observer(function RecipeForm() {
                             className="negativeButton"
                             style={{ marginTop: '0.3em', fontSize: '1.2em', width: '100%' }}
                         >
-                            Back
+                            Wróć
                         </Button>
                     </Segment>
                 </div>

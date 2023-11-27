@@ -15,7 +15,7 @@ export default observer(function RecipeListItem({ recipe, index }: Props) {
                 <p className="category-and-tags">{formatRecipeInfo(recipe)}</p>
                 <p>
                     <a href={`/recipes/${recipe.id}`} className="read-more-button">
-                        Read more
+                        Zobacz
                     </a>
                 </p>
             </div>

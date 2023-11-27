@@ -15,13 +15,13 @@ export default observer(function NotFound() {
 
     return (
         <Segment placeholder>
-            <Header icon>
+            <Header icon style={{ fontFamily: 'Andale Mono, monospace' }}>
                 <Icon name="search" />
-                Oops - we've looked everywhere but could not find what you are looking for!
+                Ups - nie udało się znaleźć!
             </Header>
             <Segment.Inline>
-                <Button as={Link} to="/recipes">
-                    Return to Recipes page
+                <Button as={Link} to="/recipes" style={{ fontFamily: 'Andale Mono, monospace' }}>
+                    Powrót do strony głównej
                 </Button>
             </Segment.Inline>
         </Segment>

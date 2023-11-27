@@ -39,7 +39,7 @@ export default function PhotoWidgetDropzone({ setFiles }: Props) {
             <input {...getInputProps()} />
             <Icon name="upload" size="huge" style={{ marginLeft: 'auto', marginRight: 'auto' }} />
             <Header
-                content="Drop image here"
+                content="Upuść zdjęcie tutaj lub kliknij, aby wybrać plik"
                 style={{
                     marginLeft: 'auto',
                     marginRight: 'auto',

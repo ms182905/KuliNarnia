@@ -57,12 +57,12 @@ export default observer(function ActivityDashboard() {
 
     if (activityStore.loadingInitial) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading activities..." />;
+        return <LoadingComponent content="Ładowanie aktywności..." />;
     }
 
     if (userStore.loading) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading users..." />;
+        return <LoadingComponent content="Ładowanie użytkowników..." />;
     }
 
     const handleUsernameSelectChange = (_event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
@@ -88,7 +88,7 @@ export default observer(function ActivityDashboard() {
                     icon="filter"
                     attached
                     color="black"
-                    content="Filters"
+                    content="Filtry"
                     style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
                 />
                 <Menu.Item>
@@ -109,7 +109,7 @@ export default observer(function ActivityDashboard() {
                                 className="positiveButton"
                                 fluid
                                 type="button"
-                                content="Apply"
+                                content="Zatwierdź"
                                 color="green"
                                 onClick={handleApplyFilters}
                             />
@@ -119,7 +119,7 @@ export default observer(function ActivityDashboard() {
                                 className="negativeButton"
                                 fluid
                                 type="button"
-                                content="Clear"
+                                content="Wyczyść"
                                 color="red"
                                 onClick={handleClearFilters}
                             />

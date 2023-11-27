@@ -12,7 +12,7 @@ export default observer(function SideBarUserOptions() {
     return (
         <Sidebar as={Menu} animation="overlay" visible={state} vertical inverted fixed="left">
             <Container className="menu-container">
-                <Menu.Item as={NavLink} header>
+                <Menu.Item as={NavLink} header style={{ fontFamily: 'Andale Mono, monospace' }}>
                     <img src="/assets/strawberry.png" alt="logo" style={{ marginRight: '10px', paddingTop: '5em' }} />
                     KuliNarnia
                 </Menu.Item>
@@ -20,31 +20,37 @@ export default observer(function SideBarUserOptions() {
                     as={NavLink}
                     to="/lastActivity"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    name="Last activity"
-                />
+                    style={{ fontFamily: 'Andale Mono, monospace' }}
+                >
+                    Ostatnia aktywność
+                </Menu.Item>
                 <Menu.Item
                     as={NavLink}
                     to="/recipes"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    name="Manage recipes"
+                    name="Przepisy"
+                    style={{ fontFamily: 'Andale Mono, monospace' }}
                 />
                 <Menu.Item
                     as={NavLink}
                     to="/categories"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    name="Manage categories"
+                    name="Kategorie"
+                    style={{ fontFamily: 'Andale Mono, monospace' }}
                 />
                 <Menu.Item
                     as={NavLink}
                     to="/tags"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    name="Manage tags"
+                    name="Tagi"
+                    style={{ fontFamily: 'Andale Mono, monospace' }}
                 />
                 <Menu.Item
                     as={NavLink}
                     to="/measurements"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                    name="Manage measurements"
+                    name="Miary"
+                    style={{ fontFamily: 'Andale Mono, monospace' }}
                 />
 
                 <Menu.Item position="right">
@@ -57,7 +63,12 @@ export default observer(function SideBarUserOptions() {
                                     text="My Profile"
                                     icon="user"
                                 /> */}
-                            <Dropdown.Item onClick={logout} text="Logout" icon="power" />
+                            <Dropdown.Item
+                                style={{ fontFamily: 'Andale Mono, monospace' }}
+                                onClick={logout}
+                                text="Wyloguj"
+                                icon="power"
+                            />
                         </Dropdown.Menu>
                     </Dropdown>
                 </Menu.Item>

@@ -9,7 +9,7 @@ export default function LoginOrRegister() {
     return (
         <>
             <Header as="h2" textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                To proceed login or register
+                Aby kontynuować, zaloguj się lub zarejestruj
             </Header>
             <Table style={{ border: 'none', fontFamily: 'Andale Mono, monospace' }}>
                 <tbody>
@@ -21,7 +21,7 @@ export default function LoginOrRegister() {
                                 fluid
                                 onClick={() => modalStore.openModal(<LoginForm />)}
                             >
-                                Login
+                                Zaloguj
                             </Button>
                         </Table.Cell>
                     </Table.Row>
@@ -33,7 +33,7 @@ export default function LoginOrRegister() {
                                 fluid
                                 onClick={() => modalStore.openModal(<RegisterForm />)}
                             >
-                                Register
+                                Zarejestruj
                             </Button>
                         </Table.Cell>
                     </Table.Row>
@@ -44,7 +44,7 @@ export default function LoginOrRegister() {
                     <TableRow>
                         <TableCell textAlign="center" width={12}>
                             <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
-                                Cancel
+                                Anuluj
                             </Button>
                         </TableCell>
                     </TableRow>

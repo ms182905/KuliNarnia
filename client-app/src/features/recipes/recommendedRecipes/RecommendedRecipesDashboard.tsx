@@ -31,7 +31,7 @@ export default observer(function RecommendedRecipesDashboard() {
 
     if (!recommendedRecipesLoaded) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading recommended recipes..." />;
+        return <LoadingComponent content="Ładowanie rekomendowanych przepisów..." />;
     }
 
     return (

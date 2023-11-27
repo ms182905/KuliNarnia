@@ -89,6 +89,7 @@ export default class RecipeStore {
                     recipe.creatorName !== store.userStore.user?.displayName &&
                     recipe.tagIds.length > 0 &&
                     recipe.categoryName !== 'Unknown' &&
+                    store.userStore.user &&
                     store.userStore.user?.role !== 'Administrator'
                 ) {
                     const userSelection: UserSelection = { categoryId: recipe.categoryId, tagIds: recipe.tagIds };

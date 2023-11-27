@@ -45,7 +45,7 @@ export default observer(function FavouriteRecipesDashboard() {
 
     if (!favouriteRecipesLoaded) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading favourite recipes..." />;
+        return <LoadingComponent content="Ładowanie ulubionych przepisów..." />;
     }
 
     return (

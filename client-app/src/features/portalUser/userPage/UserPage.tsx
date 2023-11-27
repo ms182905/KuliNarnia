@@ -32,17 +32,17 @@ export default observer(function UserPage() {
 
     if (commentStore.loadingComments) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading user comments..." />;
+        return <LoadingComponent content="Ładowanie komentarzy użytkownika..." />;
     }
 
     if (userRecipesStore.loadingAnotherUserRecipes) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading user recipes..." />;
+        return <LoadingComponent content="Ładowanie przepisów użytkownika..." />;
     }
 
     if (userStore.loading) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading user..." />;
+        return <LoadingComponent content="Ładowanie użytkownika..." />;
     }
 
     if (!userName) return <></>;

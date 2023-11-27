@@ -30,7 +30,8 @@ export default observer(function SideBarUserOptions() {
                 as={NavLink}
                 to="/recipes"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                name="Recipes"
+                name="Przepisy"
+                style={{ fontFamily: 'Andale Mono, monospace' }}
             />
             {user ? (
                 <>
@@ -38,19 +39,29 @@ export default observer(function SideBarUserOptions() {
                         as={NavLink}
                         to="/favouriteRecipes"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        name="Favourites"
+                        name="Ulubione"
+                        style={{ fontFamily: 'Andale Mono, monospace' }}
                     />
                     <Menu.Item
                         as={NavLink}
                         to="/recommendations"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                        name="Recommendations"
+                        name="Rekomendacje"
+                        style={{ fontFamily: 'Andale Mono, monospace' }}
                     />
                 </>
             ) : (
                 <>
-                    <Menu.Item name="Favourites" onClick={() => openModal(<LoginOrRegister />)} />
-                    <Menu.Item name="Recommendations" onClick={() => openModal(<LoginOrRegister />)} />
+                    <Menu.Item
+                        style={{ fontFamily: 'Andale Mono, monospace' }}
+                        name="Ulubione"
+                        onClick={() => openModal(<LoginOrRegister />)}
+                    />
+                    <Menu.Item
+                        style={{ fontFamily: 'Andale Mono, monospace' }}
+                        name="Rekomendacje"
+                        onClick={() => openModal(<LoginOrRegister />)}
+                    />
                 </>
             )}
             <Menu.Item header style={{ padding: '20px' }}>
@@ -64,21 +75,44 @@ export default observer(function SideBarUserOptions() {
                 <Dropdown
                     pointing="top left"
                     text={user?.displayName}
-                    style={{ fontFamily: 'Andale Mono, monospace', fontSize: '1.3em' }}
+                    style={{ fontFamily: 'Andale Mono, monospace', fontSize: '1em' }}
                 >
                     {user ? (
                         <Dropdown.Menu>
-                            <Dropdown.Item as={Link} to={`/userPage/${user?.username}`} text="My Profile" icon="user" />
-                            <Dropdown.Item as={Link} to={'/userRecipes'} text="My recipes" icon="birthday cake" />
-                            <Dropdown.Item onClick={logout} text="Logout" icon="power" />
+                            <Dropdown.Item
+                                style={{ fontFamily: 'Andale Mono, monospace', fontSize: '0.5em' }}
+                                as={Link}
+                                to={`/userPage/${user?.username}`}
+                                text="Mój profil"
+                                icon="user"
+                            />
+                            <Dropdown.Item
+                                style={{ fontFamily: 'Andale Mono, monospace', fontSize: '0.5em' }}
+                                as={Link}
+                                to={'/userRecipes'}
+                                text="Moje przepisy"
+                                icon="birthday cake"
+                            />
+                            <Dropdown.Item
+                                style={{ fontFamily: 'Andale Mono, monospace', fontSize: '0.5em' }}
+                                onClick={logout}
+                                text="Wyloguj"
+                                icon="power"
+                            />
                         </Dropdown.Menu>
                     ) : (
                         <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => openModal(<LoginForm />)} text="Login" icon="user" />
+                            <Dropdown.Item
+                                onClick={() => openModal(<LoginForm />)}
+                                text="Zaloguj"
+                                icon="user"
+                                style={{ fontFamily: 'Andale Mono, monospace', fontSize: '0.5em' }}
+                            />
                             <Dropdown.Item
                                 onClick={() => openModal(<RegisterForm />)}
-                                text="Register"
+                                text="Zarejestruj"
                                 icon="user plus"
+                                style={{ fontFamily: 'Andale Mono, monospace', fontSize: '0.5em' }}
                             />
                         </Dropdown.Menu>
                     )}

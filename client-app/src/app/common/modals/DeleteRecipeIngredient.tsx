@@ -17,20 +17,20 @@ export default function DeleteRecipeIngredient({ recipeIngredientId }: Props) {
     return (
         <>
             <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                Delete this ingredient?
+                Usunąć ten składnik?
             </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="positiveButton" onClick={() => deleteIngredientAndClose()}>
-                                Yes
+                                Tak
                             </Button>
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
-                                No
+                                Nie
                             </Button>
                         </Table.Cell>
                     </Table.Row>

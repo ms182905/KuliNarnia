@@ -60,8 +60,8 @@ export default observer(function RecipeFormBaseInfo() {
     }, [recipeStore.selectedRecipe]);
 
     const primaryDataValidationSchema = Yup.object({
-        title: Yup.string().matches(/^[^\s].*$/, 'Title cannot start with a space'),
-        description: Yup.string().matches(/^[^\s].*$/, 'Desription cannot start with a space'),
+        title: Yup.string().matches(/^[^\s].*$/, 'Tytuł nie może zaczynać sie od spacji'),
+        description: Yup.string().matches(/^[^\s].*$/, 'Opis nie może zaczynać sie od spacji'),
     });
 
     function handleFormSubmit(recipe: Recipe) {
@@ -72,7 +72,7 @@ export default observer(function RecipeFormBaseInfo() {
     return (
         <>
             <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Base info</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Informacje podstawowe</h2>
                 <div
                     className="card__content"
                     style={{
@@ -109,11 +109,11 @@ export default observer(function RecipeFormBaseInfo() {
                                     autoComplete="off"
                                     style={{ width: '100%' }}
                                 >
-                                    <MyTextInput placeholder="Title" name="title" />
-                                    <MyTextArea placeholder="Description" name="description" rows={3} />
-                                    <MySelectInput placeholder="Category" name="categoryId" options={categoriesList} />
+                                    <MyTextInput placeholder="Tytuł" name="title" />
+                                    <MyTextArea placeholder="Opis" name="description" rows={3} />
+                                    <MySelectInput placeholder="Kategoria" name="categoryId" options={categoriesList} />
                                     <MyMultipleChoiceDropdownInput
-                                        placeholder="Tags"
+                                        placeholder="Tagi"
                                         name="tagIds"
                                         options={tagsList}
                                     />
@@ -121,7 +121,7 @@ export default observer(function RecipeFormBaseInfo() {
                                         disabled={isSubmitting || !dirty || !isValid}
                                         positive
                                         type="submit"
-                                        content="Submit"
+                                        content="Zatwierdź"
                                         fluid
                                         className="positiveButton"
                                     />

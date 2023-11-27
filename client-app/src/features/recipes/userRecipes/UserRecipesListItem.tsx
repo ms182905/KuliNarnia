@@ -31,14 +31,14 @@ export default observer(function UserRecipesListItem({ recipe }: Props) {
                 <h2 style={{ fontSize: '1.6em' }}>{recipe.title}</h2>
                 <p>
                     <a href={`/recipes/${recipe.id}/true`} className="read-more-button">
-                        View
+                        Zobacz
                     </a>
                     <button
                         className="delete-recipe-button"
                         onClick={(e) => handleRecipeDelete(e, recipe.id)}
                         disabled={target === recipe.id}
                     >
-                        Delete
+                        Usuń
                     </button>
                 </p>
             </div>

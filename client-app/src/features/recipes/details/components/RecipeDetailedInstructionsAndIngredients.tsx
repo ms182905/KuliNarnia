@@ -12,7 +12,7 @@ export default function RecipeDetailedInstructionsAndIngredients({ recipe }: Pro
     return (
         <div id="index" className="card__instruction-ingredient" style={{ paddingLeft: '1em', paddingRight: '1em' }}>
             <div className="a">
-                <h2 style={{ textAlign: 'center', width: 'auto', margin: '0 auto' }}>Preparation steps</h2>
+                <h2 style={{ textAlign: 'center', width: 'auto', margin: '0 auto' }}>Kroki przygotowania</h2>
                 <div className="column-container">
                     <ol style={{ paddingLeft: '2em' }}>
                         {recipe.instructions.map((instruction, index) => (
@@ -24,7 +24,7 @@ export default function RecipeDetailedInstructionsAndIngredients({ recipe }: Pro
                 </div>
             </div>
             <div className="b">
-                <h2 style={{ textAlign: 'center' }}>Ingredients</h2>
+                <h2 style={{ textAlign: 'center' }}>Składniki</h2>
                 <div className="column-container">
                     <ul>
                         {recipe.ingredients.map((ingredient, index) => (
@@ -39,11 +39,5 @@ export default function RecipeDetailedInstructionsAndIngredients({ recipe }: Pro
                 </div>
             </div>
         </div>
-        // <Segment.Group>
-        //     <Segment textAlign="center" attached="top" inverted color="blue" style={{ border: 'none' }}>
-        //         <Header>Instructions</Header>
-        //     </Segment>
-
-        // </Segment.Group>
     );
 }

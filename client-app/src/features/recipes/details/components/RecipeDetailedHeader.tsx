@@ -22,25 +22,32 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
     const [editOption] = useState(editable && userStore.user?.displayName === recipe.creatorName);
 
     useEffect(() => {
-        if (userStore.user?.role !== 'Administrator') {
-            if (
-                recipe &&
-                !pageOptionButtonStore.visible &&
-                (pageOptionButtonStore.text === 'Add to favourites' ||
-                    pageOptionButtonStore.text === 'Remove from favourites' ||
-                    pageOptionButtonStore.text === 'Manage recipe')
-            ) {
-                pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
-                pageOptionButtonStore.setVisible(true);
-                pageOptionButtonStore.setLoading(false);
+        if (userStore.user) {
+            if (userStore.user?.role !== 'Administrator') {
+                if (
+                    recipe &&
+                    !pageOptionButtonStore.visible &&
+                    (pageOptionButtonStore.text === 'Add to favourites' ||
+                        pageOptionButtonStore.text === 'Remove from favourites' ||
+                        pageOptionButtonStore.text === 'Manage recipe')
+                ) {
+                    pageOptionButtonStore.setText(editOption ? 'Add to favourites' : 'Manage recipe');
+                    pageOptionButtonStore.setVisible(true);
+                    pageOptionButtonStore.setLoading(false);
+                }
+            } else {
+                if (recipe && (!pageOptionButtonStore.visible || pageOptionButtonStore.text !== 'Delete recipe')) {
+                    pageOptionButtonStore.setCallback(() =>
+                        modalStore.openModal(<RemoveUserRecipe recipeId={recipe.id} />)
+                    );
+                    pageOptionButtonStore.setText('Delete recipe');
+                    pageOptionButtonStore.setVisible(true);
+                    pageOptionButtonStore.setLoading(false);
+                }
             }
         } else {
-            if (recipe && (!pageOptionButtonStore.visible || pageOptionButtonStore.text !== 'Delete recipe')) {
-                pageOptionButtonStore.setCallback(() =>
-                    modalStore.openModal(<RemoveUserRecipe recipeId={recipe.id} />)
-                );
-                pageOptionButtonStore.setText('Delete recipe');
-                pageOptionButtonStore.setVisible(true);
+            if (pageOptionButtonStore.visible) {
+                pageOptionButtonStore.setVisible(false);
                 pageOptionButtonStore.setLoading(false);
             }
         }
@@ -84,7 +91,7 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
                     ) : (
                         <div className="each-slide-effect">
                             <div style={{ backgroundImage: `url('/assets/placeholder.png')` }}>
-                                <span>No photos available</span>
+                                <span>Brak zdjęć!</span>
                             </div>
                         </div>
                     )}
@@ -103,17 +110,18 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
                         <h2 style={{ fontSize: '3em' }}>
                             {recipe.title}
                             <p style={{ fontSize: '0.5em' }}>
-                                Created by: <Link to={`/userPage/${recipe.creatorName}`}>{recipe.creatorName}</Link>
+                                Stworzony przez:{' '}
+                                <Link to={`/userPage/${recipe.creatorName}`}>{recipe.creatorName}</Link>
                             </p>
                         </h2>
                         <p style={{ fontSize: '1.3em' }}>{recipe.description}</p>
                         {recipe.categoryName && recipe.categoryName !== 'Unknown' && (
                             <p style={{ paddingBottom: '1.5em', fontSize: '1.4em' }}>
-                                Category: {formatWords(recipe.categoryName)}{' '}
+                                Kategoria: {formatWords(recipe.categoryName)}{' '}
                                 {recipe.tags && recipe.tags.length > 0 && (
                                     <>
                                         <br />
-                                        Tags: {formatWords(recipe.tags)}
+                                        Tagi: {formatWords(recipe.tags)}
                                     </>
                                 )}
                             </p>

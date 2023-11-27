@@ -35,7 +35,7 @@ export default observer(function RecipeFormInstructions() {
     });
 
     const instructionValidationSchema = Yup.object({
-        text: Yup.string().matches(/^[^\s].*$/, 'Instruction cannot start with a space'),
+        text: Yup.string().matches(/^[^\s].*$/, 'Instrukcja nie może zaczynać się od spacji'),
     });
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default observer(function RecipeFormInstructions() {
     return (
         <>
             <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Instructions</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Instrukcje</h2>
                 <div
                     className="card__content"
                     style={{
@@ -92,7 +92,7 @@ export default observer(function RecipeFormInstructions() {
                                     <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                                         <Grid>
                                             <Grid.Column width={14}>
-                                                <MyTextInput placeholder="Content" name="text" />
+                                                <MyTextInput placeholder="Instrukcja" name="text" />
                                             </Grid.Column>
                                             <Grid.Column width={2}>
                                                 <Button
@@ -103,7 +103,7 @@ export default observer(function RecipeFormInstructions() {
                                                     fluid
                                                     className="positiveButton"
                                                 >
-                                                    Add
+                                                    Dodaj
                                                 </Button>
                                             </Grid.Column>
                                         </Grid>
@@ -157,7 +157,7 @@ export default observer(function RecipeFormInstructions() {
                                                         boxShadow: 'none',
                                                     }}
                                                 >
-                                                    Step {instruction.position}:
+                                                    Krok {instruction.position}:
                                                 </Segment>
                                             </Grid.Column>
                                             <Grid.Column
@@ -196,7 +196,7 @@ export default observer(function RecipeFormInstructions() {
                                                         )
                                                     }
                                                 >
-                                                    Delete
+                                                    Usuń
                                                 </Button>
                                             </Grid.Column>
                                         </Grid.Row>

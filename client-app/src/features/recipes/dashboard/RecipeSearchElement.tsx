@@ -110,7 +110,7 @@ export default observer(function RecipeSearchElement() {
                     icon="wordpress simple"
                     attached
                     color="black"
-                    content="Search by phrase"
+                    content="Szukaj nazwy"
                     style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
                 />
                 <Menu.Item>
@@ -120,16 +120,16 @@ export default observer(function RecipeSearchElement() {
                                 className="userSearchInput"
                                 fluid
                                 icon="search"
-                                placeholder="Search name..."
+                                placeholder="Szukaj nazwy..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button className="positiveButton" fluid content="Search" onClick={handleSearch} />
+                            <Button className="positiveButton" fluid content="Szukaj" onClick={handleSearch} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid className="negativeButton" content="Clear" onClick={handleClearSearch} />
+                            <Button fluid className="negativeButton" content="Wyczyść" onClick={handleClearSearch} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>
@@ -145,7 +145,7 @@ export default observer(function RecipeSearchElement() {
                     className="filter-header"
                     icon="filter"
                     attached
-                    content="Filters"
+                    content="Filtry"
                     style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
                 />
                 <Menu.Item>
@@ -157,7 +157,7 @@ export default observer(function RecipeSearchElement() {
                                 options={tagsList}
                                 value={selectedTags}
                                 onChange={handleTagDropdownChange}
-                                placeholder="Select tags"
+                                placeholder="Wybierz tagi"
                                 multiple
                                 selection
                                 style={{ borderRadius: '1em' }}
@@ -168,17 +168,17 @@ export default observer(function RecipeSearchElement() {
                                 fluid
                                 clearable
                                 options={categoriesList}
-                                placeholder="Select category"
+                                placeholder="Wybierz kategorię"
                                 value={selectedCategory}
                                 onChange={handleCategorySelectChange}
                                 style={{ borderRadius: '1em' }}
                             />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button className="positiveButton" fluid content="Apply" onClick={handleApplyFilters} />
+                            <Button className="positiveButton" fluid content="Zastosuj" onClick={handleApplyFilters} />
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Button fluid className="negativeButton" content="Clear" onClick={handleClearFilters} />
+                            <Button fluid className="negativeButton" content="Wyczyść" onClick={handleClearFilters} />
                         </Grid.Column>
                     </Grid>
                 </Menu.Item>

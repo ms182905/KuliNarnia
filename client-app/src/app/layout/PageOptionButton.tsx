@@ -25,7 +25,7 @@ export default observer(function PageOptionButton() {
                 <Button.Content>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Icon inverted size="big" name={getIconFromText(text)} />
-                        <p style={{ marginLeft: '8px' }}>{text}</p>
+                        <p style={{ marginLeft: '8px' }}>{getNameFromText(text)}</p>
                     </div>
                 </Button.Content>
             </Button>
@@ -73,6 +73,28 @@ function getColorFromText(text: string): string {
     }
     if (text === 'Delete user account') {
         return 'red';
+    }
+    return 'blue';
+}
+
+function getNameFromText(text: string): string {
+    if (text === 'Add to favourites') {
+        return 'Dodaj do ulubionych';
+    }
+    if (text === 'Remove from favourites') {
+        return 'Usuń z ulubionych';
+    }
+    if (text === 'Add new recipe') {
+        return 'Dodaj przepis';
+    }
+    if (text === 'Manage recipe') {
+        return 'Zarządzaj przepisem';
+    }
+    if (text === 'Delete recipe') {
+        return 'Usuń przepis';
+    }
+    if (text === 'Delete user account') {
+        return 'Usuń konto użytkownika';
     }
     return 'blue';
 }

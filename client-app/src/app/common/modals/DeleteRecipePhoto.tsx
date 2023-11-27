@@ -19,20 +19,20 @@ export default function DeleteRecipePhoto({ photoId, setPhotoId }: Props) {
     return (
         <>
             <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                Delete this photo?
+                Usunąć to zdjęcie?
             </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="positiveButton" onClick={() => deletePhotoAndClose()}>
-                                Yes
+                                Tak
                             </Button>
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
-                                No
+                                Nie
                             </Button>
                         </Table.Cell>
                     </Table.Row>

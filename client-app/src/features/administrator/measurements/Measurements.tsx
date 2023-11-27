@@ -13,8 +13,15 @@ import { Measurement } from '../../../app/models/measurement';
 export default observer(function Measurements() {
     const { userStore, measurementStore, pageOptionButtonStore } = useStore();
     const { user } = userStore;
-    const { measurementsTable, loadMeasurements, createMeasurement, updateMeasurement, deleteMeasurement, loading, measurementsLoaded } =
-        measurementStore;
+    const {
+        measurementsTable,
+        loadMeasurements,
+        createMeasurement,
+        updateMeasurement,
+        deleteMeasurement,
+        loading,
+        measurementsLoaded,
+    } = measurementStore;
 
     useEffect(() => {
         if (pageOptionButtonStore.visible) {
@@ -42,11 +49,11 @@ export default observer(function Measurements() {
 
     if (measurementStore.loadingInitial) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading measurements..." />;
+        return <LoadingComponent content="Ładowanie miar..." />;
     }
 
     const measurementValidationSchema = Yup.object({
-        name: Yup.string().matches(/^[^\s].*$/, 'Measurement name cannot start with a space'),
+        name: Yup.string().matches(/^[^\s].*$/, 'Nazwa miary nie może zaczynać się od spacji'),
     });
 
     function handleFormSubmit(measurement: Measurement) {
@@ -61,7 +68,7 @@ export default observer(function Measurements() {
     return (
         <>
             <Segment clearing style={{ borderRadius: '1em' }}>
-                <Header content="Create or Edit" sub color="black" />
+                <Header content="Stwórz lub edytuj" sub color="black" />
                 <Formik
                     validationSchema={measurementValidationSchema}
                     enableReinitialize
@@ -83,7 +90,7 @@ export default observer(function Measurements() {
                                 disabled={isSubmitting || !dirty || !isValid}
                                 floated="left"
                                 type="submit"
-                                content="Submit"
+                                content="Zatwierdź"
                                 loading={loading}
                                 style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             />
@@ -100,7 +107,7 @@ export default observer(function Measurements() {
                                 }}
                                 style={{ marginTop: '1em', marginBottom: '0.5em', width: '48%' }}
                             >
-                                Cancel
+                                Anuluj
                             </Button>
                         </Form>
                     )}
@@ -113,7 +120,7 @@ export default observer(function Measurements() {
                 color="black"
                 style={{ borderTopLeftRadius: '1em', borderTopRightRadius: '1em' }}
             >
-                <Header>Existing measurements</Header>
+                <Header>Istniejące miary</Header>
             </Segment>
             <Segment attached style={{ borderBottomLeftRadius: '1em', borderBottomRightRadius: '1em' }}>
                 {measurementsTable
@@ -122,7 +129,7 @@ export default observer(function Measurements() {
                     .map((measurement) => (
                         <Segment key={measurement.id} style={{ borderRadius: '1em' }}>
                             <strong>ID:</strong> {measurement.id} <br />
-                            <strong>Name:</strong> {capitalizeFirstLetter(measurement.name)} <br />
+                            <strong>Nazwa:</strong> {capitalizeFirstLetter(measurement.name)} <br />
                             <div
                                 style={{
                                     display: 'flex',
@@ -136,7 +143,7 @@ export default observer(function Measurements() {
                             >
                                 <Button
                                     className="negativeButton"
-                                    content="Delete"
+                                    content="Usuń"
                                     onClick={() => {
                                         setTarget(measurement.id);
                                         deleteMeasurement(measurement.id);
@@ -145,7 +152,7 @@ export default observer(function Measurements() {
                                 />
                                 <Button
                                     className="editPhotoButton"
-                                    content="Edit"
+                                    content="Edytuj"
                                     onClick={() => setMeasurement(measurement)}
                                     style={{ width: '100%', padding: '0', marginTop: '5px' }}
                                 />

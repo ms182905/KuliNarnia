@@ -20,7 +20,7 @@ export default function RemoveRecipeFromFavourites({ recipe, recipeId }: Props) 
     return (
         <>
             <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                Delete this recipe from favourites?
+                Usunąć ten przepis z ulubionych?
             </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
@@ -33,13 +33,13 @@ export default function RemoveRecipeFromFavourites({ recipe, recipeId }: Props) 
                                     removeRecipeFromFavouritesAndClose();
                                 }}
                             >
-                                Yes
+                                Tak
                             </Button>
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
-                                No
+                                Nie
                             </Button>
                         </Table.Cell>
                     </Table.Row>

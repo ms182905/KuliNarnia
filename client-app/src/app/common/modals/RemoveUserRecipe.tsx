@@ -19,20 +19,20 @@ export default function RemoveUserRecipe({ recipeId }: Props) {
     return (
         <>
             <Header textAlign="center" style={{ fontFamily: 'Andale Mono, monospace' }}>
-                Delete this recipe?
+                Usunąć ten przepis?
             </Header>
             <Table style={{ border: 'none' }}>
                 <tbody>
                     <Table.Row>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="positiveButton" onClick={() => deleteRecipeAndClose()}>
-                                Yes
+                                Tak
                             </Button>
                         </Table.Cell>
                         <Table.Cell width={1}></Table.Cell>
                         <Table.Cell textAlign="center" width={6}>
                             <Button fluid className="negativeButton" onClick={() => modalStore.closeModal()}>
-                                No
+                                Nie
                             </Button>
                         </Table.Cell>
                     </Table.Row>

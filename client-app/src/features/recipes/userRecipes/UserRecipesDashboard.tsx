@@ -39,7 +39,7 @@ export default observer(function UserRecipesDashboard() {
 
     if (userRecipesStore.loadingInitial || userRecipesStore.loading) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading recipes..." />;
+        return <LoadingComponent content="Ładowanie przepisów..." />;
     }
 
     return (

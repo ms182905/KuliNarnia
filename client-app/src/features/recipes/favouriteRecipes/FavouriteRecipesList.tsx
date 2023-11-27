@@ -15,7 +15,7 @@ export default function FavouriteRecipesList() {
                 className="card__content"
             >
                 <h2 style={{ padding: '0.5em' }}>
-                    {favouriteRecipes.length > 0 ? 'Your favourite recipes' : 'No favourite recipes yet!'}
+                    {favouriteRecipes.length > 0 ? 'Twoje ulubione przepisy' : 'Brak ulubionych przepisów!'}
                 </h2>
             </div>
             {favouriteRecipes.map((recipe, index) => (

@@ -29,15 +29,15 @@ export default observer(function RegisterForm() {
                 >
                     <Header
                         as="h2"
-                        content="Sign up to KuliNarnia"
+                        content="Zarejestruj się do KuliNarnia"
                         color="black"
                         textAlign="center"
                         style={{ fontFamily: 'Andale Mono, monospace' }}
                     />
-                    <MyTextInput placeholder="Display name" name="displayName" />
-                    <MyTextInput placeholder="Username" name="username" />
+                    <MyTextInput placeholder="Wyświetlana nazwa" name="displayName" />
+                    <MyTextInput placeholder="Nazwa użytkownika" name="username" />
                     <MyTextInput placeholder="Email" name="email" />
-                    <MyTextInput placeholder="Password" name="password" type="password" />
+                    <MyTextInput placeholder="Hasło" name="password" type="password" />
                     <ErrorMessage
                         name="error"
                         render={() => <ValidationErrors errors={errors.error as unknown as AxiosError} />}
@@ -46,7 +46,7 @@ export default observer(function RegisterForm() {
                         disabled={!isValid || !dirty || isSubmitting}
                         loading={isSubmitting}
                         positive
-                        content="Register"
+                        content="Zarejestruj"
                         type="submit"
                         className="editPhotoButton"
                         fluid

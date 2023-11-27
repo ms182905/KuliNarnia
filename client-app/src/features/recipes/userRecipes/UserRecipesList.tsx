@@ -26,7 +26,7 @@ export default function UserRecipesList() {
                         paddingBottom: '1em',
                     }}
                 >
-                    No recipes yet!
+                    Brak przepisów!
                 </h2>
             </div>
         );

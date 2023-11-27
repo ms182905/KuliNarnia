@@ -15,10 +15,10 @@ export default function RecommendedRecipesList() {
                 className="card__content"
             >
                 {recommendedRecipes.length > 0 ? (
-                    <h2 style={{ padding: '0.5em' }}>Recipes recommended to You</h2>
+                    <h2 style={{ padding: '0.5em' }}>Przepisy rekomendowane Tobie</h2>
                 ) : (
                     <h2 style={{ padding: '0.5em' }}>
-                        Cannot determine recommended recipes! <br /> Try to explore some recipes first!
+                        Nie można określić rekomendowanych przepisów! <br /> Spróbuj odkryć więcej przepisów!
                     </h2>
                 )}
             </div>

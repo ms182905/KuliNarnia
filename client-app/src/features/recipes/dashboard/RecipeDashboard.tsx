@@ -51,7 +51,7 @@ export default observer(function RecipeDashboard() {
 
     if (recipeStore.loadingInitial) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        return <LoadingComponent content="Loading recipes..." />;
+        return <LoadingComponent content="Ładowanie przepisów..." />;
     }
 
     return (

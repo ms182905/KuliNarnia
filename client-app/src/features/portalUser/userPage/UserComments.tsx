@@ -18,11 +18,7 @@ export default observer(function RecipeDetailedComments({ username }: Props) {
 
     return (
         <div className="card__content" style={{ display: 'block', padding: '14px', marginTop: '0.5em' }}>
-            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>
-                {userStore.user?.username === username
-                    ? 'Your recently added comments'
-                    : username + '`s recently added comments'}
-            </h2>
+            <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Ostatnio dodane komentarze</h2>
             <div
                 className="card__content"
                 style={{
@@ -71,9 +67,10 @@ export default observer(function RecipeDetailedComments({ username }: Props) {
                                 width: '100%',
                                 fontSize: '2em',
                                 fontFamily: 'Andale Mono, monospace',
+                                paddingTop: '0em',
                             }}
                         >
-                            No comments yet!
+                            Brak komentarzy!
                         </h2>
                     )}
                 </Segment>

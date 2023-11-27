@@ -99,7 +99,7 @@ export default observer(function RecipeFormValidation({
                     marginRight: 'auto',
                 }}
             >
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Recipe validation</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Walidacja przepisu</h2>
                 <div
                     className="card__content"
                     style={{
@@ -126,43 +126,43 @@ export default observer(function RecipeFormValidation({
                             <Step completed={titleCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Title</Step.Title>
-                                    <Step.Description>Recipe has Title</Step.Description>
+                                    <Step.Title>Tytuł</Step.Title>
+                                    <Step.Description>Przepis ma tytuł</Step.Description>
                                 </Step.Content>
                             </Step>
                             <Step completed={descriptionCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Decsription</Step.Title>
-                                    <Step.Description>Recipe has Decsription</Step.Description>
+                                    <Step.Title>Opis</Step.Title>
+                                    <Step.Description>Przepis ma opis</Step.Description>
                                 </Step.Content>
                             </Step>
                             <Step completed={categoryCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Category</Step.Title>
-                                    <Step.Description>Recipe has Category</Step.Description>
+                                    <Step.Title>Kategoria</Step.Title>
+                                    <Step.Description>Przepis ma kategorię</Step.Description>
                                 </Step.Content>
                             </Step>
                             <Step completed={tagsCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Tags</Step.Title>
-                                    <Step.Description>Recipe has at least one Tag</Step.Description>
+                                    <Step.Title>Tagi</Step.Title>
+                                    <Step.Description>Przepis ma przynajmniej jeden tag</Step.Description>
                                 </Step.Content>
                             </Step>
                             <Step completed={ingredientsCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Ingredients</Step.Title>
-                                    <Step.Description>Recipe has at least one Ingredient</Step.Description>
+                                    <Step.Title>Składniki</Step.Title>
+                                    <Step.Description>Przepis ma przynajmniej jeden składnik</Step.Description>
                                 </Step.Content>
                             </Step>
                             <Step completed={instructionsCorrect}>
                                 <Icon name="times circle" color="red" />
                                 <Step.Content>
-                                    <Step.Title>Instructions</Step.Title>
-                                    <Step.Description>Recipe has at least one Instruction</Step.Description>
+                                    <Step.Title>Instrukcje</Step.Title>
+                                    <Step.Description>Przepis ma przynajmniej jedną instrukcję</Step.Description>
                                 </Step.Content>
                             </Step>
                         </Step.Group>
@@ -178,7 +178,7 @@ export default observer(function RecipeFormValidation({
                     className="positiveButton"
                     style={{ marginTop: '1em', fontSize: '1.2em', width: '100%', padding: '0.2em' }}
                 >
-                    Save changes
+                    Zapisz zmiany
                 </Button>
 
                 <Button
@@ -190,7 +190,7 @@ export default observer(function RecipeFormValidation({
                     className="editPhotoButton"
                     style={{ marginTop: '0.3em', fontSize: '1.2em', width: '100%' }}
                 >
-                    Go to photos
+                    Idź do zdjęć
                 </Button>
             </div>
         </>

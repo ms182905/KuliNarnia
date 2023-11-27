@@ -44,7 +44,7 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                         className="editPhotoButton"
                     >
                         <Icon name="edit" style={{ marginRight: '8px' }} />
-                        Edit Photo
+                        Edytuj zdjęcie
                     </Button>
                 ) : (
                     <></>
@@ -62,9 +62,9 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                 >
                     {username}
                     <p style={{ fontSize: '0.5em', margin: '0' }}>
-                        Created recipes: {userRecipesStore.anotherUserRecipesNumber}
+                        Stworzonych przepisów: {userRecipesStore.anotherUserRecipesNumber}
                     </p>
-                    <p style={{ fontSize: '0.5em' }}>Written comments: {commentStore.userCommentsNumber}</p>
+                    <p style={{ fontSize: '0.5em' }}>Napisanych komentarzy: {commentStore.userCommentsNumber}</p>
                 </Header>
 
                 {editPhotoMode ? (
@@ -82,7 +82,7 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                             <Divider horizontal style={{ width: '100%' }}>
                                 <Header as="h4" style={{ width: '100%', fontFamily: 'Andale Mono, monospace' }}>
                                     <Icon name="edit" />
-                                    Edit profile photo
+                                    Edytuj zdjęcie profilowe
                                 </Header>
                             </Divider>
                             <PhotoUploadWidget
@@ -97,7 +97,7 @@ export default observer(function AnotherUserRecipeDashboard({ username }: Props)
                                 className="negativeButton"
                             >
                                 <Icon name="cancel" />
-                                Cancel
+                                Anuluj
                             </Button>
                         </div>
                     </>

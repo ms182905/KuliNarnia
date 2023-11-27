@@ -61,11 +61,11 @@ export default observer(function RecipeFormIngredients() {
 
     const ingredientValidationSchema = Yup.object({
         name: Yup.string()
-            .required('Name is required')
-            .matches(/^[^\s].*$/, 'Name cannot start with a space'),
-        amount: Yup.number().required('Amount is required').typeError('Amount must be a number'),
+            .required('Nazwa jest wymagana')
+            .matches(/^[^\s].*$/, 'Nazwa nie może zaczynać się od spacji'),
+        amount: Yup.number().required('Ilość jest wymagana').typeError('Ilość musi być liczbą'),
         measurement: Yup.object({
-            id: Yup.string().required('Measurement is required'),
+            id: Yup.string().required('Miara jest wymagana'),
         }),
     });
 
@@ -81,7 +81,7 @@ export default observer(function RecipeFormIngredients() {
     return (
         <>
             <div className="card__content" style={{ display: 'block', padding: '14px', overflow: 'visible' }}>
-                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Ingredients</h2>
+                <h2 style={{ textAlign: 'center', padding: '0.2em' }}>Składniki</h2>
                 <div
                     className="card__content"
                     style={{
@@ -124,14 +124,14 @@ export default observer(function RecipeFormIngredients() {
                                     >
                                         <Grid>
                                             <Grid.Column style={{ width: '40%' }}>
-                                                <MyTextInput placeholder="Name" name="name" />
+                                                <MyTextInput placeholder="Nazwa" name="name" />
                                             </Grid.Column>
                                             <Grid.Column style={{ width: '20%' }}>
-                                                <MyTextInput placeholder="Amount" name="amount" />
+                                                <MyTextInput placeholder="Ilość" name="amount" />
                                             </Grid.Column>
                                             <Grid.Column style={{ width: '40%' }}>
                                                 <MySelectInput
-                                                    placeholder="Measurement"
+                                                    placeholder="Miara"
                                                     name="measurement.id"
                                                     options={measurementsList}
                                                 />
@@ -150,7 +150,7 @@ export default observer(function RecipeFormIngredients() {
                                                     marginBottom: '1em',
                                                 }}
                                             >
-                                                Add
+                                                Dodaj
                                             </Button>
                                         </Grid>
                                     </Form>
@@ -236,7 +236,7 @@ export default observer(function RecipeFormIngredients() {
                                             fluid
                                             type="button"
                                             color="red"
-                                            content="Delete"
+                                            content="Usuń"
                                             className="negativeButton"
                                             style={{
                                                 width: '97%',
@@ -258,87 +258,5 @@ export default observer(function RecipeFormIngredients() {
                 )}
             </div>
         </>
-        // <>
-        //     {recipe.ingredients.map((ingredient) => (
-        //         <Segment attached key={ingredient.id}>
-        //             <Grid>
-        //                 <Grid.Row verticalAlign="middle" style={{ margin: '5px', padding: '4px' }}>
-        //                     <Grid.Column width={2} />
-        //                     <Grid.Column width={4}>
-        //                         <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
-        //                             {ingredient.name}
-        //                         </Segment>
-        //                     </Grid.Column>
-        //                     <Grid.Column width={2}>
-        //                         <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
-        //                             {ingredient.amount}
-        //                         </Segment>
-        //                     </Grid.Column>
-        //                     <Grid.Column width={4}>
-        //                         <Segment textAlign="center" padded={false} style={{ margin: '2px', padding: '5px' }}>
-        //                             {ingredient.measurement.name}
-        //                         </Segment>
-        //                     </Grid.Column>
-        //                     <Grid.Column width={2}>
-        //                         <Button
-        //                             fluid
-        //                             type="button"
-        //                             color="red"
-        //                             content="Delete"
-        //                             onClick={() =>
-        //                                 modalStore.openModal(
-        //                                     <DeleteRecipeIngredient recipeIngredientId={ingredient.id} />
-        //                                 )
-        //                             }
-        //                         />
-        //                     </Grid.Column>
-        //                 </Grid.Row>
-        //             </Grid>
-        //         </Segment>
-        //     ))}
-
-        //     <Segment clearing>
-        //         <Formik
-        //             validationSchema={ingredientValidationSchema}
-        //             enableReinitialize
-        //             initialValues={ingredient}
-        //             onSubmit={(values, { resetForm }) => {
-        //                 handleFormSubmit(values);
-        //                 resetForm();
-        //             }}
-        //         >
-        //             {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-        //                 <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
-        //                     <Grid>
-        //                         <Grid.Column width={2} />
-        //                         <Grid.Column width={4}>
-        //                             <MyTextInput placeholder="Name" name="name" />
-        //                         </Grid.Column>
-        //                         <Grid.Column width={2}>
-        //                             <MyTextInput placeholder="Amount" name="amount" />
-        //                         </Grid.Column>
-        //                         <Grid.Column width={4}>
-        //                             <MySelectInput
-        //                                 placeholder="Measurement"
-        //                                 name="measurement.id"
-        //                                 options={measurementsList}
-        //                             />
-        //                         </Grid.Column>
-        //                         <Grid.Column width={2}>
-        //                             <Button
-        //                                 disabled={isSubmitting || !dirty || !isValid}
-        //                                 floated="right"
-        //                                 positive
-        //                                 type="submit"
-        //                                 content="Add"
-        //                                 fluid
-        //                             />
-        //                         </Grid.Column>
-        //                     </Grid>
-        //                 </Form>
-        //             )}
-        //         </Formik>
-        //     </Segment>
-        // </>
     );
 });
