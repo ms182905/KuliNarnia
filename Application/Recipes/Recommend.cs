@@ -66,7 +66,7 @@ namespace Application.Recipes
                 return Result<RecipesDTO>.Success(recipesDTO);
             }
 
-            private async Task<List<RecipeDetailsDTO>> getRecommendedRecipes(
+            public async Task<List<RecipeDetailsDTO>> getRecommendedRecipes(
                 List<RecipeDetailsDTO> recipes,
                 string userId
             )
@@ -83,7 +83,7 @@ namespace Application.Recipes
 
                 var numberOfSelections = userSelectionStastics.Sum(x => x.Counter);
 
-                var recipeDistionary = new Dictionary<RecipeDetailsDTO, float>();
+                var recipeDistionary = new Dictionary<RecipeDetailsDTO, double>();
                 foreach (var recipe in recipes)
                 {
                     var userTagSelection = userSelectionStastics.Where(
@@ -97,9 +97,9 @@ namespace Application.Recipes
                     recipeDistionary.Add(
                         recipe,
                         (
-                            (float)userTagSelection.Sum(u => u.Counter)
-                            + userCategorySelection.Sum(u => u.Counter)
-                        ) / numberOfSelections
+                            userTagSelection.Sum(u => u.Counter) / (numberOfSelections * 2.0)
+                            + userCategorySelection.Sum(u => u.Counter)/ (numberOfSelections * 2.0)
+                        ) 
                     );
                 }
 

@@ -10,17 +10,17 @@ namespace Persistence
         {
         }
 
-        public DbSet<Recipe> Recipes { get; set; }
-        public DbSet<FavouriteRecipe> FavouriteRecipes { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<Measurement> Measurements { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<RecipeTags> RecipeTags { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Instruction> Instructions { get; set; }
-        public DbSet<UserSelectionStastic> UserSelectionStastics { get; set; }
-        public DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<Recipe> Recipes { get; set; }
+        public virtual DbSet<FavouriteRecipe> FavouriteRecipes { get; set; }
+        public virtual DbSet<Ingredient> Ingredients { get; set; }
+        public virtual DbSet<Measurement> Measurements { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<RecipeTags> RecipeTags { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Instruction> Instructions { get; set; }
+        public virtual DbSet<UserSelectionStastic> UserSelectionStastics { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

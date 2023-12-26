@@ -14,16 +14,14 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Querry()));
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateTag(TagDTO TagDTO)
         {
             return HandleResult(await Mediator.Send(new Create.Command { TagDTO = TagDTO }));
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditTag(Guid id, TagDTO TagDTO)
         {
@@ -32,8 +30,7 @@ namespace API.Controllers
             );
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTag(Guid id)
         {

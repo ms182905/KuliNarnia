@@ -37,6 +37,14 @@ namespace Application.Categories
                 CancellationToken cancellationToken
             )
             {
+                var category = await _context.Categories
+                    .Where(c => c.Id == request.CategoryId)
+                    .FirstOrDefaultAsync();
+                if (category == null)
+                {
+                    return null;
+                }
+
                 var userSelectionStatistics = await _context.UserSelectionStastics
                     .Where(s => s.CategoryId == request.CategoryId)
                     .ToListAsync();
@@ -63,12 +71,6 @@ namespace Application.Categories
                     {
                         return Result<Unit>.Failure("Failed to delete category");
                     }
-                }
-
-                var category = await _context.Categories.FindAsync(request.CategoryId);
-                if (category == null)
-                {
-                    return null;
                 }
 
                 _context.Categories.Remove(category);

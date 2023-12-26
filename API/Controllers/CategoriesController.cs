@@ -14,8 +14,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Querry()));
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CategoryDTO categoryDTO)
         {
@@ -24,8 +23,7 @@ namespace API.Controllers
             );
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditCategory(Guid id, CategoryDTO categoryDTO)
         {
@@ -34,8 +32,7 @@ namespace API.Controllers
             );
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(Guid id)
         {

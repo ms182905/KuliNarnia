@@ -30,7 +30,8 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://kulinarnia.azurewebsites.net/");
+                    //policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://kulinarnia.azurewebsites.net/");
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
                 });
             });
             services.AddMediatR(typeof(List.Handler));

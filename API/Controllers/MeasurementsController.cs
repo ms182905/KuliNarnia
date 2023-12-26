@@ -14,8 +14,7 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new List.Querry()));
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateMeasurement(MeasurementDTO MeasurementDTO)
         {
@@ -24,8 +23,7 @@ namespace API.Controllers
             );
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> EditMeasurement(Guid id, MeasurementDTO MeasurementDTO)
         {
@@ -36,8 +34,7 @@ namespace API.Controllers
             );
         }
 
-        //[Authorize(Roles = "Administrator")]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMeasurement(Guid id)
         {

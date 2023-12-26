@@ -38,7 +38,6 @@ namespace Application.Tags
             )
             {
                 var tag = await _context.Tags.FindAsync(request.TagId);
-
                 if (tag == null)
                 {
                     return null;

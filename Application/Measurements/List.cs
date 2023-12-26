@@ -29,11 +29,12 @@ namespace Application.Measurements
                 CancellationToken cancellationToken
             )
             {
+                var measurements = await _context.Measurements
+                    .Where(c => c.Name != "Unknown")
+                    .ToListAsync();
+
                 return Result<List<MeasurementDTO>>.Success(
-                    await _context.Measurements
-                        .Where(m => m.Name != "Unknown")
-                        .ProjectTo<MeasurementDTO>(_mapper.ConfigurationProvider)
-                        .ToListAsync()
+                    _mapper.Map<List<MeasurementDTO>>(measurements)
                 );
             }
         }

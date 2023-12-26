@@ -35,7 +35,6 @@ namespace Application.Comments
                 var user = await _context.Users.FirstOrDefaultAsync(
                     x => x.DisplayName == request.UserName
                 );
-
                 if (user == null)
                 {
                     user = await _context.Users.FirstOrDefaultAsync(
@@ -57,12 +56,13 @@ namespace Application.Comments
                 var lastComments = comments
                     .AsQueryable()
                     .Take(12)
-                    .ProjectTo<CommentDTO>(_mapper.ConfigurationProvider)
                     .ToList();
+
+                var mappedComments = _mapper.Map<List<CommentDTO>>(lastComments);
 
                 var commentsDTO = new CommentsDTO
                 {
-                    Comments = lastComments,
+                    Comments = mappedComments,
                     Count = numberOfComments
                 };
 

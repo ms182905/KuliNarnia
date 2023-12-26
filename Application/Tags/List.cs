@@ -29,11 +29,9 @@ namespace Application.Tags
                 CancellationToken cancellationToken
             )
             {
-                return Result<List<TagDTO>>.Success(
-                    await _context.Tags
-                        .ProjectTo<TagDTO>(_mapper.ConfigurationProvider)
-                        .ToListAsync()
-                );
+                var tags = await _context.Tags.ToListAsync();
+
+                return Result<List<TagDTO>>.Success(_mapper.Map<List<TagDTO>>(tags));
             }
         }
     }

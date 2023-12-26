@@ -37,7 +37,6 @@ namespace Application.Measurements
             )
             {
                 var measurement = await _context.Measurements.FindAsync(request.MeasurementId);
-
                 if (measurement == null)
                 {
                     return null;

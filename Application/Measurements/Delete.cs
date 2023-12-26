@@ -37,7 +37,9 @@ namespace Application.Measurements
                 CancellationToken cancellationToken
             )
             {
-                var measurement = await _context.Measurements.FindAsync(request.MeasurementId);
+                var measurement = await _context.Measurements
+                    .Where(c => c.Id == request.MeasurementId)
+                    .FirstOrDefaultAsync();
 
                 if (measurement == null)
                 {

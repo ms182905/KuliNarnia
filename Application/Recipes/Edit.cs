@@ -82,7 +82,7 @@ namespace Application.Recipes
                 return Result<Unit>.Success(Unit.Value);
             }
 
-            private void UpdateRecipeProperties(Recipe recipe, RecipeDetailsDTO detailsDTO)
+            public void UpdateRecipeProperties(Recipe recipe, RecipeDetailsDTO detailsDTO)
             {
                 recipe.Title = detailsDTO.Title;
                 recipe.Description = detailsDTO.Description;
@@ -90,7 +90,7 @@ namespace Application.Recipes
                 recipe.LastModificationDate = detailsDTO.Date;
             }
 
-            private void RemoveExistingEntities(Guid recipeId)
+            public void RemoveExistingEntities(Guid recipeId)
             {
                 var existingRecipeTags = _context.RecipeTags
                     .Where(rt => rt.RecipeId == recipeId)
@@ -109,7 +109,7 @@ namespace Application.Recipes
                 _context.Instructions.RemoveRange(existingRecipeInstructions);
             }
 
-            private void AddNewEntities(RecipeDetailsDTO detailsDTO)
+            public void AddNewEntities(RecipeDetailsDTO detailsDTO)
             {
                 var recipeTags = detailsDTO.Tags
                     .Select(tag => new RecipeTags { TagId = tag.Id, RecipeId = detailsDTO.Id })
