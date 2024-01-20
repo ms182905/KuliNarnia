@@ -12,8 +12,8 @@ namespace UnitTests.Comments
     [TestFixture]
     public class ListLastCommentsTests
     {
-        private Mock<DataContext> _mockContext;
         private IMapper _mapper;
+        private DataContext _context;
         private List<Comment> comments;
         private string _existingUsername;
         private string _existingUserId;
@@ -21,7 +21,10 @@ namespace UnitTests.Comments
         [SetUp]
         public void SetUp()
         {
-            _mockContext = new Mock<DataContext>(new DbContextOptions<DataContext>());
+            var options = new DbContextOptionsBuilder<DataContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+            _context = new DataContext(options);
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -31,7 +34,7 @@ namespace UnitTests.Comments
 
             _existingUsername = "existingUser";
             _existingUserId = Guid.NewGuid().ToString();
-            var user = new AppUser { Id = _existingUserId, UserName = _existingUsername };
+            var user = new AppUser { Id = _existingUserId, UserName = _existingUsername, DisplayName = "displayname", PhotoUrl = "url" };
             comments = new List<Comment>
             {
                 new Comment
@@ -134,14 +137,17 @@ namespace UnitTests.Comments
                 }
             };
 
-            _mockContext.Setup(x => x.Users).ReturnsDbSet(new List<AppUser> { user });
-            _mockContext.Setup(x => x.Comments).ReturnsDbSet(comments);
+            _context.Users.AddRange(new List<AppUser> {user});
+            _context.SaveChanges();
+
+            _context.Comments.AddRange(comments);
+            _context.SaveChanges();
         }
 
         [Test]
         public async Task Handler_UserExists_ReturnsLastComments()
         {
-            var handler = new ListLast.Handler(_mockContext.Object, _mapper);
+            var handler = new ListLast.Handler(_context, _mapper);
             var query = new ListLast.Querry { UserName = _existingUsername };
 
             var result = await handler.Handle(query, CancellationToken.None);
@@ -168,12 +174,19 @@ namespace UnitTests.Comments
         [Test]
         public async Task Handler_UserDoesNotExist_ReturnsNull()
         {
-            var handler = new ListLast.Handler(_mockContext.Object, _mapper);
+            var handler = new ListLast.Handler(_context, _mapper);
             var query = new ListLast.Querry { UserName = "nonexistentUser" };
 
             var result = await handler.Handle(query, CancellationToken.None);
 
             Assert.IsNull(result);
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
         }
     }
 }

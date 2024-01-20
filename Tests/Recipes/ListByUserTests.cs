@@ -11,7 +11,7 @@ namespace UnitTests.Recipes
     [TestFixture]
     public class ListRecipesByUserTests
     {
-        private Mock<DataContext> _mockContext;
+        private DataContext _context;
 
         private IMapper _mapper;
         private string userId = "AppUserId";
@@ -20,13 +20,28 @@ namespace UnitTests.Recipes
         [SetUp]
         public void Setup()
         {
-            _mockContext = new Mock<DataContext>(new DbContextOptions<DataContext>());
+            var options = new DbContextOptionsBuilder<DataContext>()
+                .UseInMemoryDatabase(databaseName: "TestDatabase")
+                .Options;
+            _context = new DataContext(options);
 
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MappingProfiles());
             });
             _mapper = config.CreateMapper();
+
+            var categories = new List<Category>
+            {
+                new Category { Id = Guid.NewGuid(), Name = "Kategoria 1" },
+                new Category { Id = Guid.NewGuid(), Name = "Kategoria 2" }
+            };
+
+            var tags = new List<Tag>
+            {
+                new Tag { Id = Guid.NewGuid(), Name = "Tag 1" },
+                new Tag { Id = Guid.NewGuid(), Name = "Tag 2" }
+            };
 
             var recipes = Enumerable
                 .Range(1, 20)
@@ -35,26 +50,40 @@ namespace UnitTests.Recipes
                         new Recipe
                         {
                             Id = Guid.NewGuid(),
+                            CreatorId = i % 5 == 0 ? userId : "idid",
                             Title = "Przepis " + i,
+                            CategoryId = categories[i % categories.Count].Id,
                             Date = DateTime.Now.AddDays(-i),
-                            CreatorId = (i % 5 == 0) ? userId : Guid.NewGuid().ToString()
+                            Ingredients = new List<Ingredient>
+                            {
+                                new Ingredient { Name = "Składnik" }
+                            },
+                            RecipeTags = new List<RecipeTags>
+                            {
+                                new RecipeTags { TagId = tags[i % tags.Count].Id }
+                            }
                         }
                 )
-                .AsQueryable();
+                .ToList();
 
             var users = new List<AppUser>
             {
                 new AppUser { UserName = userName, Id = userId }
             };
 
-            _mockContext.Setup(c => c.Recipes).ReturnsDbSet(recipes);
-            _mockContext.Setup(c => c.Users).ReturnsDbSet(users);
+            _context.Users.AddRange(users);
+            _context.SaveChanges();
+
+            _context.Categories.AddRange(categories);
+            _context.Tags.AddRange(tags);
+            _context.Recipes.AddRange(recipes);
+            _context.SaveChanges();
         }
 
         [Test]
         public async Task Handler_ReturnsNumberOfRecipesCreatedByUser()
         {
-            var handler = new Application.Recipes.ListByUser.Handler(_mockContext.Object, _mapper);
+            var handler = new Application.Recipes.ListByUser.Handler(_context, _mapper);
             var query = new Application.Recipes.ListByUser.Querry
             {
                 From = 0,
@@ -75,7 +104,7 @@ namespace UnitTests.Recipes
         [Test]
         public async Task Handler_NoUserName_ReturnsNull()
         {
-            var handler = new Application.Recipes.ListByUser.Handler(_mockContext.Object, _mapper);
+            var handler = new Application.Recipes.ListByUser.Handler(_context, _mapper);
             var query = new Application.Recipes.ListByUser.Querry
             {
                 From = 0,
@@ -86,6 +115,13 @@ namespace UnitTests.Recipes
             var result = await handler.Handle(query, CancellationToken.None);
 
             Assert.IsNull(result);
+        }
+
+        [TearDown]
+        public void Cleanup()
+        {
+            _context.Database.EnsureDeleted();
+            _context.Dispose();
         }
     }
 }

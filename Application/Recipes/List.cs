@@ -63,15 +63,14 @@ namespace Application.Recipes
 
                 int recipesNumber = recipesQuery.Count();
 
-                var recipesList = await recipesQuery
+                var recipes = await recipesQuery
                     .OrderByDescending(r => r.Date)
                     .Skip(request.From)
                     .Take(request.To - request.From)
+                    .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken: cancellationToken);
 
-                var mappedRecipes = _mapper.Map<List<RecipeDTO>>(recipesList);
-
-                var recipesDTO = new RecipesDTO { Recipes = mappedRecipes, Count = recipesNumber };
+                var recipesDTO = new RecipesDTO { Recipes = recipes, Count = recipesNumber };
 
                 return Result<RecipesDTO>.Success(recipesDTO);
             }

@@ -54,15 +54,14 @@ namespace Application.Recipes
                     .OrderByDescending(r => r.Date)
                     .Skip(request.From)
                     .Take(request.To - request.From)
+                    .ProjectTo<RecipeDTO>(_mapper.ConfigurationProvider)
                     .ToListAsync();
-
-                var mappedRecipes = _mapper.Map<List<RecipeDTO>>(recipes);
 
                 var recipesNumber = await _context.Recipes
                     .Where(x => x.CreatorId == user.Id)
                     .CountAsync();
 
-                var recipesDTO = new RecipesDTO { Recipes = mappedRecipes, Count = recipesNumber };
+                var recipesDTO = new RecipesDTO { Recipes = recipes, Count = recipesNumber };
 
                 return Result<RecipesDTO>.Success(recipesDTO);
             }
