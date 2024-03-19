@@ -1,20 +1,17 @@
-# Culinary Recipes Portal
+# KuliNarnia - Culinary Recipes Portal
 
-Welcome to the KuliNarnia Recipes Portal! This repository contains the source code for a web application dedicated to culinary enthusiasts who want to explore, share, and discover delicious recipes from around the world.
+Welcome to the KuliNarnia Recipes Portal! This repository contains the source code for a web application dedicated to culinary enthusiasts who want to explore, share, and discover various recipes from around the world.
 Project preview is available at [link](https://kulinarnia.azurewebsites.net/).
+
+![image](https://github.com/ms182905/KuliNarnia/assets/74608829/57f4d1f1-5169-4afc-a373-0193359080bd)
 
 ## Features
 
 - **Recipe Browsing**: Browse through a wide variety of recipes sorted by categories or tags.
-  
 - **Recipe Search**: Search for specific recipes based on keywords and ingredients.
-  
 - **User Authentication**: Register an account and log in to access additional features such as saving favorite recipes or submitting your own recipes.
-
 - **Recommendation**: Try exploring new culinary pages with use of hybrid recommendation mechanism.
-  
 - **Recipe Submission**: Share your favorite recipes with the community by submitting them through the portal. Include detailed instructions, ingredients, and images to help others recreate your culinary creations.
-  
 - **Interactive Community**: Engage with other users by commenting on recipes and sharing your cooking experiences.
 
 ## Technologies Used
