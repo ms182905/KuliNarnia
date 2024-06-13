@@ -10,6 +10,7 @@ import ModalContainer from '../common/modals/ModalContainer';
 import SideBar from './SideBar';
 import MenuButton from './MenuButton';
 import PageOptionButton from './PageOptionButton';
+import ListenButton from './ListenButton';
 
 function App() {
     const location = useLocation();
@@ -51,6 +52,7 @@ function App() {
 
                     <SideBar />
                     <MenuButton />
+                    <ListenButton />
                     <PageOptionButton />
                 </>
             ) : (

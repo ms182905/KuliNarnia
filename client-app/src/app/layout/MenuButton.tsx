@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 
 export default observer(function MenuButton() {
-    const { menuHideStore, userStore } = useStore();
+    const { menuHideStore } = useStore();
     const { state } = menuHideStore;
 
     useEffect(() => {}, [state]);

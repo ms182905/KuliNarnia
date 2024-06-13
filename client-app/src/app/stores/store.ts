@@ -13,6 +13,7 @@ import CommentStore from './commentStore';
 import ActivityStore from './activityStore';
 import MenuHideStore from './menuHideStore';
 import PageOptionButtonStore from './pageOptionButtonStore';
+import ListenButtonStore from './ListenButtonStore';
 
 interface Store {
     recipeStore: RecipeStore;
@@ -29,6 +30,7 @@ interface Store {
     commentStore: CommentStore;
     menuHideStore: MenuHideStore;
     pageOptionButtonStore: PageOptionButtonStore;
+    listenButtonStore: ListenButtonStore;
 }
 
 export const store: Store = {
@@ -46,6 +48,7 @@ export const store: Store = {
     commentStore: new CommentStore(),
     menuHideStore: new MenuHideStore(),
     pageOptionButtonStore: new PageOptionButtonStore(),
+    listenButtonStore: new ListenButtonStore()
 };
 
 export const StoreContext = createContext(store);

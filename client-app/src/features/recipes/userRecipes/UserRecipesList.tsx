@@ -1,4 +1,3 @@
-import { Header } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import UserRecipesListItem from './UserRecipesListItem';
 
