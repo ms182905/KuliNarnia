@@ -1,7 +1,7 @@
 import { Button, Icon } from 'semantic-ui-react';
 import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import determinePattern from '../voiceRecognition/utterancePatterns';
 import { router } from '../router/Routes';
 import LoginOrRegister from '../common/modals/LoginOrRegister';
@@ -19,8 +19,8 @@ export default observer(function ListenButton() {
         recognitionInstance.interimResults = true;
         return recognitionInstance;
     }, []);
-
-    function doActionOnPattern(pattern: string | null, transcript: string) {
+    
+    const doActionOnPattern = useCallback((pattern: string | null, transcript: string) => {
         if (pattern !== null) {
             switch (pattern) {
                 case "favourites":
@@ -101,7 +101,7 @@ export default observer(function ListenButton() {
                     console.log("No matching pattern found or navigation necessary.");
             }
         }
-    }
+    }, [listenButtonStore, logout, user]);
 
     useEffect(() => {
         recognition.onstart = () => {
@@ -134,7 +134,7 @@ export default observer(function ListenButton() {
         return () => {
             recognition.stop();
         };
-    }, [recognition]);
+    }, [recognition, doActionOnPattern, setListening]);
 
     const handleListen = () => {
         if (listening) {

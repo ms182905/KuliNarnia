@@ -51,7 +51,7 @@ export default observer(function RecipeDetailedHeader({ recipe, editable }: Prop
                 pageOptionButtonStore.setLoading(false);
             }
         }
-    }, [pageOptionButtonStore, editOption, recipe, modalStore, userStore.user?.role]);
+    }, [pageOptionButtonStore, editOption, recipe, modalStore, userStore.user?.role, userStore.user]);
 
     useEffect(() => {
         if (userStore.user?.role !== 'Administrator') {

@@ -50,7 +50,7 @@ export default observer(function RecipeDashboard() {
         } else {
             pageOptionButtonStore.setVisible(false);
         }
-    }, [pageOptionButtonStore, modalStore, userStore.user, recipeStore]);
+    }, [pageOptionButtonStore, modalStore, userStore.user, recipeStore, listenButtonStore]);
 
     if (recipeStore.loadingInitial) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
