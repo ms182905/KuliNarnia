@@ -32,6 +32,7 @@ export default class UserStore {
                 router.navigate('/lastActivity');
             } else {
                 router.navigate('/recipes');
+                store.listenButtonStore.setVisible(true);
             }
             store.modalStore.closeModal();
         } catch (error) {
@@ -60,6 +61,7 @@ export default class UserStore {
         store.favouriteRecipesStore.reset();
         store.userRecipesStore.reset();
         store.activityStore.reset();
+        store.listenButtonStore.setVisible(false);
         this.user = null;
         router.navigate('/');
     };

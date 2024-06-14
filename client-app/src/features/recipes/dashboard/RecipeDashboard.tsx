@@ -9,7 +9,7 @@ import { router } from '../../../app/router/Routes';
 import LoginOrRegister from '../../../app/common/modals/LoginOrRegister';
 
 export default observer(function RecipeDashboard() {
-    const { recipeStore, pageOptionButtonStore, userStore, modalStore } = useStore();
+    const { recipeStore, pageOptionButtonStore, userStore, modalStore, listenButtonStore } = useStore();
     const {
         loadRecipes,
         recipeRegistry,
@@ -39,9 +39,12 @@ export default observer(function RecipeDashboard() {
                         recipeStore.resetSelectedRecipe();
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                         router.navigate('/createRecipe');
+                        listenButtonStore.setVisible(true);
                     });
+
                 } else {
                     pageOptionButtonStore.setCallback(() => modalStore.openModal(<LoginOrRegister />));
+                    listenButtonStore.setVisible(false);
                 }
             }
         } else {

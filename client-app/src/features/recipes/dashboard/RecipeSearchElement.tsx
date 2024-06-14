@@ -4,8 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../../../app/stores/store';
 
 export default observer(function RecipeSearchElement() {
-    const { categoryStore, tagStore, recipeStore } = useStore();
+    const { categoryStore, tagStore, recipeStore, listenButtonStore } = useStore();
     const { resetFilters, setSearchQuerry, setFilters, reset, resetSearchQuerry } = recipeStore;
+    const { setCategoryCallback, setPhraseCallback, setTagCallback, setClearCriteriaCallback } = listenButtonStore;
     const { categoriesTable, loadCategories } = categoryStore;
     const { tagsTable, loadTags } = tagStore;
     const [categoriesList, setCategoriesList] = useState<{ text: string; value: string }[]>([]);
@@ -24,6 +25,70 @@ export default observer(function RecipeSearchElement() {
             setCategoriesList(tempCategories);
         }
     }, [categoriesTable]);
+
+    const handleApplyFilters = () => {
+        if (
+            selectedTags.length > 0 ||
+            selectedCategory.length > 0 ||
+            recipeStore.recipeRegistry.size === 0 ||
+            (recipeStore.selectedCategory.length > 0 && recipeStore.selectedCategory !== selectedCategory) ||
+            (recipeStore.selectedTags.length > 0 && recipeStore.selectedTags !== selectedTags)
+        ) {
+            setFilters(selectedCategory, selectedTags);
+            reset();
+        }
+    };
+
+    const handleClearFilters = () => {
+        if (
+            recipeStore.recipeRegistry.size < 1 ||
+            recipeStore.selectedCategory.length > 0 ||
+            recipeStore.selectedTags.length > 0
+        ) {
+            setSelectedTags([]);
+            setSelectedCategory('');
+
+            resetFilters();
+            reset();
+        }
+    };
+
+    useEffect(() => setCategoryCallback((categoryName: string) => {
+        const normalizedCategoryName = categoryName.charAt(0).toUpperCase() + categoryName.slice(1).toLowerCase();
+        const foundCategory = categoriesList.find(category => category.text === normalizedCategoryName);
+
+        if (foundCategory) {
+            recipeStore.selectedCategory = foundCategory.value;
+            recipeStore.reset();
+        } else {
+            console.log("No matching category found for:", normalizedCategoryName);
+        }
+    }));
+
+    useEffect(() => setPhraseCallback((phrase: string) => {
+        recipeStore.searchQuery = phrase;
+        recipeStore.reset();
+    }));
+
+    useEffect(() => setClearCriteriaCallback(() => {
+        recipeStore.searchQuery = '';
+        recipeStore.selectedCategory = '';
+        recipeStore.selectedTags = [];
+        recipeStore.reset();
+    }));
+
+    useEffect(() => setTagCallback((tagName: string) => {
+        const normalizedTagName = tagName.charAt(0).toUpperCase() + tagName.slice(1).toLowerCase();
+        const foundTag = tagsList.find(tag => tag.text === normalizedTagName);
+
+        if (foundTag) {
+            recipeStore.selectedTags.push(foundTag.value);
+            recipeStore.reset();
+        } else {
+            console.log("No matching tag found for:", normalizedTagName);
+        }
+    }));
+
 
     useEffect(() => {
         if (tagsTable.length > 0) {
@@ -56,33 +121,6 @@ export default observer(function RecipeSearchElement() {
         if (searchQuery.length !== 0 || recipeStore.recipeRegistry.size === 0) {
             setSearchQuery('');
             resetSearchQuerry();
-            reset();
-        }
-    };
-
-    const handleApplyFilters = () => {
-        if (
-            selectedTags.length > 0 ||
-            selectedCategory.length > 0 ||
-            recipeStore.recipeRegistry.size === 0 ||
-            (recipeStore.selectedCategory.length > 0 && recipeStore.selectedCategory !== selectedCategory) ||
-            (recipeStore.selectedTags.length > 0 && recipeStore.selectedTags !== selectedTags)
-        ) {
-            setFilters(selectedCategory, selectedTags);
-            reset();
-        }
-    };
-
-    const handleClearFilters = () => {
-        if (
-            recipeStore.recipeRegistry.size < 1 ||
-            recipeStore.selectedCategory.length > 0 ||
-            recipeStore.selectedTags.length > 0
-        ) {
-            setSelectedTags([]);
-            setSelectedCategory('');
-
-            resetFilters();
             reset();
         }
     };

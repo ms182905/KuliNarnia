@@ -13,7 +13,7 @@ import CommentStore from './commentStore';
 import ActivityStore from './activityStore';
 import MenuHideStore from './menuHideStore';
 import PageOptionButtonStore from './pageOptionButtonStore';
-import ListenButtonStore from './ListenButtonStore';
+import ListenButtonStore from './listenButtonStore';
 
 interface Store {
     recipeStore: RecipeStore;

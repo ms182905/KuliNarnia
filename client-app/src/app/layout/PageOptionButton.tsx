@@ -1,35 +1,43 @@
+import React, { useState } from 'react';
 import { Button, Icon, SemanticICONS } from 'semantic-ui-react';
-import { useStore } from '../stores/store';
 import { observer } from 'mobx-react-lite';
-import { useEffect } from 'react';
+import { useStore } from '../stores/store';
 
 export default observer(function PageOptionButton() {
     const { pageOptionButtonStore } = useStore();
     const { visible, text, loading, callback } = pageOptionButtonStore;
 
-    useEffect(() => {}, [visible, text, loading, callback]);
+    const [hover, setHover] = useState(false);
 
     if (!visible) {
-        return <></>;
+        return null;
     }
 
+    const handleMouseEnter = () => setHover(true);
+    const handleMouseLeave = () => setHover(false);
+
+    const buttonStyle = {
+        backgroundColor: hover ? getColorFromText(text) : undefined,
+        color: hover ? 'white' : getColorFromText(text)
+    };
+
     return (
-        <>
-            <Button
-                className={`pageOptionButton`}
-                circular
-                onClick={callback}
-                style={{ backgroundColor: getColorFromText(text) }}
-                loading={loading}
-            >
-                <Button.Content>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Icon inverted size="big" name={getIconFromText(text)} />
-                        <p style={{ marginLeft: '8px' }}>{getNameFromText(text)}</p>
-                    </div>
-                </Button.Content>
-            </Button>
-        </>
+        <Button
+            className="pageOptionButton"
+            circular
+            onClick={callback}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={buttonStyle}
+            loading={loading}
+        >
+            <Button.Content>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Icon inverted size="big" name={getIconFromText(text)} style={{ color: buttonStyle.color }} />
+                    <p style={{ marginLeft: '8px' }}>{getNameFromText(text)}</p>
+                </div>
+            </Button.Content>
+        </Button>
     );
 });
 
