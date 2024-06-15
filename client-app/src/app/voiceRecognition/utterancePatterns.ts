@@ -43,6 +43,10 @@ const utterancePatterns: UtterancePattern = {
     add_recipe: [
         "dodaj przepis",
         "nowy przepis"
+    ],
+    show_details: [
+        "wyświetl szczegóły",
+        "pokaż szczegóły"
     ]
 };
 

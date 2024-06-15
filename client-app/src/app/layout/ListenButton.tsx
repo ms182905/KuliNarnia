@@ -7,7 +7,7 @@ import { router } from '../router/Routes';
 import LoginOrRegister from '../common/modals/LoginOrRegister';
 
 export default observer(function ListenButton() {
-    const { listenButtonStore, userStore, modalStore } = useStore();
+    const { listenButtonStore, userStore, modalStore, recipeStore } = useStore();
     const { visible, listening, setListening } = listenButtonStore;
     const { logout, user } = userStore;
 
@@ -19,7 +19,7 @@ export default observer(function ListenButton() {
         recognitionInstance.interimResults = true;
         return recognitionInstance;
     }, []);
-    
+
     const doActionOnPattern = useCallback((pattern: string | null, transcript: string) => {
         if (pattern !== null) {
             switch (pattern) {
@@ -34,14 +34,10 @@ export default observer(function ListenButton() {
                     router.navigate(`/recipes`);
                     break;
                 case "recommendations":
-
                     router.navigate(`/recommendations`);
-
                     break;
                 case "logout":
-
                     logout();
-
                     break;
                 case "category": {
                     router.navigate(`/recipes`);
@@ -97,11 +93,21 @@ export default observer(function ListenButton() {
                     router.navigate(`/createRecipe`);
                     break;
                 }
+                case "show_details": {
+                    const words = transcript.split(" ");
+                    const phrase = words.slice(2).join(" ");
+                    const recipeId = recipeStore.getRecipeIdBasedOnTitle(phrase);
+                    console.log(recipeId);
+                    if (recipeId !== null) {
+                        router.navigate(`/recipes/${recipeId}`);
+                    }
+                    break;
+                }
                 default:
                     console.log("No matching pattern found or navigation necessary.");
             }
         }
-    }, [listenButtonStore, logout, user]);
+    }, [listenButtonStore, logout, user, recipeStore]);
 
     useEffect(() => {
         recognition.onstart = () => {
@@ -114,7 +120,7 @@ export default observer(function ListenButton() {
                 if (result.isFinal) {
                     const transcript = result[0].transcript;
                     const pattern = determinePattern(transcript);
-                    doActionOnPattern(pattern, transcript);  // Use the function to handle navigation
+                    doActionOnPattern(pattern, transcript);
                     console.log(transcript);
                     console.log(pattern);
                     setListening(false);
@@ -157,7 +163,11 @@ export default observer(function ListenButton() {
             >
                 <Button.Content>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Icon className={"listenIconNotListening"} inverted size="big" name="assistive listening systems" />
+                        <Icon
+                            className={"listenIconNotListening"}
+                            inverted
+                            size="big"
+                            name="assistive listening systems" />
                         <p style={{ margin: 'auto' }}>{'Słuchaj'}</p>
                     </div>
                 </Button.Content>
@@ -174,7 +184,11 @@ export default observer(function ListenButton() {
             >
                 <Button.Content>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Icon className={listening ? "listenIconListening" : "listenIconNotListening"} inverted size="big" name="assistive listening systems" />
+                        <Icon
+                            className={listening ? "listenIconListening" : "listenIconNotListening"}
+                            inverted
+                            size="big"
+                            name="assistive listening systems" />
                         <p style={{ margin: 'auto' }}>{listening ? 'Zakończ' : 'Słuchaj'}</p>
                     </div>
                 </Button.Content>

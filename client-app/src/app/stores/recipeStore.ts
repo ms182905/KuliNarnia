@@ -179,6 +179,17 @@ export default class RecipeStore {
         this.selectedRecipe = undefined;
     };
 
+    getRecipeIdBasedOnTitle = (title: string): string | null => {
+        let recipeId = null;
+        this.recipeRegistry.forEach((recipe) => {
+            if (recipe.title.toLowerCase() === title.toLowerCase()) {
+                recipeId = recipe.id;
+            }
+        });
+        return recipeId;
+    };
+    
+
     deleteRecipeIngredient = (id: string) => {
         if (this.selectedRecipe && this.selectedRecipe.ingredients) {
             this.selectedRecipe.ingredients = this.selectedRecipe.ingredients.filter(
